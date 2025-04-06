@@ -42,7 +42,9 @@ CMakeFiles/test_ota_notifier.dir/tests/test_ota_notifier.cc.o
  /root/sherry_project/sherry-master/sherry/log.h
  /root/sherry_project/sherry-master/sherry/macro.h
  /root/sherry_project/sherry-master/sherry/mqtt_client.h
+ /root/sherry_project/sherry-master/sherry/mqtt_listener.h
  /root/sherry_project/sherry-master/sherry/noncopyable.h
+ /root/sherry_project/sherry-master/sherry/ota_client_callback.h
  /root/sherry_project/sherry-master/sherry/ota_notifier.h
  /root/sherry_project/sherry-master/sherry/scheduler.h
  /root/sherry_project/sherry-master/sherry/sherry.h

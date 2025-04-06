@@ -2,13 +2,15 @@
 #include "log.h"
 #include "../include/json/json.hpp"
 
+#include <functional>
+
 namespace sherry{
 
 static sherry::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
 
 OTAQueryResponder::OTAQueryResponder(MqttClient::ptr client
                                     ,int device_no)
-    :m_client(std::move(client))
+    :m_client(client)
     ,m_device_no(device_no){
 
 }
@@ -68,11 +70,43 @@ void OTAQueryResponder::publish_query(const std::string& name, const std::string
 
     std::string topic("/ota/");
     topic = topic + name;
-    topic.push_back('/');
+    topic += "/query/";
 
     std::string payload = format_payload(name, action);
 
     m_client->publish(topic, payload, qos, retain);
+
+}
+
+void OTAQueryResponder::subscribe_responder(const std::string& pub_topic, const std::string& sub_topic, int qos){
+    if(!m_client){
+        SYLAR_LOG_ERROR(g_logger) << "client is null"
+                                  << std::endl;
+        return;
+    } 
+    // RWMutexType::ReadLock lock(m_client->m_mutex);
+    if(!m_client->get_isconnected() && !m_client->get_isconnected()){
+        SYLAR_LOG_ERROR(g_logger) << "client is diconnect" 
+                                  << std::endl;
+        return;
+    }
+
+    std::function<void(const std::string &, int)> subscribe_callback =
+    [](const std::string& topic, int code) {
+        if(code == -1){
+            SYLAR_LOG_ERROR(g_logger) << "subscribe to topic : " << topic
+                                      << " fail."  
+                                      << std::endl;
+        } else {
+            SYLAR_LOG_INFO(g_logger) << "subscribe to topic : " << topic
+                                     << " success."  
+                                     << std::endl; 
+        }
+    };
+
+
+    m_client->subscribe(sub_topic, qos, subscribe_callback);
+
 
 }
 

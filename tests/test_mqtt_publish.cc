@@ -24,6 +24,7 @@ std::string getCurrentTimeString() {
 }
 
 static sherry::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
+sherry::OTAClientCallbackManager::ptr cb_mgr = std::make_shared<sherry::OTAClientCallbackManager>();
 
 std::string mqtt_client_id = "sherry publish";
 std::string mqtt_server_host = "localhost";
@@ -39,27 +40,32 @@ std::function<void(const std::string&, const std::string&)> print_message_callba
                                  << std::endl;
 };
 
-std::string topic = "test/topic";
+std::string topic1 = "/ota/agsspds1/responder/";
+std::string topic2 = "/ota/agsspds2/responder/";
 
 void test01(){
     sherry::MqttAddress::ptr addr = std::make_shared<sherry::MqttAddress>(protocol, port, mqtt_server_host);
-    sherry::MqttClient::ptr client = std::make_shared<sherry::MqttClient>(protocol, port, mqtt_server_host, mqtt_client_id, device_type, print_message_callback);
+    sherry::MqttClient::ptr client = std::make_shared<sherry::MqttClient>(protocol, port, mqtt_server_host, mqtt_client_id, device_type, cb_mgr);
     
     client->connect();
 
-    
-    while(true){
-        std::string payload = getCurrentTimeString();
-        client->publish(topic, payload);
+    std::string payload = getCurrentTimeString();
+    int i = 0;
+    while(i++ < 5){
+        if(i != 4){
+            client->publish(topic1, payload, 1, true);
+            client->publish(topic2, payload, 1, true);
+        } else {
+            client->publish(topic1, "123", 1, true);
+            client->publish(topic2, "456", 1, true);
+
+        }
         sleep(1);
     }
-
+    
 }
 
 int main(void){
-    sherry::Scheduler sc(2, true, "test1");
-    sc.start();
-    sc.schedule(&test01);
-    sc.stop();
+    test01();
     return 0;
 }

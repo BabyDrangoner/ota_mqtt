@@ -4,6 +4,7 @@
 #include "../sherry/iomanager.h"
 #include "../sherry/timer.h"
 #include "../sherry/ota_notifier.h"
+#include "../sherry/ota_client_callback.h"
 
 #include <iostream>
 #include <chrono>
@@ -14,6 +15,7 @@
 using namespace sherry;
 
 static Logger::ptr g_logger = SYLAR_LOG_NAME("system");
+sherry::OTAClientCallbackManager::ptr cb_mgr = std::make_shared<sherry::OTAClientCallbackManager>();
 
 
 void test_ota_notifier() {
@@ -27,11 +29,7 @@ void test_ota_notifier() {
 
     // 创建 MQTT client
     MqttClient::ptr client = std::make_shared<MqttClient>(
-        protocol, port, host, client_id, device_type,
-        [](const std::string& topic, const std::string& payload) {
-            SYLAR_LOG_INFO(g_logger) << "收到消息 topic: " << topic
-                                     << " payload: " << payload;
-        }
+        protocol, port, host, client_id, device_type, cb_mgr
     );
 
     client->connect();

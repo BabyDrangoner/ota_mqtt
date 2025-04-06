@@ -40,7 +40,9 @@ CMakeFiles/test_ota_query.dir/tests/test_ota_query.cc.o: ../sherry/fiber.h
 CMakeFiles/test_ota_query.dir/tests/test_ota_query.cc.o: ../sherry/log.h
 CMakeFiles/test_ota_query.dir/tests/test_ota_query.cc.o: ../sherry/macro.h
 CMakeFiles/test_ota_query.dir/tests/test_ota_query.cc.o: ../sherry/mqtt_client.h
+CMakeFiles/test_ota_query.dir/tests/test_ota_query.cc.o: ../sherry/mqtt_listener.h
 CMakeFiles/test_ota_query.dir/tests/test_ota_query.cc.o: ../sherry/noncopyable.h
+CMakeFiles/test_ota_query.dir/tests/test_ota_query.cc.o: ../sherry/ota_client_callback.h
 CMakeFiles/test_ota_query.dir/tests/test_ota_query.cc.o: ../sherry/ota_query_responder.h
 CMakeFiles/test_ota_query.dir/tests/test_ota_query.cc.o: ../sherry/ota_version_message.h
 CMakeFiles/test_ota_query.dir/tests/test_ota_query.cc.o: ../sherry/scheduler.h

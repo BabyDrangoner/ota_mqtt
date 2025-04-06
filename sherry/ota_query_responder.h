@@ -8,8 +8,7 @@
 
 namespace sherry{
 
-
-class OTAQueryResponder{
+class OTAQueryResponder : public std::enable_shared_from_this<OTAQueryResponder>{
 public:
     typedef std::shared_ptr<OTAQueryResponder> ptr;
     typedef RWMutex RWMutexType;
@@ -19,6 +18,7 @@ public:
     
     std::string format_payload(const std::string& name, const std::string& action);
     void publish_query(const std::string& name, const std::string& action, int qos = 1, bool retain = false);
+    void subscribe_responder(const std::string& pub_topic, const std::string& sub_topic, int qos);
 private:
     RWMutexType m_mutex;
     MqttClient::ptr m_client;

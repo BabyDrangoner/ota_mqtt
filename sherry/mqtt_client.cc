@@ -8,7 +8,7 @@ namespace sherry{
 static sherry::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
 
 MqttClient::MqttClient(const std::string& protocol, int port, const std::string& host,
-    const std::string& client_id, int device_type,  std::function<void(const std::string&, const std::string&)> cb)
+    const std::string& client_id, int device_type,  OTAClientCallbackManager::ptr cbmgr)
     :m_port(port)
     ,m_device_type(device_type)
     ,m_protocol(protocol)
@@ -16,7 +16,7 @@ MqttClient::MqttClient(const std::string& protocol, int port, const std::string&
     ,m_client_id(client_id)
     ,m_serverAddress(sherry::MqttAddress::ptr(new sherry::MqttAddress(protocol, port, host)))
     ,m_client(new mqtt::async_client(m_serverAddress->getAddr(), m_client_id))
-    ,m_cb(cb){
+    ,m_cbmgr(cbmgr){
     m_client->set_callback(*this);
 }
 
@@ -101,8 +101,8 @@ void MqttClient::subscribe(const std::string& topic, int qos, std::function<void
     try{
         auto token = m_client->subscribe(topic, qos);
         if(callback){
-            auto listener = std::make_shared<MqttActionListener>(topic, std::move(callback));
-            token->set_action_callback(*listener);
+            m_listener.set_topic_cb(topic, callback);
+            token->set_action_callback(m_listener);
         }
         
         SYLAR_LOG_INFO(g_logger) << "mqtt client: " << m_client_id
@@ -143,8 +143,8 @@ void MqttClient::publish(const std::string& topic, const std::string payload, in
         auto token = m_client->publish(message);
 
         if(callback){
-            auto listener = std::make_shared<MqttActionListener>(topic, std::move(callback));
-            token->set_action_callback(*listener);
+            m_listener.set_topic_cb(topic, callback);
+            token->set_action_callback(m_listener);
         }
 
     } catch(const mqtt::exception& e){
@@ -232,7 +232,7 @@ void MqttClient::connection_lost(const std::string& cause){
 }
 
 void MqttClient::message_arrived(mqtt::const_message_ptr msg){
-    if(m_cb) m_cb(msg->get_topic(), msg->to_string());
+    if(m_cbmgr) m_cbmgr->on_message(msg->get_topic(), msg->to_string());
 }
 
 void MqttClient::delivery_complete(mqtt::delivery_token_ptr tok) {

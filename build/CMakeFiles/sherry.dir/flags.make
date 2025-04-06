@@ -34,9 +34,15 @@ CXX_INCLUDES = -I/root/sherry_project/sherry-master/. -I/root/sherry_project/she
 
 # Custom defines: CMakeFiles/sherry.dir/sherry/iomanager.cc.o_DEFINES = __FILE__="sherry/iomanager.cc"
 
+# Custom defines: CMakeFiles/sherry.dir/sherry/ota_client_callback.cc.o_DEFINES = __FILE__="sherry/ota_client_callback.cc"
+
 # Custom defines: CMakeFiles/sherry.dir/sherry/mqtt_client.cc.o_DEFINES = __FILE__="sherry/mqtt_client.cc"
 
 # Custom defines: CMakeFiles/sherry.dir/sherry/ota_notifier.cc.o_DEFINES = __FILE__="sherry/ota_notifier.cc"
 
 # Custom defines: CMakeFiles/sherry.dir/sherry/ota_query_responder.cc.o_DEFINES = __FILE__="sherry/ota_query_responder.cc"
+
+# Custom defines: CMakeFiles/sherry.dir/sherry/ota_message.cc.o_DEFINES = __FILE__="sherry/ota_message.cc"
+
+# Custom defines: CMakeFiles/sherry.dir/sherry/ota_subscribe_download.cc.o_DEFINES = __FILE__="sherry/ota_subscribe_download.cc"
 

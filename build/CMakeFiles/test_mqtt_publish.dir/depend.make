@@ -41,7 +41,9 @@ CMakeFiles/test_mqtt_publish.dir/tests/test_mqtt_publish.cc.o: ../sherry/iomanag
 CMakeFiles/test_mqtt_publish.dir/tests/test_mqtt_publish.cc.o: ../sherry/log.h
 CMakeFiles/test_mqtt_publish.dir/tests/test_mqtt_publish.cc.o: ../sherry/macro.h
 CMakeFiles/test_mqtt_publish.dir/tests/test_mqtt_publish.cc.o: ../sherry/mqtt_client.h
+CMakeFiles/test_mqtt_publish.dir/tests/test_mqtt_publish.cc.o: ../sherry/mqtt_listener.h
 CMakeFiles/test_mqtt_publish.dir/tests/test_mqtt_publish.cc.o: ../sherry/noncopyable.h
+CMakeFiles/test_mqtt_publish.dir/tests/test_mqtt_publish.cc.o: ../sherry/ota_client_callback.h
 CMakeFiles/test_mqtt_publish.dir/tests/test_mqtt_publish.cc.o: ../sherry/scheduler.h
 CMakeFiles/test_mqtt_publish.dir/tests/test_mqtt_publish.cc.o: ../sherry/sherry.h
 CMakeFiles/test_mqtt_publish.dir/tests/test_mqtt_publish.cc.o: ../sherry/singleton.h

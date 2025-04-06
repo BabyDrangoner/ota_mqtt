@@ -4,6 +4,9 @@
 #include <mqtt/async_client.h>
 #include "address.h"
 #include "sherry.h"
+#include "mqtt_listener.h"
+#include "ota_client_callback.h"
+
 #include <functional>
 
 namespace sherry {
@@ -12,11 +15,12 @@ class MqttClient : public virtual mqtt::callback {
 public:
     typedef std::shared_ptr<MqttClient> ptr;
     typedef RWMutex RWMutexType;
+    typedef std::function<void(const std::string&, int)> SubPubCallback;
     using MessageCallback = std::function<void(const std::string&, const std::string&)>;
 
     MqttClient(const std::string& protocol, int port, const std::string& host,
                const std::string& client_id, int m_device_type,
-               MessageCallback m_message_callback = nullptr);
+               OTAClientCallbackManager::ptr = nullptr);
     ~MqttClient() = default;
 
     void CreateMqttClient(mqtt::async_client*);
@@ -36,7 +40,7 @@ public:
 
     void set_device_type(int v) { m_device_type = v; }
     void set_isconnected(bool v) { m_isconnected = v; }
-    void setMessageCallback(MessageCallback cb) { m_cb = std::move(cb); }
+    void set_cbmgr(OTAClientCallbackManager::ptr v) { m_cbmgr = v; }
 
     void connect(bool use_opts = false);
     void subscribe(const std::string& topic, int qos = 1,
@@ -64,9 +68,12 @@ private:
     MqttAddress::ptr m_serverAddress;
     mqtt::async_client* m_client;
     mqtt::connect_options m_connOpts;
-
+    
     // 业务层注册的消息处理回调
-    MessageCallback m_cb;
+    OTAClientCallbackManager::ptr m_cbmgr;
+
+    sherry::MqttActionListener m_listener;
+
 };
 
 }  // namespace sherry

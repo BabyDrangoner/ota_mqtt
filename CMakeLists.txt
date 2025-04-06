@@ -45,9 +45,13 @@ set(LIB_SRC
     sherry/config.cc
     sherry/thread.cc
     sherry/iomanager.cc
+    sherry/ota_client_callback.cc
     sherry/mqtt_client.cc
     sherry/ota_notifier.cc
     sherry/ota_query_responder.cc
+    sherry/ota_message.cc
+    sherry/ota_subscribe_download.cc
+    
 )
 
 add_library(sherry SHARED ${LIB_SRC})
@@ -154,6 +158,10 @@ add_dependencies(test_ota_query sherry)
 force_redefine_file_macro_for_sources(test_ota_query)  #__FILE__
 target_link_libraries(test_ota_query ${LIBS})
 
+add_executable(test_ota_download tests/test_ota_download.cc)
+add_dependencies(test_ota_download sherry)
+force_redefine_file_macro_for_sources(test_ota_download)  #__FILE__
+target_link_libraries(test_ota_download ${LIBS})
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)

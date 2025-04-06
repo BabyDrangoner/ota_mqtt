@@ -50,6 +50,24 @@
         "ratio": "cpp",
         "thread": "cpp",
         "map": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "any": "cpp",
+        "bit": "cpp",
+        "codecvt": "cpp",
+        "condition_variable": "cpp",
+        "csignal": "cpp",
+        "forward_list": "cpp",
+        "set": "cpp",
+        "algorithm": "cpp",
+        "iterator": "cpp",
+        "memory": "cpp",
+        "memory_resource": "cpp",
+        "optional": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "system_error": "cpp",
+        "future": "cpp",
+        "mutex": "cpp",
+        "variant": "cpp"
     }
 }

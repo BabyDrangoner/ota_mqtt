@@ -41,7 +41,9 @@ CMakeFiles/test_ota_notifier.dir/tests/test_ota_notifier.cc.o: ../sherry/iomanag
 CMakeFiles/test_ota_notifier.dir/tests/test_ota_notifier.cc.o: ../sherry/log.h
 CMakeFiles/test_ota_notifier.dir/tests/test_ota_notifier.cc.o: ../sherry/macro.h
 CMakeFiles/test_ota_notifier.dir/tests/test_ota_notifier.cc.o: ../sherry/mqtt_client.h
+CMakeFiles/test_ota_notifier.dir/tests/test_ota_notifier.cc.o: ../sherry/mqtt_listener.h
 CMakeFiles/test_ota_notifier.dir/tests/test_ota_notifier.cc.o: ../sherry/noncopyable.h
+CMakeFiles/test_ota_notifier.dir/tests/test_ota_notifier.cc.o: ../sherry/ota_client_callback.h
 CMakeFiles/test_ota_notifier.dir/tests/test_ota_notifier.cc.o: ../sherry/ota_notifier.h
 CMakeFiles/test_ota_notifier.dir/tests/test_ota_notifier.cc.o: ../sherry/scheduler.h
 CMakeFiles/test_ota_notifier.dir/tests/test_ota_notifier.cc.o: ../sherry/sherry.h

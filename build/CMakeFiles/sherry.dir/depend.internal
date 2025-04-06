@@ -127,6 +127,34 @@ CMakeFiles/sherry.dir/sherry/mqtt_client.cc.o
  /root/sherry_project/sherry-master/sherry/mqtt_client.h
  /root/sherry_project/sherry-master/sherry/mqtt_listener.h
  /root/sherry_project/sherry-master/sherry/noncopyable.h
+ /root/sherry_project/sherry-master/sherry/ota_client_callback.h
+ /root/sherry_project/sherry-master/sherry/scheduler.h
+ /root/sherry_project/sherry-master/sherry/sherry.h
+ /root/sherry_project/sherry-master/sherry/singleton.h
+ /root/sherry_project/sherry-master/sherry/thread.h
+ /root/sherry_project/sherry-master/sherry/util.h
+CMakeFiles/sherry.dir/sherry/ota_client_callback.cc.o
+ /root/sherry_project/sherry-master/sherry/config.h
+ /root/sherry_project/sherry-master/sherry/fiber.h
+ /root/sherry_project/sherry-master/sherry/log.h
+ /root/sherry_project/sherry-master/sherry/macro.h
+ /root/sherry_project/sherry-master/sherry/noncopyable.h
+ /root/sherry_project/sherry-master/sherry/ota_client_callback.cc
+ /root/sherry_project/sherry-master/sherry/ota_client_callback.h
+ /root/sherry_project/sherry-master/sherry/scheduler.h
+ /root/sherry_project/sherry-master/sherry/sherry.h
+ /root/sherry_project/sherry-master/sherry/singleton.h
+ /root/sherry_project/sherry-master/sherry/thread.h
+ /root/sherry_project/sherry-master/sherry/util.h
+CMakeFiles/sherry.dir/sherry/ota_message.cc.o
+ /root/sherry_project/sherry-master/include/json/json.hpp
+ /root/sherry_project/sherry-master/sherry/config.h
+ /root/sherry_project/sherry-master/sherry/fiber.h
+ /root/sherry_project/sherry-master/sherry/log.h
+ /root/sherry_project/sherry-master/sherry/macro.h
+ /root/sherry_project/sherry-master/sherry/noncopyable.h
+ /root/sherry_project/sherry-master/sherry/ota_message.cc
+ /root/sherry_project/sherry-master/sherry/ota_message.h
  /root/sherry_project/sherry-master/sherry/scheduler.h
  /root/sherry_project/sherry-master/sherry/sherry.h
  /root/sherry_project/sherry-master/sherry/singleton.h
@@ -173,7 +201,9 @@ CMakeFiles/sherry.dir/sherry/ota_notifier.cc.o
  /root/sherry_project/sherry-master/sherry/log.h
  /root/sherry_project/sherry-master/sherry/macro.h
  /root/sherry_project/sherry-master/sherry/mqtt_client.h
+ /root/sherry_project/sherry-master/sherry/mqtt_listener.h
  /root/sherry_project/sherry-master/sherry/noncopyable.h
+ /root/sherry_project/sherry-master/sherry/ota_client_callback.h
  /root/sherry_project/sherry-master/sherry/ota_notifier.cc
  /root/sherry_project/sherry-master/sherry/ota_notifier.h
  /root/sherry_project/sherry-master/sherry/scheduler.h
@@ -223,10 +253,64 @@ CMakeFiles/sherry.dir/sherry/ota_query_responder.cc.o
  /root/sherry_project/sherry-master/sherry/log.h
  /root/sherry_project/sherry-master/sherry/macro.h
  /root/sherry_project/sherry-master/sherry/mqtt_client.h
+ /root/sherry_project/sherry-master/sherry/mqtt_listener.h
  /root/sherry_project/sherry-master/sherry/noncopyable.h
+ /root/sherry_project/sherry-master/sherry/ota_client_callback.h
  /root/sherry_project/sherry-master/sherry/ota_query_responder.cc
  /root/sherry_project/sherry-master/sherry/ota_query_responder.h
  /root/sherry_project/sherry-master/sherry/ota_version_message.h
+ /root/sherry_project/sherry-master/sherry/scheduler.h
+ /root/sherry_project/sherry-master/sherry/sherry.h
+ /root/sherry_project/sherry-master/sherry/singleton.h
+ /root/sherry_project/sherry-master/sherry/thread.h
+ /root/sherry_project/sherry-master/sherry/util.h
+CMakeFiles/sherry.dir/sherry/ota_subscribe_download.cc.o
+ ../include/MQTTAsync.h
+ ../include/MQTTClientPersistence.h
+ ../include/MQTTExportDeclarations.h
+ ../include/MQTTProperties.h
+ ../include/MQTTReasonCodes.h
+ ../include/MQTTSubscribeOpts.h
+ ../include/mqtt/async_client.h
+ ../include/mqtt/buffer_ref.h
+ ../include/mqtt/buffer_view.h
+ ../include/mqtt/callback.h
+ ../include/mqtt/connect_options.h
+ ../include/mqtt/create_options.h
+ ../include/mqtt/delivery_token.h
+ ../include/mqtt/disconnect_options.h
+ ../include/mqtt/event.h
+ ../include/mqtt/exception.h
+ ../include/mqtt/export.h
+ ../include/mqtt/iaction_listener.h
+ ../include/mqtt/iasync_client.h
+ ../include/mqtt/iclient_persistence.h
+ ../include/mqtt/message.h
+ ../include/mqtt/platform.h
+ ../include/mqtt/properties.h
+ ../include/mqtt/reason_code.h
+ ../include/mqtt/server_response.h
+ ../include/mqtt/ssl_options.h
+ ../include/mqtt/string_collection.h
+ ../include/mqtt/subscribe_options.h
+ ../include/mqtt/thread_queue.h
+ ../include/mqtt/token.h
+ ../include/mqtt/topic.h
+ ../include/mqtt/types.h
+ ../include/mqtt/will_options.h
+ /root/sherry_project/sherry-master/include/json/json.hpp
+ /root/sherry_project/sherry-master/sherry/address.h
+ /root/sherry_project/sherry-master/sherry/config.h
+ /root/sherry_project/sherry-master/sherry/fiber.h
+ /root/sherry_project/sherry-master/sherry/log.h
+ /root/sherry_project/sherry-master/sherry/macro.h
+ /root/sherry_project/sherry-master/sherry/mqtt_client.h
+ /root/sherry_project/sherry-master/sherry/mqtt_listener.h
+ /root/sherry_project/sherry-master/sherry/noncopyable.h
+ /root/sherry_project/sherry-master/sherry/ota_client_callback.h
+ /root/sherry_project/sherry-master/sherry/ota_message.h
+ /root/sherry_project/sherry-master/sherry/ota_subscribe_download.cc
+ /root/sherry_project/sherry-master/sherry/ota_subscribe_download.h
  /root/sherry_project/sherry-master/sherry/scheduler.h
  /root/sherry_project/sherry-master/sherry/sherry.h
  /root/sherry_project/sherry-master/sherry/singleton.h

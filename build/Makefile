@@ -144,6 +144,19 @@ test_ota_query/fast:
 .PHONY : test_ota_query/fast
 
 #=============================================================================
+# Target rules for targets named test_ota_download
+
+# Build rule for target.
+test_ota_download: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_ota_download
+.PHONY : test_ota_download
+
+# fast build rule for target.
+test_ota_download/fast:
+	$(MAKE) -f CMakeFiles/test_ota_download.dir/build.make CMakeFiles/test_ota_download.dir/build
+.PHONY : test_ota_download/fast
+
+#=============================================================================
 # Target rules for targets named test_ota_notifier
 
 # Build rule for target.
@@ -607,6 +620,60 @@ sherry/mqtt_client.cc.s:
 	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/mqtt_client.cc.s
 .PHONY : sherry/mqtt_client.cc.s
 
+sherry/ota_client_callback.o: sherry/ota_client_callback.cc.o
+
+.PHONY : sherry/ota_client_callback.o
+
+# target to build an object file
+sherry/ota_client_callback.cc.o:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_client_callback.cc.o
+.PHONY : sherry/ota_client_callback.cc.o
+
+sherry/ota_client_callback.i: sherry/ota_client_callback.cc.i
+
+.PHONY : sherry/ota_client_callback.i
+
+# target to preprocess a source file
+sherry/ota_client_callback.cc.i:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_client_callback.cc.i
+.PHONY : sherry/ota_client_callback.cc.i
+
+sherry/ota_client_callback.s: sherry/ota_client_callback.cc.s
+
+.PHONY : sherry/ota_client_callback.s
+
+# target to generate assembly for a file
+sherry/ota_client_callback.cc.s:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_client_callback.cc.s
+.PHONY : sherry/ota_client_callback.cc.s
+
+sherry/ota_message.o: sherry/ota_message.cc.o
+
+.PHONY : sherry/ota_message.o
+
+# target to build an object file
+sherry/ota_message.cc.o:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_message.cc.o
+.PHONY : sherry/ota_message.cc.o
+
+sherry/ota_message.i: sherry/ota_message.cc.i
+
+.PHONY : sherry/ota_message.i
+
+# target to preprocess a source file
+sherry/ota_message.cc.i:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_message.cc.i
+.PHONY : sherry/ota_message.cc.i
+
+sherry/ota_message.s: sherry/ota_message.cc.s
+
+.PHONY : sherry/ota_message.s
+
+# target to generate assembly for a file
+sherry/ota_message.cc.s:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_message.cc.s
+.PHONY : sherry/ota_message.cc.s
+
 sherry/ota_notifier.o: sherry/ota_notifier.cc.o
 
 .PHONY : sherry/ota_notifier.o
@@ -660,6 +727,33 @@ sherry/ota_query_responder.s: sherry/ota_query_responder.cc.s
 sherry/ota_query_responder.cc.s:
 	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_query_responder.cc.s
 .PHONY : sherry/ota_query_responder.cc.s
+
+sherry/ota_subscribe_download.o: sherry/ota_subscribe_download.cc.o
+
+.PHONY : sherry/ota_subscribe_download.o
+
+# target to build an object file
+sherry/ota_subscribe_download.cc.o:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_subscribe_download.cc.o
+.PHONY : sherry/ota_subscribe_download.cc.o
+
+sherry/ota_subscribe_download.i: sherry/ota_subscribe_download.cc.i
+
+.PHONY : sherry/ota_subscribe_download.i
+
+# target to preprocess a source file
+sherry/ota_subscribe_download.cc.i:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_subscribe_download.cc.i
+.PHONY : sherry/ota_subscribe_download.cc.i
+
+sherry/ota_subscribe_download.s: sherry/ota_subscribe_download.cc.s
+
+.PHONY : sherry/ota_subscribe_download.s
+
+# target to generate assembly for a file
+sherry/ota_subscribe_download.cc.s:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_subscribe_download.cc.s
+.PHONY : sherry/ota_subscribe_download.cc.s
 
 sherry/scheduler.o: sherry/scheduler.cc.o
 
@@ -1066,6 +1160,33 @@ tests/test_mqtt_subscribe.cc.s:
 	$(MAKE) -f CMakeFiles/test_mqtt_subscribe.dir/build.make CMakeFiles/test_mqtt_subscribe.dir/tests/test_mqtt_subscribe.cc.s
 .PHONY : tests/test_mqtt_subscribe.cc.s
 
+tests/test_ota_download.o: tests/test_ota_download.cc.o
+
+.PHONY : tests/test_ota_download.o
+
+# target to build an object file
+tests/test_ota_download.cc.o:
+	$(MAKE) -f CMakeFiles/test_ota_download.dir/build.make CMakeFiles/test_ota_download.dir/tests/test_ota_download.cc.o
+.PHONY : tests/test_ota_download.cc.o
+
+tests/test_ota_download.i: tests/test_ota_download.cc.i
+
+.PHONY : tests/test_ota_download.i
+
+# target to preprocess a source file
+tests/test_ota_download.cc.i:
+	$(MAKE) -f CMakeFiles/test_ota_download.dir/build.make CMakeFiles/test_ota_download.dir/tests/test_ota_download.cc.i
+.PHONY : tests/test_ota_download.cc.i
+
+tests/test_ota_download.s: tests/test_ota_download.cc.s
+
+.PHONY : tests/test_ota_download.s
+
+# target to generate assembly for a file
+tests/test_ota_download.cc.s:
+	$(MAKE) -f CMakeFiles/test_ota_download.dir/build.make CMakeFiles/test_ota_download.dir/tests/test_ota_download.cc.s
+.PHONY : tests/test_ota_download.cc.s
+
 tests/test_ota_notifier.o: tests/test_ota_notifier.cc.o
 
 .PHONY : tests/test_ota_notifier.o
@@ -1274,6 +1395,7 @@ help:
 	@echo "... test_mqtt_client"
 	@echo "... test_mqtt_publish"
 	@echo "... test_mqtt_subscribe"
+	@echo "... test_ota_download"
 	@echo "... test_ota_notifier"
 	@echo "... test_ota_query"
 	@echo "... test_scheduler"
@@ -1308,12 +1430,21 @@ help:
 	@echo "... sherry/mqtt_client.o"
 	@echo "... sherry/mqtt_client.i"
 	@echo "... sherry/mqtt_client.s"
+	@echo "... sherry/ota_client_callback.o"
+	@echo "... sherry/ota_client_callback.i"
+	@echo "... sherry/ota_client_callback.s"
+	@echo "... sherry/ota_message.o"
+	@echo "... sherry/ota_message.i"
+	@echo "... sherry/ota_message.s"
 	@echo "... sherry/ota_notifier.o"
 	@echo "... sherry/ota_notifier.i"
 	@echo "... sherry/ota_notifier.s"
 	@echo "... sherry/ota_query_responder.o"
 	@echo "... sherry/ota_query_responder.i"
 	@echo "... sherry/ota_query_responder.s"
+	@echo "... sherry/ota_subscribe_download.o"
+	@echo "... sherry/ota_subscribe_download.i"
+	@echo "... sherry/ota_subscribe_download.s"
 	@echo "... sherry/scheduler.o"
 	@echo "... sherry/scheduler.i"
 	@echo "... sherry/scheduler.s"
@@ -1359,6 +1490,9 @@ help:
 	@echo "... tests/test_mqtt_subscribe.o"
 	@echo "... tests/test_mqtt_subscribe.i"
 	@echo "... tests/test_mqtt_subscribe.s"
+	@echo "... tests/test_ota_download.o"
+	@echo "... tests/test_ota_download.i"
+	@echo "... tests/test_ota_download.s"
 	@echo "... tests/test_ota_notifier.o"
 	@echo "... tests/test_ota_notifier.i"
 	@echo "... tests/test_ota_notifier.s"

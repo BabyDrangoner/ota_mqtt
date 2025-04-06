@@ -2,8 +2,11 @@
 #include "../sherry/mqtt_client.h"
 #include "../sherry/address.h"
 #include "../sherry/iomanager.h"
+#include "../sherry/ota_client_callback.h"
+
 
 static sherry::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
+sherry::OTAClientCallbackManager::ptr cb_mgr = std::make_shared<sherry::OTAClientCallbackManager>();
 
 std::string mqtt_client_id = "sherry subscribe";
 std::string mqtt_server_host = "localhost";
@@ -19,11 +22,14 @@ std::function<void(const std::string&, const std::string&)> print_message_callba
                                  << std::endl;
 };
 
-std::string topic = "/ota/agsspds/";
+std::string topic = "/ota/agsspds/query/";
 
 void test01(){
+
+    cb_mgr->regist_callback(topic, print_message_callback);
+
     sherry::MqttAddress::ptr addr = std::make_shared<sherry::MqttAddress>(protocol, port, mqtt_server_host);
-    sherry::MqttClient::ptr client = std::make_shared<sherry::MqttClient>(protocol, port, mqtt_server_host, mqtt_client_id, device_type, print_message_callback);
+    sherry::MqttClient::ptr client = std::make_shared<sherry::MqttClient>(protocol, port, mqtt_server_host, mqtt_client_id, device_type, cb_mgr);
     
     client->connect();
     client->subscribe(topic, 1);

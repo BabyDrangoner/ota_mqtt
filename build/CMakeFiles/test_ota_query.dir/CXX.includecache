@@ -551,10 +551,32 @@ address.h
 /root/sherry_project/sherry-master/sherry/address.h
 sherry.h
 /root/sherry_project/sherry-master/sherry/sherry.h
+mqtt_listener.h
+/root/sherry_project/sherry-master/sherry/mqtt_listener.h
+ota_client_callback.h
+/root/sherry_project/sherry-master/sherry/ota_client_callback.h
 functional
 -
 
+/root/sherry_project/sherry-master/sherry/mqtt_listener.h
+string
+-
+functional
+-
+mqtt/async_client.h
+-
+
 /root/sherry_project/sherry-master/sherry/noncopyable.h
+
+/root/sherry_project/sherry-master/sherry/ota_client_callback.h
+string
+-
+unordered_map
+-
+functional
+-
+sherry.h
+/root/sherry_project/sherry-master/sherry/sherry.h
 
 /root/sherry_project/sherry-master/sherry/ota_query_responder.h
 mqtt_client.h
@@ -647,4 +669,6 @@ string
 /root/sherry_project/sherry-master/sherry/ota_query_responder.h
 ../sherry/mqtt_client.h
 /root/sherry_project/sherry-master/sherry/mqtt_client.h
+../sherry/ota_client_callback.h
+/root/sherry_project/sherry-master/sherry/ota_client_callback.h
 

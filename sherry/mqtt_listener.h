@@ -12,6 +12,12 @@ class MqttActionListener : public virtual mqtt::iaction_listener{
 public:
     typedef std::function<void(const std::string& topic, int result_code)> CallbackType;
 
+    MqttActionListener()
+        :m_topic("")
+        ,m_callback(nullptr){
+
+    }
+    
     MqttActionListener(const std::string& topic, CallbackType callback)
         :m_topic(topic)
         ,m_callback(std::move(callback)){}
@@ -23,6 +29,11 @@ public:
     void on_failure(const mqtt::token&) override{
         if(m_callback) m_callback(m_topic, -1); // 失败， code = -1
     }
+
+    void set_topic(const std::string& v) {m_topic = v;}
+    void set_cb(CallbackType v){m_callback = v;}
+
+    void set_topic_cb(const std::string& topic, CallbackType& callback){m_topic = topic, m_callback = std::move(callback);}
 
 private:
     std::string m_topic;

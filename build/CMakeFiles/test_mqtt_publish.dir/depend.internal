@@ -42,7 +42,9 @@ CMakeFiles/test_mqtt_publish.dir/tests/test_mqtt_publish.cc.o
  /root/sherry_project/sherry-master/sherry/log.h
  /root/sherry_project/sherry-master/sherry/macro.h
  /root/sherry_project/sherry-master/sherry/mqtt_client.h
+ /root/sherry_project/sherry-master/sherry/mqtt_listener.h
  /root/sherry_project/sherry-master/sherry/noncopyable.h
+ /root/sherry_project/sherry-master/sherry/ota_client_callback.h
  /root/sherry_project/sherry-master/sherry/scheduler.h
  /root/sherry_project/sherry-master/sherry/sherry.h
  /root/sherry_project/sherry-master/sherry/singleton.h
