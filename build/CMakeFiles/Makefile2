@@ -74,11 +74,7 @@ CMAKE_BINARY_DIR = /root/sherry_project/sherry-master/build
 
 # The main recursive "all" target.
 all: CMakeFiles/test_ota_query.dir/all
-all: CMakeFiles/test_ota_download.dir/all
 all: CMakeFiles/test_ota_notifier.dir/all
-all: CMakeFiles/test_mqtt_publish.dir/all
-all: CMakeFiles/test_mqtt_subscribe.dir/all
-all: CMakeFiles/test_mqtt_client.dir/all
 all: CMakeFiles/test_server.dir/all
 all: CMakeFiles/test_bytearray.dir/all
 all: CMakeFiles/sherry.dir/all
@@ -102,11 +98,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/test_ota_query.dir/clean
-clean: CMakeFiles/test_ota_download.dir/clean
 clean: CMakeFiles/test_ota_notifier.dir/clean
-clean: CMakeFiles/test_mqtt_publish.dir/clean
-clean: CMakeFiles/test_mqtt_subscribe.dir/clean
-clean: CMakeFiles/test_mqtt_client.dir/clean
 clean: CMakeFiles/test_server.dir/clean
 clean: CMakeFiles/test_bytearray.dir/clean
 clean: CMakeFiles/sherry.dir/clean
@@ -130,7 +122,7 @@ clean: CMakeFiles/test_address.dir/clean
 CMakeFiles/test_ota_query.dir/all: CMakeFiles/sherry.dir/all
 	$(MAKE) -f CMakeFiles/test_ota_query.dir/build.make CMakeFiles/test_ota_query.dir/depend
 	$(MAKE) -f CMakeFiles/test_ota_query.dir/build.make CMakeFiles/test_ota_query.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=45,46 "Built target test_ota_query"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=37,38 "Built target test_ota_query"
 .PHONY : CMakeFiles/test_ota_query.dir/all
 
 # Build rule for subdir invocation for target.
@@ -151,40 +143,13 @@ CMakeFiles/test_ota_query.dir/clean:
 .PHONY : CMakeFiles/test_ota_query.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_ota_download.dir
-
-# All Build rule for target.
-CMakeFiles/test_ota_download.dir/all: CMakeFiles/sherry.dir/all
-	$(MAKE) -f CMakeFiles/test_ota_download.dir/build.make CMakeFiles/test_ota_download.dir/depend
-	$(MAKE) -f CMakeFiles/test_ota_download.dir/build.make CMakeFiles/test_ota_download.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=41,42 "Built target test_ota_download"
-.PHONY : CMakeFiles/test_ota_download.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_ota_download.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/sherry_project/sherry-master/build/CMakeFiles 22
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/test_ota_download.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/sherry_project/sherry-master/build/CMakeFiles 0
-.PHONY : CMakeFiles/test_ota_download.dir/rule
-
-# Convenience name for target.
-test_ota_download: CMakeFiles/test_ota_download.dir/rule
-
-.PHONY : test_ota_download
-
-# clean rule for target.
-CMakeFiles/test_ota_download.dir/clean:
-	$(MAKE) -f CMakeFiles/test_ota_download.dir/build.make CMakeFiles/test_ota_download.dir/clean
-.PHONY : CMakeFiles/test_ota_download.dir/clean
-
-#=============================================================================
 # Target rules for target CMakeFiles/test_ota_notifier.dir
 
 # All Build rule for target.
 CMakeFiles/test_ota_notifier.dir/all: CMakeFiles/sherry.dir/all
 	$(MAKE) -f CMakeFiles/test_ota_notifier.dir/build.make CMakeFiles/test_ota_notifier.dir/depend
 	$(MAKE) -f CMakeFiles/test_ota_notifier.dir/build.make CMakeFiles/test_ota_notifier.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=43,44 "Built target test_ota_notifier"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=35,36 "Built target test_ota_notifier"
 .PHONY : CMakeFiles/test_ota_notifier.dir/all
 
 # Build rule for subdir invocation for target.
@@ -205,94 +170,13 @@ CMakeFiles/test_ota_notifier.dir/clean:
 .PHONY : CMakeFiles/test_ota_notifier.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_mqtt_publish.dir
-
-# All Build rule for target.
-CMakeFiles/test_mqtt_publish.dir/all: CMakeFiles/sherry.dir/all
-	$(MAKE) -f CMakeFiles/test_mqtt_publish.dir/build.make CMakeFiles/test_mqtt_publish.dir/depend
-	$(MAKE) -f CMakeFiles/test_mqtt_publish.dir/build.make CMakeFiles/test_mqtt_publish.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=37,38 "Built target test_mqtt_publish"
-.PHONY : CMakeFiles/test_mqtt_publish.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_mqtt_publish.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/sherry_project/sherry-master/build/CMakeFiles 22
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/test_mqtt_publish.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/sherry_project/sherry-master/build/CMakeFiles 0
-.PHONY : CMakeFiles/test_mqtt_publish.dir/rule
-
-# Convenience name for target.
-test_mqtt_publish: CMakeFiles/test_mqtt_publish.dir/rule
-
-.PHONY : test_mqtt_publish
-
-# clean rule for target.
-CMakeFiles/test_mqtt_publish.dir/clean:
-	$(MAKE) -f CMakeFiles/test_mqtt_publish.dir/build.make CMakeFiles/test_mqtt_publish.dir/clean
-.PHONY : CMakeFiles/test_mqtt_publish.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_mqtt_subscribe.dir
-
-# All Build rule for target.
-CMakeFiles/test_mqtt_subscribe.dir/all: CMakeFiles/sherry.dir/all
-	$(MAKE) -f CMakeFiles/test_mqtt_subscribe.dir/build.make CMakeFiles/test_mqtt_subscribe.dir/depend
-	$(MAKE) -f CMakeFiles/test_mqtt_subscribe.dir/build.make CMakeFiles/test_mqtt_subscribe.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=39,40 "Built target test_mqtt_subscribe"
-.PHONY : CMakeFiles/test_mqtt_subscribe.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_mqtt_subscribe.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/sherry_project/sherry-master/build/CMakeFiles 22
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/test_mqtt_subscribe.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/sherry_project/sherry-master/build/CMakeFiles 0
-.PHONY : CMakeFiles/test_mqtt_subscribe.dir/rule
-
-# Convenience name for target.
-test_mqtt_subscribe: CMakeFiles/test_mqtt_subscribe.dir/rule
-
-.PHONY : test_mqtt_subscribe
-
-# clean rule for target.
-CMakeFiles/test_mqtt_subscribe.dir/clean:
-	$(MAKE) -f CMakeFiles/test_mqtt_subscribe.dir/build.make CMakeFiles/test_mqtt_subscribe.dir/clean
-.PHONY : CMakeFiles/test_mqtt_subscribe.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/test_mqtt_client.dir
-
-# All Build rule for target.
-CMakeFiles/test_mqtt_client.dir/all: CMakeFiles/sherry.dir/all
-	$(MAKE) -f CMakeFiles/test_mqtt_client.dir/build.make CMakeFiles/test_mqtt_client.dir/depend
-	$(MAKE) -f CMakeFiles/test_mqtt_client.dir/build.make CMakeFiles/test_mqtt_client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=35,36 "Built target test_mqtt_client"
-.PHONY : CMakeFiles/test_mqtt_client.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/test_mqtt_client.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/sherry_project/sherry-master/build/CMakeFiles 22
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/test_mqtt_client.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/sherry_project/sherry-master/build/CMakeFiles 0
-.PHONY : CMakeFiles/test_mqtt_client.dir/rule
-
-# Convenience name for target.
-test_mqtt_client: CMakeFiles/test_mqtt_client.dir/rule
-
-.PHONY : test_mqtt_client
-
-# clean rule for target.
-CMakeFiles/test_mqtt_client.dir/clean:
-	$(MAKE) -f CMakeFiles/test_mqtt_client.dir/build.make CMakeFiles/test_mqtt_client.dir/clean
-.PHONY : CMakeFiles/test_mqtt_client.dir/clean
-
-#=============================================================================
 # Target rules for target CMakeFiles/test_server.dir
 
 # All Build rule for target.
 CMakeFiles/test_server.dir/all: CMakeFiles/sherry.dir/all
 	$(MAKE) -f CMakeFiles/test_server.dir/build.make CMakeFiles/test_server.dir/depend
 	$(MAKE) -f CMakeFiles/test_server.dir/build.make CMakeFiles/test_server.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=49,50 "Built target test_server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=41,42 "Built target test_server"
 .PHONY : CMakeFiles/test_server.dir/all
 
 # Build rule for subdir invocation for target.
@@ -400,7 +284,7 @@ CMakeFiles/test.dir/clean:
 CMakeFiles/test_socket.dir/all: CMakeFiles/sherry.dir/all
 	$(MAKE) -f CMakeFiles/test_socket.dir/build.make CMakeFiles/test_socket.dir/depend
 	$(MAKE) -f CMakeFiles/test_socket.dir/build.make CMakeFiles/test_socket.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=51,52 "Built target test_socket"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=43,44 "Built target test_socket"
 .PHONY : CMakeFiles/test_socket.dir/all
 
 # Build rule for subdir invocation for target.
@@ -427,7 +311,7 @@ CMakeFiles/test_socket.dir/clean:
 CMakeFiles/test_thread.dir/all: CMakeFiles/sherry.dir/all
 	$(MAKE) -f CMakeFiles/test_thread.dir/build.make CMakeFiles/test_thread.dir/depend
 	$(MAKE) -f CMakeFiles/test_thread.dir/build.make CMakeFiles/test_thread.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=53,54 "Built target test_thread"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=45,46 "Built target test_thread"
 .PHONY : CMakeFiles/test_thread.dir/all
 
 # Build rule for subdir invocation for target.
@@ -454,7 +338,7 @@ CMakeFiles/test_thread.dir/clean:
 CMakeFiles/test_util.dir/all: CMakeFiles/sherry.dir/all
 	$(MAKE) -f CMakeFiles/test_util.dir/build.make CMakeFiles/test_util.dir/depend
 	$(MAKE) -f CMakeFiles/test_util.dir/build.make CMakeFiles/test_util.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=55,56 "Built target test_util"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=47,48 "Built target test_util"
 .PHONY : CMakeFiles/test_util.dir/all
 
 # Build rule for subdir invocation for target.
@@ -562,7 +446,7 @@ CMakeFiles/test_fiber.dir/clean:
 CMakeFiles/test_scheduler.dir/all: CMakeFiles/sherry.dir/all
 	$(MAKE) -f CMakeFiles/test_scheduler.dir/build.make CMakeFiles/test_scheduler.dir/depend
 	$(MAKE) -f CMakeFiles/test_scheduler.dir/build.make CMakeFiles/test_scheduler.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=47,48 "Built target test_scheduler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=39,40 "Built target test_scheduler"
 .PHONY : CMakeFiles/test_scheduler.dir/all
 
 # Build rule for subdir invocation for target.

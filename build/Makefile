@@ -144,19 +144,6 @@ test_ota_query/fast:
 .PHONY : test_ota_query/fast
 
 #=============================================================================
-# Target rules for targets named test_ota_download
-
-# Build rule for target.
-test_ota_download: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test_ota_download
-.PHONY : test_ota_download
-
-# fast build rule for target.
-test_ota_download/fast:
-	$(MAKE) -f CMakeFiles/test_ota_download.dir/build.make CMakeFiles/test_ota_download.dir/build
-.PHONY : test_ota_download/fast
-
-#=============================================================================
 # Target rules for targets named test_ota_notifier
 
 # Build rule for target.
@@ -168,45 +155,6 @@ test_ota_notifier: cmake_check_build_system
 test_ota_notifier/fast:
 	$(MAKE) -f CMakeFiles/test_ota_notifier.dir/build.make CMakeFiles/test_ota_notifier.dir/build
 .PHONY : test_ota_notifier/fast
-
-#=============================================================================
-# Target rules for targets named test_mqtt_publish
-
-# Build rule for target.
-test_mqtt_publish: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test_mqtt_publish
-.PHONY : test_mqtt_publish
-
-# fast build rule for target.
-test_mqtt_publish/fast:
-	$(MAKE) -f CMakeFiles/test_mqtt_publish.dir/build.make CMakeFiles/test_mqtt_publish.dir/build
-.PHONY : test_mqtt_publish/fast
-
-#=============================================================================
-# Target rules for targets named test_mqtt_subscribe
-
-# Build rule for target.
-test_mqtt_subscribe: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test_mqtt_subscribe
-.PHONY : test_mqtt_subscribe
-
-# fast build rule for target.
-test_mqtt_subscribe/fast:
-	$(MAKE) -f CMakeFiles/test_mqtt_subscribe.dir/build.make CMakeFiles/test_mqtt_subscribe.dir/build
-.PHONY : test_mqtt_subscribe/fast
-
-#=============================================================================
-# Target rules for targets named test_mqtt_client
-
-# Build rule for target.
-test_mqtt_client: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test_mqtt_client
-.PHONY : test_mqtt_client
-
-# fast build rule for target.
-test_mqtt_client/fast:
-	$(MAKE) -f CMakeFiles/test_mqtt_client.dir/build.make CMakeFiles/test_mqtt_client.dir/build
-.PHONY : test_mqtt_client/fast
 
 #=============================================================================
 # Target rules for targets named test_server
@@ -1079,114 +1027,6 @@ tests/test_iomanager.cc.s:
 	$(MAKE) -f CMakeFiles/test_iomanager.dir/build.make CMakeFiles/test_iomanager.dir/tests/test_iomanager.cc.s
 .PHONY : tests/test_iomanager.cc.s
 
-tests/test_mqtt_client.o: tests/test_mqtt_client.cc.o
-
-.PHONY : tests/test_mqtt_client.o
-
-# target to build an object file
-tests/test_mqtt_client.cc.o:
-	$(MAKE) -f CMakeFiles/test_mqtt_client.dir/build.make CMakeFiles/test_mqtt_client.dir/tests/test_mqtt_client.cc.o
-.PHONY : tests/test_mqtt_client.cc.o
-
-tests/test_mqtt_client.i: tests/test_mqtt_client.cc.i
-
-.PHONY : tests/test_mqtt_client.i
-
-# target to preprocess a source file
-tests/test_mqtt_client.cc.i:
-	$(MAKE) -f CMakeFiles/test_mqtt_client.dir/build.make CMakeFiles/test_mqtt_client.dir/tests/test_mqtt_client.cc.i
-.PHONY : tests/test_mqtt_client.cc.i
-
-tests/test_mqtt_client.s: tests/test_mqtt_client.cc.s
-
-.PHONY : tests/test_mqtt_client.s
-
-# target to generate assembly for a file
-tests/test_mqtt_client.cc.s:
-	$(MAKE) -f CMakeFiles/test_mqtt_client.dir/build.make CMakeFiles/test_mqtt_client.dir/tests/test_mqtt_client.cc.s
-.PHONY : tests/test_mqtt_client.cc.s
-
-tests/test_mqtt_publish.o: tests/test_mqtt_publish.cc.o
-
-.PHONY : tests/test_mqtt_publish.o
-
-# target to build an object file
-tests/test_mqtt_publish.cc.o:
-	$(MAKE) -f CMakeFiles/test_mqtt_publish.dir/build.make CMakeFiles/test_mqtt_publish.dir/tests/test_mqtt_publish.cc.o
-.PHONY : tests/test_mqtt_publish.cc.o
-
-tests/test_mqtt_publish.i: tests/test_mqtt_publish.cc.i
-
-.PHONY : tests/test_mqtt_publish.i
-
-# target to preprocess a source file
-tests/test_mqtt_publish.cc.i:
-	$(MAKE) -f CMakeFiles/test_mqtt_publish.dir/build.make CMakeFiles/test_mqtt_publish.dir/tests/test_mqtt_publish.cc.i
-.PHONY : tests/test_mqtt_publish.cc.i
-
-tests/test_mqtt_publish.s: tests/test_mqtt_publish.cc.s
-
-.PHONY : tests/test_mqtt_publish.s
-
-# target to generate assembly for a file
-tests/test_mqtt_publish.cc.s:
-	$(MAKE) -f CMakeFiles/test_mqtt_publish.dir/build.make CMakeFiles/test_mqtt_publish.dir/tests/test_mqtt_publish.cc.s
-.PHONY : tests/test_mqtt_publish.cc.s
-
-tests/test_mqtt_subscribe.o: tests/test_mqtt_subscribe.cc.o
-
-.PHONY : tests/test_mqtt_subscribe.o
-
-# target to build an object file
-tests/test_mqtt_subscribe.cc.o:
-	$(MAKE) -f CMakeFiles/test_mqtt_subscribe.dir/build.make CMakeFiles/test_mqtt_subscribe.dir/tests/test_mqtt_subscribe.cc.o
-.PHONY : tests/test_mqtt_subscribe.cc.o
-
-tests/test_mqtt_subscribe.i: tests/test_mqtt_subscribe.cc.i
-
-.PHONY : tests/test_mqtt_subscribe.i
-
-# target to preprocess a source file
-tests/test_mqtt_subscribe.cc.i:
-	$(MAKE) -f CMakeFiles/test_mqtt_subscribe.dir/build.make CMakeFiles/test_mqtt_subscribe.dir/tests/test_mqtt_subscribe.cc.i
-.PHONY : tests/test_mqtt_subscribe.cc.i
-
-tests/test_mqtt_subscribe.s: tests/test_mqtt_subscribe.cc.s
-
-.PHONY : tests/test_mqtt_subscribe.s
-
-# target to generate assembly for a file
-tests/test_mqtt_subscribe.cc.s:
-	$(MAKE) -f CMakeFiles/test_mqtt_subscribe.dir/build.make CMakeFiles/test_mqtt_subscribe.dir/tests/test_mqtt_subscribe.cc.s
-.PHONY : tests/test_mqtt_subscribe.cc.s
-
-tests/test_ota_download.o: tests/test_ota_download.cc.o
-
-.PHONY : tests/test_ota_download.o
-
-# target to build an object file
-tests/test_ota_download.cc.o:
-	$(MAKE) -f CMakeFiles/test_ota_download.dir/build.make CMakeFiles/test_ota_download.dir/tests/test_ota_download.cc.o
-.PHONY : tests/test_ota_download.cc.o
-
-tests/test_ota_download.i: tests/test_ota_download.cc.i
-
-.PHONY : tests/test_ota_download.i
-
-# target to preprocess a source file
-tests/test_ota_download.cc.i:
-	$(MAKE) -f CMakeFiles/test_ota_download.dir/build.make CMakeFiles/test_ota_download.dir/tests/test_ota_download.cc.i
-.PHONY : tests/test_ota_download.cc.i
-
-tests/test_ota_download.s: tests/test_ota_download.cc.s
-
-.PHONY : tests/test_ota_download.s
-
-# target to generate assembly for a file
-tests/test_ota_download.cc.s:
-	$(MAKE) -f CMakeFiles/test_ota_download.dir/build.make CMakeFiles/test_ota_download.dir/tests/test_ota_download.cc.s
-.PHONY : tests/test_ota_download.cc.s
-
 tests/test_ota_notifier.o: tests/test_ota_notifier.cc.o
 
 .PHONY : tests/test_ota_notifier.o
@@ -1392,10 +1232,6 @@ help:
 	@echo "... test_fiber"
 	@echo "... test_hook"
 	@echo "... test_iomanager"
-	@echo "... test_mqtt_client"
-	@echo "... test_mqtt_publish"
-	@echo "... test_mqtt_subscribe"
-	@echo "... test_ota_download"
 	@echo "... test_ota_notifier"
 	@echo "... test_ota_query"
 	@echo "... test_scheduler"
@@ -1481,18 +1317,6 @@ help:
 	@echo "... tests/test_iomanager.o"
 	@echo "... tests/test_iomanager.i"
 	@echo "... tests/test_iomanager.s"
-	@echo "... tests/test_mqtt_client.o"
-	@echo "... tests/test_mqtt_client.i"
-	@echo "... tests/test_mqtt_client.s"
-	@echo "... tests/test_mqtt_publish.o"
-	@echo "... tests/test_mqtt_publish.i"
-	@echo "... tests/test_mqtt_publish.s"
-	@echo "... tests/test_mqtt_subscribe.o"
-	@echo "... tests/test_mqtt_subscribe.i"
-	@echo "... tests/test_mqtt_subscribe.s"
-	@echo "... tests/test_ota_download.o"
-	@echo "... tests/test_ota_download.i"
-	@echo "... tests/test_ota_download.s"
 	@echo "... tests/test_ota_notifier.o"
 	@echo "... tests/test_ota_notifier.i"
 	@echo "... tests/test_ota_notifier.s"

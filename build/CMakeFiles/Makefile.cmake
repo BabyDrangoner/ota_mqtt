@@ -47,11 +47,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test_ota_query.dir/DependInfo.cmake"
-  "CMakeFiles/test_ota_download.dir/DependInfo.cmake"
   "CMakeFiles/test_ota_notifier.dir/DependInfo.cmake"
-  "CMakeFiles/test_mqtt_publish.dir/DependInfo.cmake"
-  "CMakeFiles/test_mqtt_subscribe.dir/DependInfo.cmake"
-  "CMakeFiles/test_mqtt_client.dir/DependInfo.cmake"
   "CMakeFiles/test_server.dir/DependInfo.cmake"
   "CMakeFiles/test_bytearray.dir/DependInfo.cmake"
   "CMakeFiles/sherry.dir/DependInfo.cmake"

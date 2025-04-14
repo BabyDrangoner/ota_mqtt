@@ -21,14 +21,17 @@ std::string OTAMessage::to_json() const {
     return j.dump();
 }
 
-OTANotifier::OTANotifier(MqttClient::ptr client
+OTANotifier::OTANotifier(int device_type
                         ,TimerManager::ptr timer_mgr
                         ,const std::string& topic
+                        ,MqttClientManager::ptr client_mgr
                         ,uint64_t interval_ms)
-    :m_client(std::move(client))
+    :m_device_type(device_type)
     ,m_timer_mgr(std::move(timer_mgr))
-    ,m_topic(topic)
+    ,m_topic(std::move(topic))
+    ,m_client_mgr(client_mgr)
     ,m_interval_ms(interval_ms){
+    m_client = m_client_mgr->get_client(device_type);
 }
 
 void OTANotifier::set_message(const OTAMessage& msg){
@@ -57,9 +60,13 @@ void OTANotifier::stop(){
 void OTANotifier::publish_once(){
     {   
         RWMutexType::ReadLock lock(m_mutex);
-        if(!m_client || !m_client->get_isconnected()){
-            SYLAR_LOG_ERROR(g_logger) << "MQTT client is null or is disconnected."
-                                      << std::endl;
+        if(!m_client){
+            SYLAR_LOG_WARN(g_logger) << "MQTT client is null.";
+            m_client = m_client_mgr->get_client(m_device_type);
+        }
+        if(m_client && !m_client->get_isconnected()){
+            SYLAR_LOG_ERROR(g_logger) << "MQTT client is disconnected.";
+            m_client->connect(true);
         }
     }
 

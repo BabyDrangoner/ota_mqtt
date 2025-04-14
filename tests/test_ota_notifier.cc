@@ -17,22 +17,22 @@ using namespace sherry;
 static Logger::ptr g_logger = SYLAR_LOG_NAME("system");
 sherry::OTAClientCallbackManager::ptr cb_mgr = std::make_shared<sherry::OTAClientCallbackManager>();
 
+ // MQTT 参数
+std::string protocol = "tcp";
+std::string host = "localhost";
+int port = 1883;
+std::string client_id = "ota_notifier_test";
+int device_type = 1;
+std::string topic = "ota/test/device";
+sherry::MqttClientManager::ptr cli_mgr = std::make_shared<sherry::MqttClientManager>(port, protocol, host, cb_mgr);
 
 void test_ota_notifier() {
-    // MQTT 参数
-    std::string protocol = "tcp";
-    std::string host = "localhost";
-    int port = 1883;
-    std::string client_id = "ota_notifier_test";
-    int device_type = 1;
-    std::string topic = "ota/test/device";
+   
 
     // 创建 MQTT client
-    MqttClient::ptr client = std::make_shared<MqttClient>(
-        protocol, port, host, client_id, device_type, cb_mgr
-    );
+    // MqttClient::ptr client = cli_mgr->get_client(device_type);
 
-    client->connect();
+    // client->connect();
 
     // 构造 TimerManager
     auto timer_mgr = std::make_shared<IOManager>(1, false, "OTA-Timer");
@@ -51,7 +51,7 @@ void test_ota_notifier() {
 
     // 创建 OTANotifier 并启动
     OTANotifier::ptr notifier = std::make_shared<OTANotifier>(
-        client, timer_mgr, topic, 10000  // 10 秒发布一次
+        device_type, timer_mgr, topic, cli_mgr, 1000  // 10 秒发布一次
     );
     notifier->set_message(msg);
     notifier->start();

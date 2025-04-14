@@ -13,17 +13,21 @@ public:
     typedef std::shared_ptr<OTAQueryResponder> ptr;
     typedef RWMutex RWMutexType;
 
-    OTAQueryResponder(MqttClient::ptr client
-                     ,int device_no);
+    OTAQueryResponder(int device_type, int device_no, MqttClientManager::ptr cli_mgr);
     
     std::string format_payload(const std::string& name, const std::string& action);
     void publish_query(const std::string& name, const std::string& action, int qos = 1, bool retain = false);
     void subscribe_responder(const std::string& pub_topic, const std::string& sub_topic, int qos);
+    void subscribe_on_success(const std::string& pub_topic, const std::string& sub_topic);
 private:
     RWMutexType m_mutex;
-    MqttClient::ptr m_client;
-    
+    int m_device_type;
     int m_device_no;
+    MqttClientManager::ptr m_client_manager;
+
+    MqttClient::ptr m_client;
+
+    
 };
 
 }

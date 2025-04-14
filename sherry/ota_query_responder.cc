@@ -8,45 +8,13 @@ namespace sherry{
 
 static sherry::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
 
-OTAQueryResponder::OTAQueryResponder(MqttClient::ptr client
-                                    ,int device_no)
-    :m_client(client)
-    ,m_device_no(device_no){
-
+OTAQueryResponder::OTAQueryResponder(int device_type, int device_no, MqttClientManager::ptr cli_mgr)
+    :m_device_type(device_type)
+    ,m_device_no(device_no)
+    ,m_client_manager(cli_mgr){
+    m_client = m_client_manager->get_client(device_type);
 }
 
-// void OTAQueryResponder::handle(const std::string& payload){
-//     if(!m_client){
-//         SYLAR_LOG_ERROR(g_logger) << "client is null"
-//                                   << std::endl;
-//         return;
-//     } 
-//     // RWMutexType::ReadLock lock(m_client->m_mutex);
-//     if(!m_client->get_isconnected() && !m_client->get_isconnected()){
-//         SYLAR_LOG_ERROR(g_logger) << "client is diconnect" 
-//                                   << std::endl;
-//         return;
-//     }
-//     try{
-//         auto request = nlohmann::json::parse(payload);
-//         if(request.contains("action") && request["action"] == "getVersion"){
-//             OTAQueryResponseMessage response;
-//             response.action = "Version";
-//             response.device_no = m_device_no;
-//             response.time = getCurrentTimeString();
-//             response.name = m_version_message->get_name();
-//             response.version = m_version_message->get_version();
-//             response.upgrade_time = m_version_message->get_upgrade_time();
-
-//             std::string response_payload = response.to_json();
-//             m_client->publish(m_topic, response_payload, 1, true);
-
-//         } catch (const std::exception& e){
-//             SYLAR_LOG_ERROR(g_logger) << "Failed to parse OTA query payload: " << e.what() 
-//                                       << std::endl;
-//         }
-//     }
-// }
 std::string OTAQueryResponder::format_payload(const std::string& name, const std::string& action){
     nlohmann::json j = {
         {"name", name},
@@ -55,60 +23,193 @@ std::string OTAQueryResponder::format_payload(const std::string& name, const std
     };
     return j.dump();
 }
-void OTAQueryResponder::publish_query(const std::string& name, const std::string& action, int qos, bool retain){
-    if(!m_client){
-        SYLAR_LOG_ERROR(g_logger) << "client is null"
-                                  << std::endl;
-        return;
-    } 
-    // RWMutexType::ReadLock lock(m_client->m_mutex);
-    if(!m_client->get_isconnected() && !m_client->get_isconnected()){
-        SYLAR_LOG_ERROR(g_logger) << "client is diconnect" 
-                                  << std::endl;
-        return;
-    }
 
+void OTAQueryResponder::publish_query(const std::string& name, const std::string& action, int qos, bool retain){
+    
     std::string topic("/ota/");
     topic = topic + name;
     topic += "/query/";
 
     std::string payload = format_payload(name, action);
 
-    m_client->publish(topic, payload, qos, retain);
+    {
+        RWMutexType::ReadLock lock(m_mutex);
+        if(m_client){
+            if(!m_client->get_isconnected()){
+                m_client->connect(true);
+            }
+
+            if(!m_client->get_isconnected()){
+                SYLAR_LOG_ERROR(g_logger) << "client is diconnect"
+                                          << " name = " << name
+                                          << ", action = " << action
+                                          << ", can not query."; 
+                return;
+            }
+
+            m_client->publish(topic, payload, qos, retain);
+            return;
+        }
+    }
+    
+    {
+        RWMutexType::WriteLock lock(m_mutex);
+        if(!m_client){
+            SYLAR_LOG_WARN(g_logger) << "client is null";
+            if(!m_client_manager){
+                SYLAR_LOG_ERROR(g_logger) << "client manager is null."
+                                          << " name = " << name
+                                          << ", action = " << action
+                                          << ", can not query.";
+                return;
+            }
+            m_client_manager->get_client(m_device_type);
+            
+            if(!m_client){
+                SYLAR_LOG_WARN(g_logger) << "client is null."
+                                         << " name = " << name
+                                         << ", action = " << action
+                                         << ", can not query.";
+                return;
+            }
+
+            m_client->connect(true);
+            if(!m_client->get_isconnected()){
+                SYLAR_LOG_ERROR(g_logger) << "client is diconnect"
+                                          << " name = " << name
+                                          << ", action = " << action
+                                          << ", can not query."; 
+                return;
+            }
+
+            m_client->publish(topic, payload, qos, retain);
+       
+        }
+    } 
 
 }
 
 void OTAQueryResponder::subscribe_responder(const std::string& pub_topic, const std::string& sub_topic, int qos){
-    if(!m_client){
-        SYLAR_LOG_ERROR(g_logger) << "client is null"
-                                  << std::endl;
-        return;
-    } 
-    // RWMutexType::ReadLock lock(m_client->m_mutex);
-    if(!m_client->get_isconnected() && !m_client->get_isconnected()){
-        SYLAR_LOG_ERROR(g_logger) << "client is diconnect" 
-                                  << std::endl;
-        return;
-    }
-
     std::function<void(const std::string &, int)> subscribe_callback =
     [](const std::string& topic, int code) {
         if(code == -1){
             SYLAR_LOG_ERROR(g_logger) << "subscribe to topic : " << topic
-                                      << " fail."  
-                                      << std::endl;
+                                      << " fail.";
         } else {
             SYLAR_LOG_INFO(g_logger) << "subscribe to topic : " << topic
-                                     << " success."  
-                                     << std::endl; 
+                                     << " success.";
         }
     };
+    
+    
+    {
+        RWMutexType::ReadLock lock(m_mutex);
+        if(m_client){
+            if(!m_client->get_isconnected()){
+                m_client->connect(true);
+            }
 
+            if(!m_client->get_isconnected()){
+                SYLAR_LOG_ERROR(g_logger) << "client is diconnect"
+                                          << " sub topic = " << sub_topic
+                                          << ", can not subscribe."; 
+                return;
+            }
 
-    m_client->subscribe(sub_topic, qos, subscribe_callback);
+            m_client->subscribe(sub_topic, qos, subscribe_callback);
+            return;
+        }
+    }
 
+    {
+        RWMutexType::WriteLock lock(m_mutex);
+        if(!m_client){
+            SYLAR_LOG_WARN(g_logger) << "client is null";
+            if(!m_client_manager){
+                SYLAR_LOG_ERROR(g_logger) << "client manager is null."
+                                          << " sub topic = " << sub_topic
+                                          << ", can not subscribe.";
+                return;
+            }
+            m_client_manager->get_client(m_device_type);
+            
+            if(!m_client){
+                SYLAR_LOG_WARN(g_logger) << "client is null."
+                                         << " sub topic = " << sub_topic
+                                         << ", can not subscribe.";
+                return;
+            }
 
+            m_client->connect(true);
+            if(!m_client->get_isconnected()){
+                SYLAR_LOG_ERROR(g_logger) << "client is diconnect"
+                                          << " sub topic = " << sub_topic
+                                          << ", can not subscribe.";
+                return;
+            }
+
+            m_client->subscribe(sub_topic, qos, subscribe_callback);
+       
+        }
+    } 
 }
 
+void OTAQueryResponder::subscribe_on_success(const std::string& pub_topic, const std::string& sub_topic){
+    {
+        RWMutexType::ReadLock lock(m_mutex);
+        if(m_client){
+            if(!m_client->get_isconnected()){
+                m_client->connect(true);
+                if(!m_client->get_isconnected()){
+                    SYLAR_LOG_ERROR(g_logger) << "client is diconnect"
+                                              << " after subscribing topic: " << sub_topic
+                                              << ", publish null to topic: " << pub_topic
+                                              << " failed.";
+                    return;
+                }
+            } else {
+                m_client->unsubscribe(sub_topic);
+            }
+            m_client->publish(pub_topic, "", 1);
+            return;
+        }
+    }
+
+
+    {
+        RWMutexType::WriteLock lock(m_mutex);
+        if(!m_client){
+            SYLAR_LOG_WARN(g_logger) << "client is null";
+            if(!m_client_manager){
+                SYLAR_LOG_ERROR(g_logger) << "client manager is null."
+                                          << " after subscribing topic: " << sub_topic
+                                          << ", publish null to topic: " << pub_topic
+                                          << " failed.";
+                return;
+            }
+            m_client_manager->get_client(m_device_type);
+            
+            if(!m_client){
+                SYLAR_LOG_WARN(g_logger) << "client is null."
+                                         << " after subscribing topic: " << sub_topic
+                                         << ", publish null to topic: " << pub_topic
+                                         << " failed.";
+                return;
+            }
+
+            m_client->connect(true);
+            if(!m_client->get_isconnected()){
+                SYLAR_LOG_ERROR(g_logger) << "client is diconnect"
+                                          << " after subscribing topic: " << sub_topic
+                                          << ", publish null to topic: " << pub_topic
+                                          << " failed.";
+                return;
+            }
+
+            m_client->publish(pub_topic, "", 1);
+       
+        }
+    } 
+}
 
 }

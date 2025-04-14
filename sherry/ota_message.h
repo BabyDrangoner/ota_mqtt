@@ -7,7 +7,7 @@
 namespace sherry{
 
 struct query_message{
-    std::string  action;
+    std::string action;
     int no;
     std::string time;
     std::vector<struct result> results;

@@ -12,16 +12,23 @@ public:
     typedef std::shared_ptr<OTASubscribeDownload> ptr;
     typedef RWMutex RWMutexType;
 
-    OTASubscribeDownload(MqttClient::ptr client, const std::string& topic, int device_type, int device_id, OTAMessage::ptr msg);
+    OTASubscribeDownload(const std::string& topic
+                        ,int device_type
+                        ,int device_no
+                        ,MqttClientManager::ptr cli_mgr
+                        ,OTAClientCallbackManager::ptr cb_mgr
+                        ,OTAMessage::ptr msg);
 
     void subscribe_download(const std::string& topic, int qos=1);
     
 private:
     RWMutexType m_mutex;
-    MqttClient::ptr m_client;
     std::string m_topic;
     int m_device_type;
-    int m_device_id;
+    int m_device_no;
+    MqttClientManager::ptr m_client_manager;
+    OTAClientCallbackManager::ptr m_callback_manager;
+    MqttClient::ptr m_client;
 
     OTAMessage::ptr m_msg;
 

@@ -10,8 +10,7 @@ void OTAClientCallbackManager::regist_callback(const std::string& topic, Callbac
     RWMutexType::WriteLock lock(m_mutex);
     m_callbacks[topic] = std::move(callback);
     SYLAR_LOG_INFO(g_logger) << "regist topic:" << topic
-                             << " sucsess."
-                             << std::endl;
+                             << " sucsess.";
 }
 
 void OTAClientCallbackManager::on_message(const std::string& topic, const std::string& payload){
@@ -30,12 +29,10 @@ void OTAClientCallbackManager::on_message(const std::string& topic, const std::s
             cb(topic, payload);
         } catch(const std::exception& e){
             SYLAR_LOG_ERROR(g_logger) << "Exception in MQTT callback for topic [" << topic
-                                      << "]: " << e.what()
-                                      << std::endl;
+                                      << "]: " << e.what();
         }
     } else {
-        SYLAR_LOG_WARN(g_logger) << "No callback found for MQTT topic: " << topic
-                                 << std::endl;
+        SYLAR_LOG_WARN(g_logger) << "No callback found for MQTT topic: " << topic;
     }
 }
 }

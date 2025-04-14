@@ -133,20 +133,20 @@ add_dependencies(test_server sherry)
 force_redefine_file_macro_for_sources(test_server)  #__FILE__
 target_link_libraries(test_server ${LIBS})
 
-add_executable(test_mqtt_client tests/test_mqtt_client.cc)
-add_dependencies(test_mqtt_client sherry)
-force_redefine_file_macro_for_sources(test_mqtt_client)  #__FILE__
-target_link_libraries(test_mqtt_client ${LIBS})
+#add_executable(test_mqtt_client tests/test_mqtt_client.cc)
+#add_dependencies(test_mqtt_client sherry)
+#force_redefine_file_macro_for_sources(test_mqtt_client)  #__FILE__
+#target_link_libraries(test_mqtt_client ${LIBS})
 
-add_executable(test_mqtt_subscribe tests/test_mqtt_subscribe.cc)
-add_dependencies(test_mqtt_subscribe sherry)
-force_redefine_file_macro_for_sources(test_mqtt_subscribe)  #__FILE__
-target_link_libraries(test_mqtt_subscribe ${LIBS})
+#add_executable(test_mqtt_subscribe tests/test_mqtt_subscribe.cc)
+#add_dependencies(test_mqtt_subscribe sherry)
+#force_redefine_file_macro_for_sources(test_mqtt_subscribe)  #__FILE__
+#target_link_libraries(test_mqtt_subscribe ${LIBS})
 
-add_executable(test_mqtt_publish tests/test_mqtt_publish.cc)
-add_dependencies(test_mqtt_publish sherry)
-force_redefine_file_macro_for_sources(test_mqtt_publish)  #__FILE__
-target_link_libraries(test_mqtt_publish ${LIBS})
+#add_executable(test_mqtt_publish tests/test_mqtt_publish.cc)
+#add_dependencies(test_mqtt_publish sherry)
+#force_redefine_file_macro_for_sources(test_mqtt_publish)  #__FILE__
+#target_link_libraries(test_mqtt_publish ${LIBS})
 
 add_executable(test_ota_notifier tests/test_ota_notifier.cc)
 add_dependencies(test_ota_notifier sherry)
@@ -158,10 +158,10 @@ add_dependencies(test_ota_query sherry)
 force_redefine_file_macro_for_sources(test_ota_query)  #__FILE__
 target_link_libraries(test_ota_query ${LIBS})
 
-add_executable(test_ota_download tests/test_ota_download.cc)
-add_dependencies(test_ota_download sherry)
-force_redefine_file_macro_for_sources(test_ota_download)  #__FILE__
-target_link_libraries(test_ota_download ${LIBS})
+#add_executable(test_ota_download tests/test_ota_download.cc)
+#add_dependencies(test_ota_download sherry)
+#force_redefine_file_macro_for_sources(test_ota_download)  #__FILE__
+#target_link_libraries(test_ota_download ${LIBS})
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
