@@ -131,6 +131,32 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named test_ota_manager
+
+# Build rule for target.
+test_ota_manager: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_ota_manager
+.PHONY : test_ota_manager
+
+# fast build rule for target.
+test_ota_manager/fast:
+	$(MAKE) -f CMakeFiles/test_ota_manager.dir/build.make CMakeFiles/test_ota_manager.dir/build
+.PHONY : test_ota_manager/fast
+
+#=============================================================================
+# Target rules for targets named test_myfiber
+
+# Build rule for target.
+test_myfiber: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_myfiber
+.PHONY : test_myfiber
+
+# fast build rule for target.
+test_myfiber/fast:
+	$(MAKE) -f CMakeFiles/test_myfiber.dir/build.make CMakeFiles/test_myfiber.dir/build
+.PHONY : test_myfiber/fast
+
+#=============================================================================
 # Target rules for targets named test_ota_query
 
 # Build rule for target.
@@ -233,6 +259,19 @@ test_thread: cmake_check_build_system
 test_thread/fast:
 	$(MAKE) -f CMakeFiles/test_thread.dir/build.make CMakeFiles/test_thread.dir/build
 .PHONY : test_thread/fast
+
+#=============================================================================
+# Target rules for targets named test_http_server
+
+# Build rule for target.
+test_http_server: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_http_server
+.PHONY : test_http_server
+
+# fast build rule for target.
+test_http_server/fast:
+	$(MAKE) -f CMakeFiles/test_http_server.dir/build.make CMakeFiles/test_http_server.dir/build
+.PHONY : test_http_server/fast
 
 #=============================================================================
 # Target rules for targets named test_util
@@ -487,6 +526,33 @@ sherry/hook.cc.s:
 	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/hook.cc.s
 .PHONY : sherry/hook.cc.s
 
+sherry/http/http_server.o: sherry/http/http_server.cc.o
+
+.PHONY : sherry/http/http_server.o
+
+# target to build an object file
+sherry/http/http_server.cc.o:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/http/http_server.cc.o
+.PHONY : sherry/http/http_server.cc.o
+
+sherry/http/http_server.i: sherry/http/http_server.cc.i
+
+.PHONY : sherry/http/http_server.i
+
+# target to preprocess a source file
+sherry/http/http_server.cc.i:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/http/http_server.cc.i
+.PHONY : sherry/http/http_server.cc.i
+
+sherry/http/http_server.s: sherry/http/http_server.cc.s
+
+.PHONY : sherry/http/http_server.s
+
+# target to generate assembly for a file
+sherry/http/http_server.cc.s:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/http/http_server.cc.s
+.PHONY : sherry/http/http_server.cc.s
+
 sherry/iomanager.o: sherry/iomanager.cc.o
 
 .PHONY : sherry/iomanager.o
@@ -568,6 +634,33 @@ sherry/mqtt_client.cc.s:
 	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/mqtt_client.cc.s
 .PHONY : sherry/mqtt_client.cc.s
 
+sherry/myfiber.o: sherry/myfiber.cc.o
+
+.PHONY : sherry/myfiber.o
+
+# target to build an object file
+sherry/myfiber.cc.o:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/myfiber.cc.o
+.PHONY : sherry/myfiber.cc.o
+
+sherry/myfiber.i: sherry/myfiber.cc.i
+
+.PHONY : sherry/myfiber.i
+
+# target to preprocess a source file
+sherry/myfiber.cc.i:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/myfiber.cc.i
+.PHONY : sherry/myfiber.cc.i
+
+sherry/myfiber.s: sherry/myfiber.cc.s
+
+.PHONY : sherry/myfiber.s
+
+# target to generate assembly for a file
+sherry/myfiber.cc.s:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/myfiber.cc.s
+.PHONY : sherry/myfiber.cc.s
+
 sherry/ota_client_callback.o: sherry/ota_client_callback.cc.o
 
 .PHONY : sherry/ota_client_callback.o
@@ -594,6 +687,33 @@ sherry/ota_client_callback.s: sherry/ota_client_callback.cc.s
 sherry/ota_client_callback.cc.s:
 	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_client_callback.cc.s
 .PHONY : sherry/ota_client_callback.cc.s
+
+sherry/ota_manager.o: sherry/ota_manager.cc.o
+
+.PHONY : sherry/ota_manager.o
+
+# target to build an object file
+sherry/ota_manager.cc.o:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_manager.cc.o
+.PHONY : sherry/ota_manager.cc.o
+
+sherry/ota_manager.i: sherry/ota_manager.cc.i
+
+.PHONY : sherry/ota_manager.i
+
+# target to preprocess a source file
+sherry/ota_manager.cc.i:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_manager.cc.i
+.PHONY : sherry/ota_manager.cc.i
+
+sherry/ota_manager.s: sherry/ota_manager.cc.s
+
+.PHONY : sherry/ota_manager.s
+
+# target to generate assembly for a file
+sherry/ota_manager.cc.s:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_manager.cc.s
+.PHONY : sherry/ota_manager.cc.s
 
 sherry/ota_message.o: sherry/ota_message.cc.o
 
@@ -1000,6 +1120,33 @@ tests/test_hook.cc.s:
 	$(MAKE) -f CMakeFiles/test_hook.dir/build.make CMakeFiles/test_hook.dir/tests/test_hook.cc.s
 .PHONY : tests/test_hook.cc.s
 
+tests/test_http_server.o: tests/test_http_server.cc.o
+
+.PHONY : tests/test_http_server.o
+
+# target to build an object file
+tests/test_http_server.cc.o:
+	$(MAKE) -f CMakeFiles/test_http_server.dir/build.make CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o
+.PHONY : tests/test_http_server.cc.o
+
+tests/test_http_server.i: tests/test_http_server.cc.i
+
+.PHONY : tests/test_http_server.i
+
+# target to preprocess a source file
+tests/test_http_server.cc.i:
+	$(MAKE) -f CMakeFiles/test_http_server.dir/build.make CMakeFiles/test_http_server.dir/tests/test_http_server.cc.i
+.PHONY : tests/test_http_server.cc.i
+
+tests/test_http_server.s: tests/test_http_server.cc.s
+
+.PHONY : tests/test_http_server.s
+
+# target to generate assembly for a file
+tests/test_http_server.cc.s:
+	$(MAKE) -f CMakeFiles/test_http_server.dir/build.make CMakeFiles/test_http_server.dir/tests/test_http_server.cc.s
+.PHONY : tests/test_http_server.cc.s
+
 tests/test_iomanager.o: tests/test_iomanager.cc.o
 
 .PHONY : tests/test_iomanager.o
@@ -1026,6 +1173,60 @@ tests/test_iomanager.s: tests/test_iomanager.cc.s
 tests/test_iomanager.cc.s:
 	$(MAKE) -f CMakeFiles/test_iomanager.dir/build.make CMakeFiles/test_iomanager.dir/tests/test_iomanager.cc.s
 .PHONY : tests/test_iomanager.cc.s
+
+tests/test_myfiber.o: tests/test_myfiber.cc.o
+
+.PHONY : tests/test_myfiber.o
+
+# target to build an object file
+tests/test_myfiber.cc.o:
+	$(MAKE) -f CMakeFiles/test_myfiber.dir/build.make CMakeFiles/test_myfiber.dir/tests/test_myfiber.cc.o
+.PHONY : tests/test_myfiber.cc.o
+
+tests/test_myfiber.i: tests/test_myfiber.cc.i
+
+.PHONY : tests/test_myfiber.i
+
+# target to preprocess a source file
+tests/test_myfiber.cc.i:
+	$(MAKE) -f CMakeFiles/test_myfiber.dir/build.make CMakeFiles/test_myfiber.dir/tests/test_myfiber.cc.i
+.PHONY : tests/test_myfiber.cc.i
+
+tests/test_myfiber.s: tests/test_myfiber.cc.s
+
+.PHONY : tests/test_myfiber.s
+
+# target to generate assembly for a file
+tests/test_myfiber.cc.s:
+	$(MAKE) -f CMakeFiles/test_myfiber.dir/build.make CMakeFiles/test_myfiber.dir/tests/test_myfiber.cc.s
+.PHONY : tests/test_myfiber.cc.s
+
+tests/test_ota_manager.o: tests/test_ota_manager.cc.o
+
+.PHONY : tests/test_ota_manager.o
+
+# target to build an object file
+tests/test_ota_manager.cc.o:
+	$(MAKE) -f CMakeFiles/test_ota_manager.dir/build.make CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o
+.PHONY : tests/test_ota_manager.cc.o
+
+tests/test_ota_manager.i: tests/test_ota_manager.cc.i
+
+.PHONY : tests/test_ota_manager.i
+
+# target to preprocess a source file
+tests/test_ota_manager.cc.i:
+	$(MAKE) -f CMakeFiles/test_ota_manager.dir/build.make CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.i
+.PHONY : tests/test_ota_manager.cc.i
+
+tests/test_ota_manager.s: tests/test_ota_manager.cc.s
+
+.PHONY : tests/test_ota_manager.s
+
+# target to generate assembly for a file
+tests/test_ota_manager.cc.s:
+	$(MAKE) -f CMakeFiles/test_ota_manager.dir/build.make CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.s
+.PHONY : tests/test_ota_manager.cc.s
 
 tests/test_ota_notifier.o: tests/test_ota_notifier.cc.o
 
@@ -1231,7 +1432,10 @@ help:
 	@echo "... test_config"
 	@echo "... test_fiber"
 	@echo "... test_hook"
+	@echo "... test_http_server"
 	@echo "... test_iomanager"
+	@echo "... test_myfiber"
+	@echo "... test_ota_manager"
 	@echo "... test_ota_notifier"
 	@echo "... test_ota_query"
 	@echo "... test_scheduler"
@@ -1257,6 +1461,9 @@ help:
 	@echo "... sherry/hook.o"
 	@echo "... sherry/hook.i"
 	@echo "... sherry/hook.s"
+	@echo "... sherry/http/http_server.o"
+	@echo "... sherry/http/http_server.i"
+	@echo "... sherry/http/http_server.s"
 	@echo "... sherry/iomanager.o"
 	@echo "... sherry/iomanager.i"
 	@echo "... sherry/iomanager.s"
@@ -1266,9 +1473,15 @@ help:
 	@echo "... sherry/mqtt_client.o"
 	@echo "... sherry/mqtt_client.i"
 	@echo "... sherry/mqtt_client.s"
+	@echo "... sherry/myfiber.o"
+	@echo "... sherry/myfiber.i"
+	@echo "... sherry/myfiber.s"
 	@echo "... sherry/ota_client_callback.o"
 	@echo "... sherry/ota_client_callback.i"
 	@echo "... sherry/ota_client_callback.s"
+	@echo "... sherry/ota_manager.o"
+	@echo "... sherry/ota_manager.i"
+	@echo "... sherry/ota_manager.s"
 	@echo "... sherry/ota_message.o"
 	@echo "... sherry/ota_message.i"
 	@echo "... sherry/ota_message.s"
@@ -1314,9 +1527,18 @@ help:
 	@echo "... tests/test_hook.o"
 	@echo "... tests/test_hook.i"
 	@echo "... tests/test_hook.s"
+	@echo "... tests/test_http_server.o"
+	@echo "... tests/test_http_server.i"
+	@echo "... tests/test_http_server.s"
 	@echo "... tests/test_iomanager.o"
 	@echo "... tests/test_iomanager.i"
 	@echo "... tests/test_iomanager.s"
+	@echo "... tests/test_myfiber.o"
+	@echo "... tests/test_myfiber.i"
+	@echo "... tests/test_myfiber.s"
+	@echo "... tests/test_ota_manager.o"
+	@echo "... tests/test_ota_manager.i"
+	@echo "... tests/test_ota_manager.s"
 	@echo "... tests/test_ota_notifier.o"
 	@echo "... tests/test_ota_notifier.i"
 	@echo "... tests/test_ota_notifier.s"

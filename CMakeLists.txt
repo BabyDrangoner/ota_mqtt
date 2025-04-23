@@ -51,6 +51,9 @@ set(LIB_SRC
     sherry/ota_query_responder.cc
     sherry/ota_message.cc
     sherry/ota_subscribe_download.cc
+    sherry/myfiber.cc
+    sherry/ota_manager.cc
+    sherry/http/http_server.cc
     
 )
 
@@ -158,10 +161,26 @@ add_dependencies(test_ota_query sherry)
 force_redefine_file_macro_for_sources(test_ota_query)  #__FILE__
 target_link_libraries(test_ota_query ${LIBS})
 
+add_executable(test_myfiber tests/test_myfiber.cc)
+add_dependencies(test_myfiber sherry)
+force_redefine_file_macro_for_sources(test_myfiber)  #__FILE__
+target_link_libraries(test_myfiber ${LIBS})
+
+add_executable(test_ota_manager tests/test_ota_manager.cc)
+add_dependencies(test_ota_manager sherry)
+force_redefine_file_macro_for_sources(test_ota_manager)  #__FILE__
+target_link_libraries(test_ota_manager ${LIBS})
+
 #add_executable(test_ota_download tests/test_ota_download.cc)
 #add_dependencies(test_ota_download sherry)
 #force_redefine_file_macro_for_sources(test_ota_download)  #__FILE__
 #target_link_libraries(test_ota_download ${LIBS})
+
+add_executable(test_http_server tests/test_http_server.cc)
+add_dependencies(test_http_server sherry)
+force_redefine_file_macro_for_sources(test_http_server)  #__FILE__
+target_link_libraries(test_http_server ${LIBS})
+
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)

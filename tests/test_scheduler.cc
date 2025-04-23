@@ -13,7 +13,7 @@ void test_fiber(){
 
 int main(int argc, char ** argv){
     SYLAR_LOG_INFO(g_logger) << "main";
-    sherry::Scheduler sc(2, true, "test");
+    sherry::Scheduler sc(1, true, "test");
     sc.start();
     sleep(2);
     SYLAR_LOG_INFO(g_logger) << "schedule";

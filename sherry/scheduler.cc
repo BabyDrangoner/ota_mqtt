@@ -143,7 +143,7 @@ void Scheduler::run(){
     }
 
     Fiber::ptr idle_fiber(new Fiber(std::bind(&Scheduler::idle, this)));
-    Fiber::ptr cb_fiber;
+    Fiber::ptr cb_fiber;  // 表示当前线程在本轮循环中，是否成功从队列中取出任务，在else逻辑中判断是否需要调度idle协程
 
     FiberAndThread ft;
     while(true){
@@ -188,7 +188,7 @@ void Scheduler::run(){
             ft.fiber->swapIn();
             --m_activeThreadCount;
             // 根据协程恢复后的状态，如果READY则继续调度，
-            SYLAR_LOG_DEBUG(g_logger) << "after ft.state:" << ft.fiber->getState();
+            // SYLAR_LOG_DEBUG(g_logger) << "after ft.state:" << ft.fiber->getState();
             if(ft.fiber->getState() == Fiber::READY){
                 schedule(ft.fiber);
             } else if(ft.fiber->getState() != Fiber::TERM      
@@ -205,7 +205,7 @@ void Scheduler::run(){
             ft.reset();
             cb_fiber->swapIn();
             --m_activeThreadCount;
-            SYLAR_LOG_DEBUG(g_logger) << "cb_fiber.state:" << cb_fiber->getState();
+            // SYLAR_LOG_DEBUG(g_logger) << "cb_fiber.state:" << cb_fiber->getState();
             if(cb_fiber->getState() == Fiber::READY){
                 schedule(cb_fiber);
                 cb_fiber.reset();   // 智能指针reset

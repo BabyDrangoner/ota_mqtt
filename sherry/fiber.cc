@@ -116,7 +116,6 @@ void Fiber::reset(std::function<void()> cb){
 void Fiber::call(){ // 
     SetThis(this);
     m_state = EXEC;
-    SYLAR_LOG_ERROR(g_logger) << getId();
     if(swapcontext(&t_threadFiber->m_ctx, &m_ctx)){
         SYLAR_ASSERT2(false, "getcontext");
     }
@@ -149,7 +148,7 @@ void Fiber::swapOut(){ //
    
 }
 
-// 设置当前协程
+// 设置当前协程,将t_fiber设置为当前需要切入的协程类实例
 void Fiber::SetThis(Fiber * f){ // 
     t_fiber = f;
 }
@@ -192,7 +191,6 @@ void Fiber::MainFunc(){ //
         cur->m_cb();
         cur->m_cb = nullptr;
         cur->m_state = TERM;
-        SYLAR_LOG_DEBUG(g_logger) << "set state:" << cur->m_state;
     } catch(std::exception & ex){
         cur->m_state = EXCEPT;
         SYLAR_LOG_ERROR(g_logger) << "Fiber Except: " << ex.what()
@@ -214,6 +212,7 @@ void Fiber::MainFunc(){ //
     SYLAR_ASSERT2(false, "never reach fiber_id=" + std::to_string(raw_ptr->getId()));
     
 }
+
 void Fiber::CallerMainFunc(){
     Fiber::ptr cur = GetThis();
     

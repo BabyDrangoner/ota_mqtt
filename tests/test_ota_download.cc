@@ -19,17 +19,15 @@ sherry::OTAClientCallbackManager::ptr cb_mgr = std::make_shared<sherry::OTAClien
 
 void test01(){
     sherry::MqttAddress::ptr addr = std::make_shared<sherry::MqttAddress>(protocol, port, mqtt_server_host);
-    sherry::MqttClient::ptr client = std::make_shared<sherry::MqttClient>(protocol, port, mqtt_server_host, mqtt_client_id, device_type, cb_mgr);
-    
-    client->connect();
+    sherry::MqttClientManager::ptr cli_mgr = std::make_shared<sherry::MqttClientManager>(port, protocol, mqtt_server_host);
 
     sherry::OTAMessage::ptr msg = std::make_shared<sherry::OTAMessage>();
-    cb_mgr->regist_callback(sub_topic, [msg, client](const std::string& topic, const std::string& payload){
+    cb_mgr->regist_callback(sub_topic, [msg, ](const std::string& topic, const std::string& payload){
         msg->set_downloadMsg(payload);
         client->unsubscribe(topic);
     });
 
-    sherry::OTASubscribeDownload::ptr ota_sd = std::make_shared<sherry::OTASubscribeDownload>(client, sub_topic, device_type, 0, msg);
+    sherry::OTASubscribeDownload::ptr ota_sd = std::make_shared<sherry::OTASubscribeDownload>(sub_topic, device_type, 0, cli_mgr, cb_mgr, msg);
 
     ota_sd->subscribe_download(sub_topic, qos);
 

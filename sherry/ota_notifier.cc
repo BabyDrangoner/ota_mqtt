@@ -36,7 +36,7 @@ OTANotifier::OTANotifier(int device_type
 
 void OTANotifier::set_message(const OTAMessage& msg){
     RWMutexType::WriteLock lock(m_mutex);
-    m_msg = msg;
+    m_msg = std::move(msg);
 }
 
 void OTANotifier::start(){

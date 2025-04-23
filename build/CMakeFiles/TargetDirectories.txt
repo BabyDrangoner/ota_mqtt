@@ -1,4 +1,6 @@
 /root/sherry_project/sherry-master/build/CMakeFiles/edit_cache.dir
+/root/sherry_project/sherry-master/build/CMakeFiles/test_ota_manager.dir
+/root/sherry_project/sherry-master/build/CMakeFiles/test_myfiber.dir
 /root/sherry_project/sherry-master/build/CMakeFiles/test_ota_query.dir
 /root/sherry_project/sherry-master/build/CMakeFiles/test_ota_notifier.dir
 /root/sherry_project/sherry-master/build/CMakeFiles/test_server.dir
@@ -8,6 +10,7 @@
 /root/sherry_project/sherry-master/build/CMakeFiles/rebuild_cache.dir
 /root/sherry_project/sherry-master/build/CMakeFiles/test_socket.dir
 /root/sherry_project/sherry-master/build/CMakeFiles/test_thread.dir
+/root/sherry_project/sherry-master/build/CMakeFiles/test_http_server.dir
 /root/sherry_project/sherry-master/build/CMakeFiles/test_util.dir
 /root/sherry_project/sherry-master/build/CMakeFiles/test_config.dir
 /root/sherry_project/sherry-master/build/CMakeFiles/test_hook.dir

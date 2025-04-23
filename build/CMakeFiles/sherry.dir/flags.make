@@ -46,3 +46,9 @@ CXX_INCLUDES = -I/root/sherry_project/sherry-master/. -I/root/sherry_project/she
 
 # Custom defines: CMakeFiles/sherry.dir/sherry/ota_subscribe_download.cc.o_DEFINES = __FILE__="sherry/ota_subscribe_download.cc"
 
+# Custom defines: CMakeFiles/sherry.dir/sherry/myfiber.cc.o_DEFINES = __FILE__="sherry/myfiber.cc"
+
+# Custom defines: CMakeFiles/sherry.dir/sherry/ota_manager.cc.o_DEFINES = __FILE__="sherry/ota_manager.cc"
+
+# Custom defines: CMakeFiles/sherry.dir/sherry/http/http_server.cc.o_DEFINES = __FILE__="sherry/http/http_server.cc"
+

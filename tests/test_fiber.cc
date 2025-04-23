@@ -17,12 +17,12 @@ void test_fiber(){
         SYLAR_LOG_INFO(g_logger)  << "main begin";
         sherry::Fiber::ptr fiber(new sherry::Fiber(run_in_fiber));
         
-        fiber->swapIn();
+        fiber->call();
         SYLAR_LOG_INFO(g_logger) << "main after swapIn";
-        fiber->swapIn();
+        fiber->call();
 
         SYLAR_LOG_INFO(g_logger) << "main after end";
-        fiber->swapIn();
+        fiber->call();
     }
     SYLAR_LOG_INFO(g_logger) << "main after end2";
 }
@@ -31,7 +31,7 @@ int main(int argc, char ** argv){
     sherry::Thread::SetName("main");
     
     std::vector<sherry::Thread::ptr> thrs;
-    for(int i = 0;i < 3;++i){
+    for(int i = 0;i < 1;++i){
         thrs.push_back(sherry::Thread::ptr(new sherry::Thread(&test_fiber, "name_" + std::to_string(i))));
     }
 

@@ -224,8 +224,8 @@ void MqttClient::delivery_complete(mqtt::delivery_token_ptr tok) {
 
 MqttClientManager::MqttClientManager(int port, const std::string& protocol, const std::string& host, OTAClientCallbackManager::ptr cb_mgr)
     :m_port(port)
-    ,m_protocol(std::move(protocol))
-    ,m_host(std::move(host))
+    ,m_protocol(protocol)
+    ,m_host(host)
     ,m_cbMgr(cb_mgr){
     m_clients.clear();
     m_client_num = 0;
