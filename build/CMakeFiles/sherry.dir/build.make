@@ -363,6 +363,32 @@ CMakeFiles/sherry.dir/sherry/http/http_server.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sherry.dir/sherry/http/http_server.cc.s"
 	/opt/rh/devtoolset-9/root/usr/bin/c++ $(CXX_DEFINES) -D__FILE__=\"sherry/http/http_server.cc\" $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/sherry_project/sherry-master/sherry/http/http_server.cc -o CMakeFiles/sherry.dir/sherry/http/http_server.cc.s
 
+CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.o: CMakeFiles/sherry.dir/flags.make
+CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.o: ../sherry/http/http_send_buffer.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.o"
+	/opt/rh/devtoolset-9/root/usr/bin/c++  $(CXX_DEFINES) -D__FILE__=\"sherry/http/http_send_buffer.cc\" $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.o -c /root/sherry_project/sherry-master/sherry/http/http_send_buffer.cc
+
+CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.i"
+	/opt/rh/devtoolset-9/root/usr/bin/c++ $(CXX_DEFINES) -D__FILE__=\"sherry/http/http_send_buffer.cc\" $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/sherry_project/sherry-master/sherry/http/http_send_buffer.cc > CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.i
+
+CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.s"
+	/opt/rh/devtoolset-9/root/usr/bin/c++ $(CXX_DEFINES) -D__FILE__=\"sherry/http/http_send_buffer.cc\" $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/sherry_project/sherry-master/sherry/http/http_send_buffer.cc -o CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.s
+
+CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o: CMakeFiles/sherry.dir/flags.make
+CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o: ../sherry/ota_http_command_dispatcher.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o"
+	/opt/rh/devtoolset-9/root/usr/bin/c++  $(CXX_DEFINES) -D__FILE__=\"sherry/ota_http_command_dispatcher.cc\" $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o -c /root/sherry_project/sherry-master/sherry/ota_http_command_dispatcher.cc
+
+CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.i"
+	/opt/rh/devtoolset-9/root/usr/bin/c++ $(CXX_DEFINES) -D__FILE__=\"sherry/ota_http_command_dispatcher.cc\" $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/sherry_project/sherry-master/sherry/ota_http_command_dispatcher.cc > CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.i
+
+CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.s"
+	/opt/rh/devtoolset-9/root/usr/bin/c++ $(CXX_DEFINES) -D__FILE__=\"sherry/ota_http_command_dispatcher.cc\" $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/sherry_project/sherry-master/sherry/ota_http_command_dispatcher.cc -o CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.s
+
 # Object files for target sherry
 sherry_OBJECTS = \
 "CMakeFiles/sherry.dir/sherry/address.cc.o" \
@@ -386,7 +412,9 @@ sherry_OBJECTS = \
 "CMakeFiles/sherry.dir/sherry/ota_subscribe_download.cc.o" \
 "CMakeFiles/sherry.dir/sherry/myfiber.cc.o" \
 "CMakeFiles/sherry.dir/sherry/ota_manager.cc.o" \
-"CMakeFiles/sherry.dir/sherry/http/http_server.cc.o"
+"CMakeFiles/sherry.dir/sherry/http/http_server.cc.o" \
+"CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.o" \
+"CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o"
 
 # External object files for target sherry
 sherry_EXTERNAL_OBJECTS =
@@ -413,9 +441,11 @@ sherry_EXTERNAL_OBJECTS =
 ../lib/libsherry.so: CMakeFiles/sherry.dir/sherry/myfiber.cc.o
 ../lib/libsherry.so: CMakeFiles/sherry.dir/sherry/ota_manager.cc.o
 ../lib/libsherry.so: CMakeFiles/sherry.dir/sherry/http/http_server.cc.o
+../lib/libsherry.so: CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.o
+../lib/libsherry.so: CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o
 ../lib/libsherry.so: CMakeFiles/sherry.dir/build.make
 ../lib/libsherry.so: CMakeFiles/sherry.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Linking CXX shared library ../lib/libsherry.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/root/sherry_project/sherry-master/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Linking CXX shared library ../lib/libsherry.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sherry.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

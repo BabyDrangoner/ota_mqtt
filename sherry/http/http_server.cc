@@ -1,18 +1,23 @@
 #include "http_server.h"
 #include "../address.h"
 
-
 namespace sherry{
 
 static Logger::ptr g_logger = SYLAR_LOG_NAME("system");
 
-HttpServer::HttpServer(IOManager::ptr io_mgr)
-    :m_running(false){
-    m_io_mgr = io_mgr;
+HttpServer::HttpServer(IOManager::ptr io_mgr, OTAManager::ptr ota_mgr)
+    :m_running(false)
+    ,m_io_mgr(io_mgr)
+    ,m_connection_id(0){
+    m_dispatcher = std::make_shared<OTAHttpCommandDispatcher>(ota_mgr);
+    
 }
 
 HttpServer::~HttpServer(){
     stop();
+    for(auto it : m_sockets){
+        it.second->close();
+    }
 }
 
 bool HttpServer::start(uint16_t port){
@@ -44,14 +49,25 @@ bool HttpServer::start(uint16_t port){
         auto client = m_listenSocket->accept();
         if(client){
             SYLAR_LOG_DEBUG(g_logger) << "client is not null";
-    
-            m_io_mgr->schedule([this, client](){
-                this->handleClient(client);
+            uint32_t client_id = m_connection_id++;
+            m_sockets[client_id] = client;
+            m_io_mgr->schedule([this, client_id, client](){
+                this->handleClient(client_id, client);
             });
             
         } 
     }
     return true;
+}
+
+void HttpServer::del_socket(uint32_t client_id){
+    MutexType::Lock lock(m_mutex);
+    auto it = m_sockets.find(client_id);
+    if(it == m_sockets.end()) return;
+    if(m_sockets[client_id]->isConnected()) {
+        m_sockets[client_id]->close();
+    }
+    m_sockets.erase(it);
 }
 
 void HttpServer::stop(){
@@ -65,7 +81,7 @@ void HttpServer::stop(){
     SYLAR_LOG_INFO(g_logger) << "HttpServer stopped.";
 }
 
-void HttpServer::handleClient(Socket::ptr client){
+void HttpServer::handleClient(uint32_t client_id, Socket::ptr client) {
     if (!client) {
         SYLAR_LOG_ERROR(g_logger) << "handleClient: client is null";
         return;
@@ -73,35 +89,44 @@ void HttpServer::handleClient(Socket::ptr client){
 
     char buffer[4096] = {0};
     int len = client->recv(buffer, sizeof(buffer) - 1);
-    if(len <= 0){
+    if (len <= 0) {
         SYLAR_LOG_WARN(g_logger) << "handleClient: recv failed, len=" << len;
         client->close();
+        del_socket(client_id);
         return;
     }
 
-    buffer[len] = '\0';  // ⚠️ 确保字符串安全终止（可选）
     std::string request(buffer);
     SYLAR_LOG_INFO(g_logger) << "Received:\n" << request;
 
-    if(request.find("GET") == 0){
-        std::string body = "<html><body><h1>Hello from HttpServer (Fiber)!</h1></body></html>";
-        std::stringstream ss;
-        ss << "HTTP/1.1 200 OK\r\n"
-           << "Content-Type: text/html\r\n"
-           << "Content-Length: " << body.size() << "\r\n"
-           << "Connection: close\r\n\r\n"
-           << body;
+    try {
+        // 先找 HTTP 报文头和 body 的分隔
+        size_t pos = request.find("\r\n\r\n");
+        if (pos == std::string::npos) {
+            SYLAR_LOG_ERROR(g_logger) << "handleClient: Invalid HTTP request format, missing header-body separator.";
+            client->close();
+            del_socket(client_id);
+            return;
+        }
 
-        std::string response = ss.str();
-        int sent = client->send(response.c_str(), response.size());
-        SYLAR_LOG_INFO(g_logger) << "Sent response: " << sent << " bytes";
-    } else {
-        std::string err = "HTTP/1.1 400 Bad Request\r\nConnection: close\r\n\r\n";
-        client->send(err.c_str(), err.size());
+        // 提取 body
+        std::string body = request.substr(pos + 4); // 跳过 "\r\n\r\n"
+        SYLAR_LOG_INFO(g_logger) << "Extracted body:\n" << body;
+
+        // 解析 body成JSON对象
+        nlohmann::json json_request = nlohmann::json::parse(body);
+
+        // 调用 dispatcher 处理 JSON命令
+        m_dispatcher->handle_command(json_request, client_id);
+
+    } catch (const std::exception& e) {
+        SYLAR_LOG_ERROR(g_logger) << "handleClient: JSON parse error: " << e.what();
+        client->close();
+        del_socket(client_id);
+        return;
     }
-
-    client->close();
 }
+
 
 
 

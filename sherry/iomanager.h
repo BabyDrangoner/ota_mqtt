@@ -5,6 +5,9 @@
 #include "timer.h"
 
 namespace sherry{
+
+#define MAX_EPOLL_EVENTS_NUM 64
+
 class IOManager : public Scheduler, public TimerManager{
 public:
     typedef std::shared_ptr<IOManager> ptr;

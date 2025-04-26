@@ -131,6 +131,32 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named test_http_server_client
+
+# Build rule for target.
+test_http_server_client: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_http_server_client
+.PHONY : test_http_server_client
+
+# fast build rule for target.
+test_http_server_client/fast:
+	$(MAKE) -f CMakeFiles/test_http_server_client.dir/build.make CMakeFiles/test_http_server_client.dir/build
+.PHONY : test_http_server_client/fast
+
+#=============================================================================
+# Target rules for targets named test_http_send_buffer
+
+# Build rule for target.
+test_http_send_buffer: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_http_send_buffer
+.PHONY : test_http_send_buffer
+
+# fast build rule for target.
+test_http_send_buffer/fast:
+	$(MAKE) -f CMakeFiles/test_http_send_buffer.dir/build.make CMakeFiles/test_http_send_buffer.dir/build
+.PHONY : test_http_send_buffer/fast
+
+#=============================================================================
 # Target rules for targets named test_ota_manager
 
 # Build rule for target.
@@ -526,6 +552,33 @@ sherry/hook.cc.s:
 	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/hook.cc.s
 .PHONY : sherry/hook.cc.s
 
+sherry/http/http_send_buffer.o: sherry/http/http_send_buffer.cc.o
+
+.PHONY : sherry/http/http_send_buffer.o
+
+# target to build an object file
+sherry/http/http_send_buffer.cc.o:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.o
+.PHONY : sherry/http/http_send_buffer.cc.o
+
+sherry/http/http_send_buffer.i: sherry/http/http_send_buffer.cc.i
+
+.PHONY : sherry/http/http_send_buffer.i
+
+# target to preprocess a source file
+sherry/http/http_send_buffer.cc.i:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.i
+.PHONY : sherry/http/http_send_buffer.cc.i
+
+sherry/http/http_send_buffer.s: sherry/http/http_send_buffer.cc.s
+
+.PHONY : sherry/http/http_send_buffer.s
+
+# target to generate assembly for a file
+sherry/http/http_send_buffer.cc.s:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.s
+.PHONY : sherry/http/http_send_buffer.cc.s
+
 sherry/http/http_server.o: sherry/http/http_server.cc.o
 
 .PHONY : sherry/http/http_server.o
@@ -687,6 +740,33 @@ sherry/ota_client_callback.s: sherry/ota_client_callback.cc.s
 sherry/ota_client_callback.cc.s:
 	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_client_callback.cc.s
 .PHONY : sherry/ota_client_callback.cc.s
+
+sherry/ota_http_command_dispatcher.o: sherry/ota_http_command_dispatcher.cc.o
+
+.PHONY : sherry/ota_http_command_dispatcher.o
+
+# target to build an object file
+sherry/ota_http_command_dispatcher.cc.o:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o
+.PHONY : sherry/ota_http_command_dispatcher.cc.o
+
+sherry/ota_http_command_dispatcher.i: sherry/ota_http_command_dispatcher.cc.i
+
+.PHONY : sherry/ota_http_command_dispatcher.i
+
+# target to preprocess a source file
+sherry/ota_http_command_dispatcher.cc.i:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.i
+.PHONY : sherry/ota_http_command_dispatcher.cc.i
+
+sherry/ota_http_command_dispatcher.s: sherry/ota_http_command_dispatcher.cc.s
+
+.PHONY : sherry/ota_http_command_dispatcher.s
+
+# target to generate assembly for a file
+sherry/ota_http_command_dispatcher.cc.s:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.s
+.PHONY : sherry/ota_http_command_dispatcher.cc.s
 
 sherry/ota_manager.o: sherry/ota_manager.cc.o
 
@@ -1120,6 +1200,33 @@ tests/test_hook.cc.s:
 	$(MAKE) -f CMakeFiles/test_hook.dir/build.make CMakeFiles/test_hook.dir/tests/test_hook.cc.s
 .PHONY : tests/test_hook.cc.s
 
+tests/test_http_send_buffer.o: tests/test_http_send_buffer.cc.o
+
+.PHONY : tests/test_http_send_buffer.o
+
+# target to build an object file
+tests/test_http_send_buffer.cc.o:
+	$(MAKE) -f CMakeFiles/test_http_send_buffer.dir/build.make CMakeFiles/test_http_send_buffer.dir/tests/test_http_send_buffer.cc.o
+.PHONY : tests/test_http_send_buffer.cc.o
+
+tests/test_http_send_buffer.i: tests/test_http_send_buffer.cc.i
+
+.PHONY : tests/test_http_send_buffer.i
+
+# target to preprocess a source file
+tests/test_http_send_buffer.cc.i:
+	$(MAKE) -f CMakeFiles/test_http_send_buffer.dir/build.make CMakeFiles/test_http_send_buffer.dir/tests/test_http_send_buffer.cc.i
+.PHONY : tests/test_http_send_buffer.cc.i
+
+tests/test_http_send_buffer.s: tests/test_http_send_buffer.cc.s
+
+.PHONY : tests/test_http_send_buffer.s
+
+# target to generate assembly for a file
+tests/test_http_send_buffer.cc.s:
+	$(MAKE) -f CMakeFiles/test_http_send_buffer.dir/build.make CMakeFiles/test_http_send_buffer.dir/tests/test_http_send_buffer.cc.s
+.PHONY : tests/test_http_send_buffer.cc.s
+
 tests/test_http_server.o: tests/test_http_server.cc.o
 
 .PHONY : tests/test_http_server.o
@@ -1146,6 +1253,33 @@ tests/test_http_server.s: tests/test_http_server.cc.s
 tests/test_http_server.cc.s:
 	$(MAKE) -f CMakeFiles/test_http_server.dir/build.make CMakeFiles/test_http_server.dir/tests/test_http_server.cc.s
 .PHONY : tests/test_http_server.cc.s
+
+tests/test_http_server_client.o: tests/test_http_server_client.cc.o
+
+.PHONY : tests/test_http_server_client.o
+
+# target to build an object file
+tests/test_http_server_client.cc.o:
+	$(MAKE) -f CMakeFiles/test_http_server_client.dir/build.make CMakeFiles/test_http_server_client.dir/tests/test_http_server_client.cc.o
+.PHONY : tests/test_http_server_client.cc.o
+
+tests/test_http_server_client.i: tests/test_http_server_client.cc.i
+
+.PHONY : tests/test_http_server_client.i
+
+# target to preprocess a source file
+tests/test_http_server_client.cc.i:
+	$(MAKE) -f CMakeFiles/test_http_server_client.dir/build.make CMakeFiles/test_http_server_client.dir/tests/test_http_server_client.cc.i
+.PHONY : tests/test_http_server_client.cc.i
+
+tests/test_http_server_client.s: tests/test_http_server_client.cc.s
+
+.PHONY : tests/test_http_server_client.s
+
+# target to generate assembly for a file
+tests/test_http_server_client.cc.s:
+	$(MAKE) -f CMakeFiles/test_http_server_client.dir/build.make CMakeFiles/test_http_server_client.dir/tests/test_http_server_client.cc.s
+.PHONY : tests/test_http_server_client.cc.s
 
 tests/test_iomanager.o: tests/test_iomanager.cc.o
 
@@ -1432,7 +1566,9 @@ help:
 	@echo "... test_config"
 	@echo "... test_fiber"
 	@echo "... test_hook"
+	@echo "... test_http_send_buffer"
 	@echo "... test_http_server"
+	@echo "... test_http_server_client"
 	@echo "... test_iomanager"
 	@echo "... test_myfiber"
 	@echo "... test_ota_manager"
@@ -1461,6 +1597,9 @@ help:
 	@echo "... sherry/hook.o"
 	@echo "... sherry/hook.i"
 	@echo "... sherry/hook.s"
+	@echo "... sherry/http/http_send_buffer.o"
+	@echo "... sherry/http/http_send_buffer.i"
+	@echo "... sherry/http/http_send_buffer.s"
 	@echo "... sherry/http/http_server.o"
 	@echo "... sherry/http/http_server.i"
 	@echo "... sherry/http/http_server.s"
@@ -1479,6 +1618,9 @@ help:
 	@echo "... sherry/ota_client_callback.o"
 	@echo "... sherry/ota_client_callback.i"
 	@echo "... sherry/ota_client_callback.s"
+	@echo "... sherry/ota_http_command_dispatcher.o"
+	@echo "... sherry/ota_http_command_dispatcher.i"
+	@echo "... sherry/ota_http_command_dispatcher.s"
 	@echo "... sherry/ota_manager.o"
 	@echo "... sherry/ota_manager.i"
 	@echo "... sherry/ota_manager.s"
@@ -1527,9 +1669,15 @@ help:
 	@echo "... tests/test_hook.o"
 	@echo "... tests/test_hook.i"
 	@echo "... tests/test_hook.s"
+	@echo "... tests/test_http_send_buffer.o"
+	@echo "... tests/test_http_send_buffer.i"
+	@echo "... tests/test_http_send_buffer.s"
 	@echo "... tests/test_http_server.o"
 	@echo "... tests/test_http_server.i"
 	@echo "... tests/test_http_server.s"
+	@echo "... tests/test_http_server_client.o"
+	@echo "... tests/test_http_server_client.i"
+	@echo "... tests/test_http_server_client.s"
 	@echo "... tests/test_iomanager.o"
 	@echo "... tests/test_iomanager.i"
 	@echo "... tests/test_iomanager.s"

@@ -35,6 +35,14 @@ public:
     void ota_notify(uint16_t device_type, struct OTAMessage& msg);
     void ota_stop_notify(uint16_t device_type);
 
+    void submit(uint16_t device_type
+               ,uint32_t device_no
+               ,const std::string& command
+               ,uint32_t client_id
+               ,const std::string& version = "");
+
+private:
+    bool get_notify_message(uint16_t device_type, const std::string& version, struct OTAMessage& msg);
 
 private:
     RWMutexType m_mutex;

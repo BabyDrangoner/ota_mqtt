@@ -147,4 +147,46 @@ void OTAManager::ota_stop_notify(uint16_t device_type){
                                  << " notifier has been stopped.";
 }
 
+void OTAManager::submit(uint16_t device_type, uint32_t device_no, const std::string& command, uint32_t client_id, const std::string& version){
+    if (command == "XXX"){
+        SYLAR_LOG_INFO(g_logger) << "device_type = " << device_type
+                                 << ", device_no = " << device_no
+                                 << ", command = " << command
+                                 << ", client_id = " << client_id;
+    }else if(command == "notify"){
+            // this->ota_notify(device_type, )
+        SYLAR_LOG_INFO(g_logger) << "device_type = " << device_type
+                                 << ", device_no = " << device_no
+                                 << ", command = " << command
+                                 << ", client_id = " << client_id;
+        OTAMessage msg;
+        if(!get_notify_message(device_type, version, msg)){
+            SYLAR_LOG_WARN(g_logger) << "device_type = " << device_type
+                                     << ", device_no = " << device_no
+                                     << ", command = " << command
+                                     << ", client_id = " << client_id
+                                     << ", has no version = " << version;
+            return;
+        }
+        ota_notify(device_type, msg);
+    }
+}
+
+bool OTAManager::get_notify_message(uint16_t device_type, const std::string& version, struct OTAMessage& msg){
+    
+    msg.name = std::to_string(device_type);
+    msg.version = std::move(version);
+    msg.time = getCurrentTimeString();
+    msg.file_name = "agsspds_20241110.zip";
+    msg.file_size = 6773120;
+    msg.url_path = "http://127.0.0.1:18882/download/ota/agsspds";
+    msg.md5_value = "ed076287532e86365e841e92bfc50d8c";
+    msg.launch_mode = 0;
+    msg.upgrade_mode = 1;
+
+    return true;
+
+}
+
+
 }

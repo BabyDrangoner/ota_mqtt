@@ -1,4 +1,6 @@
 /root/sherry_project/sherry-master/build/CMakeFiles/edit_cache.dir
+/root/sherry_project/sherry-master/build/CMakeFiles/test_http_server_client.dir
+/root/sherry_project/sherry-master/build/CMakeFiles/test_http_send_buffer.dir
 /root/sherry_project/sherry-master/build/CMakeFiles/test_ota_manager.dir
 /root/sherry_project/sherry-master/build/CMakeFiles/test_myfiber.dir
 /root/sherry_project/sherry-master/build/CMakeFiles/test_ota_query.dir
