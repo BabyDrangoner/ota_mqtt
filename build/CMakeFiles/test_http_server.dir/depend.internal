@@ -39,6 +39,7 @@ CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o
  /root/sherry_project/sherry-master/sherry/address.h
  /root/sherry_project/sherry-master/sherry/config.h
  /root/sherry_project/sherry-master/sherry/fiber.h
+ /root/sherry_project/sherry-master/sherry/http/http_send_buffer.h
  /root/sherry_project/sherry-master/sherry/http/http_server.h
  /root/sherry_project/sherry-master/sherry/iomanager.h
  /root/sherry_project/sherry-master/sherry/log.h
@@ -50,6 +51,8 @@ CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o
  /root/sherry_project/sherry-master/sherry/ota_http_command_dispatcher.h
  /root/sherry_project/sherry-master/sherry/ota_manager.h
  /root/sherry_project/sherry-master/sherry/ota_notifier.h
+ /root/sherry_project/sherry-master/sherry/ota_query_responder.h
+ /root/sherry_project/sherry-master/sherry/ota_version_message.h
  /root/sherry_project/sherry-master/sherry/scheduler.h
  /root/sherry_project/sherry-master/sherry/sherry.h
  /root/sherry_project/sherry-master/sherry/singleton.h

@@ -50,10 +50,22 @@ void OTAHttpCommandDispatcher::handle_command(const nlohmann::json& j, int conne
     //                           << "device_no = " << device_no;
     // 成功解析，提交任务
     if(cmd == "notify"){
+        if(!j.contains("version")){
+            SYLAR_LOG_WARN(g_logger) << "notify: device_type " << device_type
+                                     << " not gives version";
+            return; 
+        }
         std::string version = j["version"];
         m_ota_manager->submit(device_type, device_no, cmd, connection_id, version);
-    } else {
-        m_ota_manager->submit(device_type, device_no, cmd, connection_id);
+        
+    } else if(cmd == "query"){
+        if(!j.contains("action")){
+            SYLAR_LOG_WARN(g_logger) << "query: device_type " << device_type
+                                     << " not gives action";
+            return; 
+        }
+        std::string action = j["action"];
+        m_ota_manager->submit(device_type, device_no, cmd, connection_id, action);
     }
 }
 

@@ -36,7 +36,7 @@ void test01(){
         }
     });
     
-    oqr->publish_query(name, action, 1, true);
+    oqr->publish_query(action, 1, true);
     sleep(1);
     oqr->subscribe_responder(pub_topic, sub_topic1, 1);
     oqr->subscribe_responder(pub_topic, sub_topic2, 1);

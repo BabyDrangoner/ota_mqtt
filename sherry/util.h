@@ -23,6 +23,7 @@ std::string BacktraceToString(int size = 64, int skip = 2, const std::string & p
 uint64_t GetCurrentMS();
 uint64_t GetCurrentUS();
 
+std::stringstream FormatOtaPrex(uint16_t device_type, uint32_t device_no=0);
 
 }
 

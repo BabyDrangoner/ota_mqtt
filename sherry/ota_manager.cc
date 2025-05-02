@@ -1,15 +1,18 @@
 #include "sherry.h"
 #include "ota_manager.h"
 #include "iomanager.h"
+#include "../include/json/json.hpp"
+#include "util.h"
 
 namespace sherry{
 
 static Logger::ptr g_logger = SYLAR_LOG_NAME("system");
 
-OTAManager::OTAManager(const std::string& protocol, const std::string& host, int port)
+OTAManager::OTAManager(const std::string& protocol, const std::string& host, int port, HttpSendBuffer::ptr http_send_buffer)
     :m_protocol(protocol)
     ,m_host(host)
-    ,m_port(port){
+    ,m_port(port)
+    ,m_http_send_buffer(http_send_buffer){
     m_timer_mgr = std::make_shared<IOManager>(1, false, "OTA-Timer");
     m_device_types_counts = 0;
     m_device_counts = 0;
@@ -121,7 +124,7 @@ void OTAManager::ota_notify(uint16_t device_type, struct OTAMessage& msg){
     }
 
     std::stringstream topic;
-    topic << "ota/" << device_type << "/notifier";
+    topic << "/ota/" << device_type << "/notify";
 
     RWMutexType::WriteLock lock(m_notifier_mutex);
     OTANotifier::ptr notifier = std::make_shared<OTANotifier>(device_type, m_timer_mgr, topic.str(), m_client_mgr, 1000);
@@ -130,7 +133,6 @@ void OTAManager::ota_notify(uint16_t device_type, struct OTAMessage& msg){
                                      << " start to notify.";
     notifier->set_message(msg);
     notifier->start();
-
 }
 
 void OTAManager::ota_stop_notify(uint16_t device_type){
@@ -147,7 +149,74 @@ void OTAManager::ota_stop_notify(uint16_t device_type){
                                  << " notifier has been stopped.";
 }
 
-void OTAManager::submit(uint16_t device_type, uint32_t device_no, const std::string& command, uint32_t client_id, const std::string& version){
+void OTAManager::ota_query(uint16_t device_type, uint32_t device_no, const std::string& action, int connect_id){
+    std::stringstream pub_stream, sub_stream;
+    pub_stream = FormatOtaPrex(device_type, device_no);
+    sub_stream = FormatOtaPrex(device_type, device_no);
+
+    pub_stream << "/query/";
+    sub_stream << "/responder/";
+
+    std::string pub_topic = std::move(pub_stream.str());
+    std::string sub_topic = std::move(sub_stream.str());
+
+    OTAQueryResponder::ptr oqr = std::make_shared<OTAQueryResponder>(device_type, device_no, m_client_mgr);
+    m_callback_mgr->regist_callback(sub_topic
+                                    ,[this, oqr, pub_topic, device_type, device_no, action, connect_id]
+                                    (const std::string& topic, const std::string& payload){
+
+        oqr->subscribe_on_success(pub_topic, topic);
+        try{
+            SYLAR_LOG_DEBUG(g_logger) << payload;
+
+            nlohmann::json json_response = nlohmann::json::parse(payload);
+            if(!json_response.contains("query_details") 
+                      || !json_response.contains("device_type")
+                      || !json_response.contains("device_no")){
+                SYLAR_LOG_WARN(g_logger) << "Query device:" << device_type
+                                         << "/" << device_no 
+                                         << " details is not satisfied.";
+                return;
+            }
+            
+            if(!json_response["query_details"].contains("action") || json_response["query_details"]["action"] != action){
+                SYLAR_LOG_WARN(g_logger) << "Query device:" << device_type
+                                          << "/" << device_no
+                                          << " response action: " << json_response["action"]
+                                          << " is not same with query action: " << action;
+                return;
+            } 
+            if(json_response["device_type"] != device_type){
+                SYLAR_LOG_WARN(g_logger) << "Query device:" << device_type
+                                          << "/" << device_no
+                                          << " response device_type: " << json_response["device_type"]
+                                          << " is not same with query device_type: " << device_type;
+                return;
+            } 
+            if(json_response["device_no"] != device_no){
+                SYLAR_LOG_WARN(g_logger) << "Query device:" << device_type
+                                          << "/" << device_no
+                                          << " response device_no: " << json_response["device_no"]
+                                          << " is not same with query device_no: " << device_no;
+                return;
+            }
+            m_http_send_buffer->addData(connect_id, payload);
+
+        } catch(const std::exception& e){
+            SYLAR_LOG_WARN(g_logger) << "Query device:" << device_type
+                                         << "/" << device_no 
+                                         << "error, error is " << e.what();
+            return;
+        }
+        
+
+    });
+    oqr->publish_query(action, 1, true);
+    oqr->subscribe_responder(pub_topic, sub_topic, 1);
+
+}
+
+void OTAManager::submit(uint16_t device_type, uint32_t device_no, const std::string& command, int client_id, const std::string& detail){
     if (command == "XXX"){
         SYLAR_LOG_INFO(g_logger) << "device_type = " << device_type
                                  << ", device_no = " << device_no
@@ -160,15 +229,17 @@ void OTAManager::submit(uint16_t device_type, uint32_t device_no, const std::str
                                  << ", command = " << command
                                  << ", client_id = " << client_id;
         OTAMessage msg;
-        if(!get_notify_message(device_type, version, msg)){
+        if(!get_notify_message(device_type, detail, msg)){
             SYLAR_LOG_WARN(g_logger) << "device_type = " << device_type
                                      << ", device_no = " << device_no
                                      << ", command = " << command
                                      << ", client_id = " << client_id
-                                     << ", has no version = " << version;
+                                     << ", has no version = " << detail;
             return;
         }
         ota_notify(device_type, msg);
+    } else if(command == "query"){
+        ota_query(device_type, device_no, detail, client_id);
     }
 }
 

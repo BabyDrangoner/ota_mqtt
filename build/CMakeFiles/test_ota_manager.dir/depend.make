@@ -34,9 +34,11 @@ CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../include/mqtt/tok
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../include/mqtt/topic.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../include/mqtt/types.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../include/mqtt/will_options.h
+CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../include/json/json.hpp
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/address.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/config.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/fiber.h
+CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/http/http_send_buffer.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/log.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/macro.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/mqtt_client.h
@@ -45,9 +47,12 @@ CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/noncopyab
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/ota_client_callback.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/ota_manager.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/ota_notifier.h
+CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/ota_query_responder.h
+CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/ota_version_message.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/scheduler.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/sherry.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/singleton.h
+CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/socket.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/thread.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/timer.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/util.h

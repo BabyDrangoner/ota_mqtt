@@ -38,6 +38,7 @@ CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../include/json/jso
 CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/address.h
 CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/config.h
 CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/fiber.h
+CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/http/http_send_buffer.h
 CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/http/http_server.h
 CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/iomanager.h
 CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/log.h
@@ -49,6 +50,8 @@ CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/ota_clien
 CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/ota_http_command_dispatcher.h
 CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/ota_manager.h
 CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/ota_notifier.h
+CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/ota_query_responder.h
+CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/ota_version_message.h
 CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/scheduler.h
 CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/sherry.h
 CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/singleton.h

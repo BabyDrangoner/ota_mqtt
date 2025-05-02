@@ -894,6 +894,20 @@ memory
 thread.h
 /root/sherry_project/sherry-master/sherry/thread.h
 
+/root/sherry_project/sherry-master/sherry/http/http_send_buffer.h
+../sherry.h
+/root/sherry_project/sherry-master/sherry/sherry.h
+../socket.h
+/root/sherry_project/sherry-master/sherry/socket.h
+../../include/json/json.hpp
+/root/sherry_project/sherry-master/include/json/json.hpp
+unordered_map
+-
+vector
+-
+memory
+-
+
 /root/sherry_project/sherry-master/sherry/http/http_server.h
 ../sherry.h
 /root/sherry_project/sherry-master/sherry/sherry.h
@@ -901,10 +915,12 @@ thread.h
 /root/sherry_project/sherry-master/sherry/socket.h
 ../scheduler.h
 /root/sherry_project/sherry-master/sherry/scheduler.h
-../iomanager.h
-/root/sherry_project/sherry-master/sherry/iomanager.h
+../timer.h
+/root/sherry_project/sherry-master/sherry/timer.h
 ../ota_http_command_dispatcher.h
 /root/sherry_project/sherry-master/sherry/ota_http_command_dispatcher.h
+sys/epoll.h
+-
 memory.h
 -
 atomic
@@ -1001,12 +1017,16 @@ scheduler.h
 /root/sherry_project/sherry-master/sherry/scheduler.h
 ota_notifier.h
 /root/sherry_project/sherry-master/sherry/ota_notifier.h
+ota_query_responder.h
+/root/sherry_project/sherry-master/sherry/ota_query_responder.h
 mqtt_client.h
 /root/sherry_project/sherry-master/sherry/mqtt_client.h
 timer.h
 /root/sherry_project/sherry-master/sherry/timer.h
 ota_client_callback.h
 /root/sherry_project/sherry-master/sherry/ota_client_callback.h
+./http/http_send_buffer.h
+/root/sherry_project/sherry-master/sherry/http/http_send_buffer.h
 unordered_map
 -
 unordered_set
@@ -1021,6 +1041,22 @@ string
 -
 memory
 -
+
+/root/sherry_project/sherry-master/sherry/ota_query_responder.h
+mqtt_client.h
+/root/sherry_project/sherry-master/sherry/mqtt_client.h
+ota_version_message.h
+/root/sherry_project/sherry-master/sherry/ota_version_message.h
+string
+-
+memory
+-
+
+/root/sherry_project/sherry-master/sherry/ota_version_message.h
+iostream
+-
+sherry.h
+/root/sherry_project/sherry-master/sherry/sherry.h
 
 /root/sherry_project/sherry-master/sherry/scheduler.h
 vector
@@ -1115,4 +1151,6 @@ string
 /root/sherry_project/sherry-master/sherry/iomanager.h
 ../sherry/ota_manager.h
 /root/sherry_project/sherry-master/sherry/ota_manager.h
+../sherry/http/http_send_buffer.h
+/root/sherry_project/sherry-master/sherry/http/http_send_buffer.h
 

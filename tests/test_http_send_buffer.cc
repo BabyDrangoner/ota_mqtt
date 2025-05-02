@@ -1,49 +1,54 @@
-#include "../sherry/http/http_send_buffer.h"
+#include "../sherry/http/http_send_buffer.h"  
 #include <iostream>
-#include <memory>
 
 using namespace sherry;
 
 int main() {
-    HttpSendBuffer::ptr sendBuffer = std::make_shared<HttpSendBuffer>();
+    HttpSendBuffer buffer;
 
-    uint32_t topic1 = 1;
-    uint32_t topic2 = 2;
+    std::string json1 = R"({
+        "device_type": 1,
+        "device_no": 101,
+        "name": "main_board",
+        "download_details": {"version": "1.0.0"},
+        "query_details": {"status": "idle"}
+    })";
 
-    // 给socket1添加3条数据
-    for (int i = 0; i < 3; ++i) {
-        auto data = std::make_shared<OTAData>();
-        data->m_data = 100 + i;
-        sendBuffer->addData(topic1, data);
-    }
+    std::string json2 = R"({
+        "device_type": 1,
+        "device_no": 101,
+        "name": "sensor_unit",
+        "download_details": {"version": "2.0.0"},
+        "query_details": {"status": "active"}
+    })";
 
-    // 给socket2添加2条数据
-    for (int i = 0; i < 2; ++i) {
-        auto data = std::make_shared<OTAData>();
-        data->m_data = 200 + i;
-        sendBuffer->addData(topic2, data);
-    }
+    std::string json3 = R"({
+        "device_type": 2,
+        "device_no": 202,
+        "name": "core_ctrl",
+        "download_details": {"version": "3.0.0"},
+        "query_details": {"status": "updating"}
+    })";
 
-    // 取出socket1的数据
-    auto datas1 = sendBuffer->getData(topic1);
-    std::cout << "Socket 1 Data:" << std::endl;
-    for (auto& d : datas1) {
-        std::cout << "  OTAData: " << d->m_data << std::endl;
-    }
+    // 添加数据
+    buffer.addData(1, json1);
+    buffer.addData(1, json2);
+    buffer.addData(2, json3);
 
-    // 取出socket2的数据
-    auto datas2 = sendBuffer->getData(topic2);
-    std::cout << "Socket 2 Data:" << std::endl;
-    for (auto& d : datas2) {
-        std::cout << "  OTAData: " << d->m_data << std::endl;
-    }
+    // 获取数据（应包含两个设备信息）
+    std::cout << "=== GetData for key 1 ===" << std::endl;
+    std::string out1 = buffer.getData(1);
+    std::cout << out1 << std::endl;
 
-    // 再次取，确认已经清空
-    auto datas1_empty = sendBuffer->getData(topic1);
-    std::cout << "Socket 1 Data after fetch again, size: " << datas1_empty.size() << std::endl;
+    // 获取后清空，再次获取应为空
+    std::cout << "=== GetData for key 1 again (should be empty) ===" << std::endl;
+    std::string out1_again = buffer.getData(1);
+    std::cout << out1_again << std::endl;
 
-    auto datas2_empty = sendBuffer->getData(topic2);
-    std::cout << "Socket 2 Data after fetch again, size: " << datas2_empty.size() << std::endl;
+    // 另一个 key 获取
+    std::cout << "=== GetData for key 2 ===" << std::endl;
+    std::string out2 = buffer.getData(2);
+    std::cout << out2 << std::endl;
 
     return 0;
 }

@@ -58,5 +58,11 @@ uint64_t GetCurrentUS(){
     return tv.tv_sec * 1000 * 1000ul + tv.tv_usec;
 }
 
+std::stringstream FormatOtaPrex(uint16_t device_type, uint32_t device_no){
+    std::stringstream ss;
+    ss << "/ota/" << device_type;
+    if(device_no != 0) ss << "/" << device_no;  
+    return ss;
+}
 
 }

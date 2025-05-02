@@ -1,6 +1,7 @@
 #include "ota_query_responder.h"
 #include "log.h"
 #include "../include/json/json.hpp"
+#include "util.h"
 
 #include <functional>
 
@@ -15,22 +16,22 @@ OTAQueryResponder::OTAQueryResponder(int device_type, int device_no, MqttClientM
     m_client = m_client_manager->get_client(device_type);
 }
 
-std::string OTAQueryResponder::format_payload(const std::string& name, const std::string& action){
+std::string OTAQueryResponder::format_payload(const std::string& action){
     nlohmann::json j = {
-        {"name", name},
         {"action", action},
         {"time", getCurrentTimeString()}
     };
     return j.dump();
 }
 
-void OTAQueryResponder::publish_query(const std::string& name, const std::string& action, int qos, bool retain){
+void OTAQueryResponder::publish_query(const std::string& action, int qos, bool retain){
     
-    std::string topic("/ota/");
-    topic = topic + name;
-    topic += "/query/";
+    std::stringstream ss = FormatOtaPrex(m_device_type, m_device_no);
+    ss << "/query/";
 
-    std::string payload = format_payload(name, action);
+    std::string topic = std::move(ss.str());
+
+    std::string payload = format_payload(action);
 
     {
         RWMutexType::ReadLock lock(m_mutex);
@@ -41,7 +42,6 @@ void OTAQueryResponder::publish_query(const std::string& name, const std::string
 
             if(!m_client->get_isconnected()){
                 SYLAR_LOG_ERROR(g_logger) << "client is diconnect"
-                                          << " name = " << name
                                           << ", action = " << action
                                           << ", can not query."; 
                 return;
@@ -58,7 +58,6 @@ void OTAQueryResponder::publish_query(const std::string& name, const std::string
             SYLAR_LOG_WARN(g_logger) << "client is null";
             if(!m_client_manager){
                 SYLAR_LOG_ERROR(g_logger) << "client manager is null."
-                                          << " name = " << name
                                           << ", action = " << action
                                           << ", can not query.";
                 return;
@@ -67,7 +66,6 @@ void OTAQueryResponder::publish_query(const std::string& name, const std::string
             
             if(!m_client){
                 SYLAR_LOG_WARN(g_logger) << "client is null."
-                                         << " name = " << name
                                          << ", action = " << action
                                          << ", can not query.";
                 return;
@@ -76,7 +74,6 @@ void OTAQueryResponder::publish_query(const std::string& name, const std::string
             m_client->connect(true);
             if(!m_client->get_isconnected()){
                 SYLAR_LOG_ERROR(g_logger) << "client is diconnect"
-                                          << " name = " << name
                                           << ", action = " << action
                                           << ", can not query."; 
                 return;

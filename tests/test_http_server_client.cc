@@ -29,7 +29,7 @@ int main() {
     }
 
     // 要发送的 JSON body
-    std::string body = R"({"command":"notify","device_type":1,"device_no":1,"version":"6.0.0.1"})";
+    std::string body = R"({"command":"query","device_type":1,"device_no":1,"action":"getVersion"})";
     SYLAR_LOG_INFO(g_logger) << "Extracted body:\n" << body;
     nlohmann::json j = nlohmann::json::parse(body);
     // 构造完整HTTP请求

@@ -4,39 +4,93 @@
 #include "../sherry.h"
 #include "../socket.h"
 #include "../scheduler.h"
-#include "../iomanager.h"
+#include "../timer.h"
 #include "../ota_http_command_dispatcher.h"
 
+#include <sys/epoll.h>
 #include <memory.h>
 #include <atomic>
 
 namespace sherry{
 
-class HttpServer{
+class HttpServer : public Scheduler, public TimerManager{
 public:
     typedef std::shared_ptr<HttpServer> ptr;
     typedef Mutex MutexType;
 
-    HttpServer(IOManager::ptr io_mgr, OTAManager::ptr ota_mgr=nullptr);
+    enum Event {
+        NONE = 0x0,
+        READ = 0x1,
+        WRITE = 0x4,
+
+    };
+
+    HttpServer(size_t threads, bool use_caller, const std::string & name, OTAManager::ptr ota_mgr=nullptr);
     ~HttpServer();
+
+    int addEvent(int fd, Event event, Socket::ptr sock=nullptr, std::function<void()> cb = nullptr);
+    bool delEvent(int fd, Event event);
+    bool cancelEvent(int fd, Event event);
+
+    bool cancelAll(int fd);
 
     // 启动监听服务
     bool start(uint16_t port);
     void stop();
 
-private:
-    void handleClient(uint32_t client_id, Socket::ptr client);  // 每个连接的处理
-    void del_socket(uint32_t client_id);
+    static HttpServer* GetThis();
+
+
+protected:
+
+
+    void tickle() override;
+    bool stopping() override;
+    bool stopping(uint64_t & timeout);
+    void idle() override;
+    void onTimerInsertedAtFront() override;
+
+    void contextResize(size_t size);
 
 private:
-    MutexType m_mutex;
+    void handleClient(Socket::ptr client);  // 每个连接的处理
+
+private:
+    struct FdContext{
+        typedef Mutex MutexType;
+        struct EventContext{
+            Scheduler* scheduler = nullptr;    // 事件执行的scheduler
+            Fiber::ptr fiber;                  // 事件协程
+            std::function<void()> cb;          // 事件的回调函数
+        };
+
+        EventContext & getContext(Event event);
+        void resetContext(EventContext & ctx);
+        void triggerEvent(Event event);
+
+        int fd;               // 事件关联的句柄
+        // std::weak_ptr<Socket> sock;
+        Socket::ptr sock;
+        EventContext read;    // 读事件
+        EventContext write;   // 写事件
+        Event events = NONE; // 已经注册的事件
+        MutexType mutex;
+    };
+
+    RWMutexType m_mutex;
     std::atomic<bool> m_running;  // 控制server是否运行
-    IOManager::ptr m_io_mgr;
     OTAHttpCommandDispatcher::ptr m_dispatcher;
     Socket::ptr m_listenSocket;       // 保存监听socket
-    std::atomic<uint32_t> m_connection_id;
-    std::unordered_map<uint32_t, Socket::ptr> m_sockets;
 
+private:
+    int m_epfd = 0;
+    int m_tickleFds[2];
+
+    std::atomic<size_t> m_pendingEventCount = {0};
+    std::vector<FdContext*> m_fdContexts;
+
+public:
+    HttpSendBuffer::ptr m_send_buffer;
 };
 
 }

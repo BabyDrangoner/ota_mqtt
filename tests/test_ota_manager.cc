@@ -1,6 +1,7 @@
 #include "../sherry/sherry.h"
 #include "../sherry/ota_manager.h"
 #include "../sherry/log.h"
+#include "../sherry/http/http_send_buffer.h"
 
 static sherry::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
 
@@ -38,8 +39,19 @@ void test_ota_manager_notifier(){
     }
 }
 
+void test_ota_manager_query(){
+    sherry::HttpSendBuffer::ptr http_send_buffer = std::make_shared<sherry::HttpSendBuffer>();    
+    sherry::OTAManager::ptr ota_mgr = std::make_shared<sherry::OTAManager>(protocol, host, port, http_send_buffer);
+    ota_mgr->add_device(device_type, 1);
+    ota_mgr->ota_query(device_type, 1, "version", 0);
+
+    while(1);
+
+}
+
 int main(){
-    test_ota_manager_notifier();
+    // test_ota_manager_notifier();
+    test_ota_manager_query();
     return 0;
 }
 
