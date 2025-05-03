@@ -82,12 +82,16 @@ private:
     OTAData m_data;
 };
 
+class HttpServer;
+
 class HttpSendBuffer {
 public:
     typedef std::shared_ptr<HttpSendBuffer> ptr;
     typedef Mutex MutexType;
 
-    HttpSendBuffer() = default;
+    HttpSendBuffer(){}
+    HttpSendBuffer(HttpServer* server);
+
 
     ~HttpSendBuffer() {
         m_mp.clear();
@@ -100,6 +104,7 @@ public:
 private:
     MutexType m_mutex;
     std::unordered_map<int, HttpSocketBuffer::ptr> m_mp;
+    HttpServer* m_server;
 };
 
 }

@@ -6,6 +6,7 @@
 #include "../scheduler.h"
 #include "../timer.h"
 #include "../ota_http_command_dispatcher.h"
+#include "http_send_buffer.h"
 
 #include <sys/epoll.h>
 #include <memory.h>
@@ -13,7 +14,8 @@
 
 namespace sherry{
 
-class HttpServer : public Scheduler, public TimerManager{
+class HttpServer : public Scheduler, public TimerManager, public std::enable_shared_from_this<HttpServer>{
+friend class HttpSendBuffer;
 public:
     typedef std::shared_ptr<HttpServer> ptr;
     typedef Mutex MutexType;
@@ -28,7 +30,7 @@ public:
     HttpServer(size_t threads, bool use_caller, const std::string & name, OTAManager::ptr ota_mgr=nullptr);
     ~HttpServer();
 
-    int addEvent(int fd, Event event, Socket::ptr sock=nullptr, std::function<void()> cb = nullptr);
+    int addEvent(int fd, Event event, Socket::ptr sock=nullptr, std::function<void()> cb = nullptr, bool persistent=false);
     bool delEvent(int fd, Event event);
     bool cancelEvent(int fd, Event event);
 
@@ -42,7 +44,6 @@ public:
 
 
 protected:
-
 
     void tickle() override;
     bool stopping() override;
@@ -62,6 +63,7 @@ private:
             Scheduler* scheduler = nullptr;    // 事件执行的scheduler
             Fiber::ptr fiber;                  // 事件协程
             std::function<void()> cb;          // 事件的回调函数
+            bool persistent;
         };
 
         EventContext & getContext(Event event);
@@ -90,7 +92,7 @@ private:
     std::vector<FdContext*> m_fdContexts;
 
 public:
-    HttpSendBuffer::ptr m_send_buffer;
+    std::shared_ptr<HttpSendBuffer> m_send_buffer;
 };
 
 }

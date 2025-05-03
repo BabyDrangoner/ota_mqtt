@@ -3,16 +3,17 @@
 #include "iomanager.h"
 #include "../include/json/json.hpp"
 #include "util.h"
+#include "./http/http_send_buffer.h"
 
 namespace sherry{
 
 static Logger::ptr g_logger = SYLAR_LOG_NAME("system");
 
-OTAManager::OTAManager(const std::string& protocol, const std::string& host, int port, HttpSendBuffer::ptr http_send_buffer)
+OTAManager::OTAManager(const std::string& protocol, const std::string& host, int port, std::shared_ptr<HttpSendBuffer> buffer)
     :m_protocol(protocol)
     ,m_host(host)
-    ,m_port(port)
-    ,m_http_send_buffer(http_send_buffer){
+    ,m_port(port),
+    m_http_send_buffer(buffer){
     m_timer_mgr = std::make_shared<IOManager>(1, false, "OTA-Timer");
     m_device_types_counts = 0;
     m_device_counts = 0;

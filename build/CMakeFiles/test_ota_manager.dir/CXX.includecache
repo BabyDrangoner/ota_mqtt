@@ -993,8 +993,6 @@ timer.h
 /root/sherry_project/sherry-master/sherry/timer.h
 ota_client_callback.h
 /root/sherry_project/sherry-master/sherry/ota_client_callback.h
-./http/http_send_buffer.h
-/root/sherry_project/sherry-master/sherry/http/http_send_buffer.h
 unordered_map
 -
 unordered_set

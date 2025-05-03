@@ -52,10 +52,11 @@ set(LIB_SRC
     sherry/ota_message.cc
     sherry/ota_subscribe_download.cc
     sherry/myfiber.cc
-    sherry/ota_manager.cc
     sherry/http/http_server.cc
     sherry/http/http_send_buffer.cc
+    sherry/ota_manager.cc
     sherry/ota_http_command_dispatcher.cc
+    
     
 )
 

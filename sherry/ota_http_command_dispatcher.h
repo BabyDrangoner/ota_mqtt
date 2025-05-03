@@ -7,6 +7,8 @@
 
 namespace sherry{
 
+class OTAManager;
+
 class OTAHttpCommandDispatcher{
 public:
     typedef std::shared_ptr<OTAHttpCommandDispatcher> ptr;

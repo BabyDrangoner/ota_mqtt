@@ -919,6 +919,8 @@ memory
 /root/sherry_project/sherry-master/sherry/timer.h
 ../ota_http_command_dispatcher.h
 /root/sherry_project/sherry-master/sherry/ota_http_command_dispatcher.h
+http_send_buffer.h
+/root/sherry_project/sherry-master/sherry/http/http_send_buffer.h
 sys/epoll.h
 -
 memory.h
@@ -1025,8 +1027,6 @@ timer.h
 /root/sherry_project/sherry-master/sherry/timer.h
 ota_client_callback.h
 /root/sherry_project/sherry-master/sherry/ota_client_callback.h
-./http/http_send_buffer.h
-/root/sherry_project/sherry-master/sherry/http/http_send_buffer.h
 unordered_map
 -
 unordered_set

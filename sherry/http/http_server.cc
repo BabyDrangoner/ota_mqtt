@@ -11,7 +11,7 @@ static Logger::ptr g_logger = SYLAR_LOG_NAME("system");
 HttpServer::HttpServer(size_t threads, bool use_caller, const std::string & name, OTAManager::ptr ota_mgr)
     :Scheduler(threads, use_caller, name)
     ,m_running(false){
-    m_send_buffer = std::make_shared<HttpSendBuffer>();
+    m_send_buffer = std::make_shared<HttpSendBuffer>(this);
     ota_mgr->set_send_buffer(m_send_buffer);
     m_dispatcher = std::make_shared<OTAHttpCommandDispatcher>(ota_mgr);
 
@@ -74,17 +74,19 @@ bool HttpServer::start(uint16_t port){
     SYLAR_LOG_INFO(g_logger) << "HttpServer started on port " << port
                              << ".";
     m_running = true;
-    addEvent(m_listenSocket->getSocket(), HttpServer::READ, m_listenSocket, [this](){
-        auto client = m_listenSocket->accept();
+    HttpServer::ptr self = shared_from_this();
+    addEvent(m_listenSocket->getSocket(), HttpServer::READ, m_listenSocket, [self](){
+        auto client = self->m_listenSocket->accept();
         if(client){
             SYLAR_LOG_DEBUG(g_logger) << "client is not null";
             int cli_fd = client->getSocket();
-            addEvent(cli_fd, HttpServer::READ, client, ([this, client](){
-                this->handleClient(client);
-            }));
+
+            self->addEvent(cli_fd, HttpServer::READ, client, ([self, client](){
+                self->handleClient(client);
+            }), true);
             
         } 
-    });
+    }, true);
     
     return true;
 }
@@ -95,6 +97,17 @@ void HttpServer::idle(){
         delete[] ptr;
     });
     while(true){
+        SYLAR_LOG_INFO(g_logger) << "idle()";
+
+        // SYLAR_LOG_DEBUG(g_logger) << "listenSocket use count: " << m_listenSocket.use_count();
+        // FdContext* listent_ctx =  m_fdContexts[m_listenSocket->getSocket()];
+        // SYLAR_LOG_DEBUG(g_logger) << "listen ctx persistent: " << listent_ctx->getContext(READ).persistent;
+        // if(fcntl(m_listenSocket->getSocket(), F_GETFD) != -1 || errno != EBADF){
+        //     SYLAR_LOG_DEBUG(g_logger) << "listent fd is open";
+        // } else {
+        //     SYLAR_LOG_DEBUG(g_logger) << "listent fd is not open";
+        // }
+
         uint64_t next_timeout = 0;
         if(stopping(next_timeout)){
             if(next_timeout == ~0ull){
@@ -121,30 +134,19 @@ void HttpServer::idle(){
         std::vector<std::function<void()> > cbs;
         listExpiredCb(cbs);
 
-        for(FdContext* fd_c : m_fdContexts){
-            Socket::ptr sock = fd_c->sock;
-            if(!sock){
-                continue;
-            }
+        // for(FdContext* fd_c : m_fdContexts){
+        //     Socket::ptr sock = fd_c->sock;
+        //     if(!sock){
+        //         continue;
+        //     }
 
-            if(!sock->isConnected()){
-                fd_c->sock = nullptr;
-                std::string data = m_send_buffer->getData(fd_c->fd);
-                continue;
-            }
+        //     if(!sock->isConnected()){
+        //         fd_c->sock = nullptr;
+        //         continue;
+        //     }
 
-            std::string data = m_send_buffer->getData(fd_c->fd);
-            SYLAR_LOG_DEBUG(g_logger) << "idle: " << data;
-
-            if(data != ""){
-                
-                cbs.emplace_back([data, sock]{
-                    sock->send(data.data(), data.size(), 0);
-                });
-
-                SYLAR_LOG_DEBUG(g_logger) << "get mqtt data";
-            }
-        }
+           
+        // }
         if(!cbs.empty()){
             // SYLAR_LOG_DEBUG(g_logger) << "on timer cbs.size=" << cbs.size();
             schedule(cbs.begin(), cbs.end());
@@ -163,21 +165,29 @@ void HttpServer::idle(){
             if(event.events & (EPOLLERR | EPOLLHUP)){
                 event.events |= EPOLLIN | EPOLLOUT;
             }
-            int real_events = NONE;
+            int real_events = NONE, mask_events = NONE;
             if(event.events & EPOLLIN){
                 real_events |= READ;
+                if(!fd_ctx->getContext(READ).persistent){
+                    mask_events |= READ;
+                }
             }
             if(event.events & EPOLLOUT){
                 real_events |= WRITE;
+                if(!fd_ctx->getContext(WRITE).persistent){
+                    mask_events |= WRITE;
+                }
             }
 
             if((fd_ctx->events & real_events) == NONE){
                 continue;
             }
 
-            int left_events = (fd_ctx->events & ~real_events);
+            int left_events = (fd_ctx->events & ~mask_events);
             int op = left_events ? EPOLL_CTL_MOD : EPOLL_CTL_DEL;
             event.events = EPOLLET | left_events;
+
+            // SYLAR_ASSERT2(!(m_listenSocket->getSocket() == fd_ctx->fd && mask_events & READ), "listen fd epoll mask READ");
 
             int rt2 = epoll_ctl(m_epfd, op, fd_ctx->fd, &event);
             if(rt2){
@@ -284,14 +294,17 @@ void HttpServer::FdContext::resetContext(EventContext & ctx){
 
 void HttpServer::FdContext::triggerEvent(HttpServer::Event event){
     SYLAR_ASSERT(events & event);
-    events = (Event)(events & ~event);
     EventContext & ctx = getContext(event);
+    if(!ctx.persistent)
+        events = (Event)(events & ~event);
+    if(!ctx.scheduler) ctx.scheduler = Scheduler::GetThis();
     if(ctx.cb){
         ctx.scheduler->schedule(&ctx.cb);
     } else {
         ctx.scheduler->schedule(&ctx.fiber);
     }
-    ctx.scheduler = nullptr;
+    if(!ctx.persistent)
+        ctx.scheduler = nullptr;
     return;
 }
 
@@ -307,9 +320,9 @@ void HttpServer::contextResize(size_t size){  //
 }
 
 // 1 success, 0 retry, -1 error
-int HttpServer::addEvent(int fd, Event event, Socket::ptr sock, std::function<void()> cb){  //
+int HttpServer::addEvent(int fd, Event event, Socket::ptr sock, std::function<void()> cb, bool persistent){  //
     FdContext * fd_ctx = nullptr;
-    
+    SYLAR_LOG_DEBUG(g_logger) << "addevent: fd = " << fd;
     RWMutexType::ReadLock lock(m_mutex);
     if((int)m_fdContexts.size() > fd){
         fd_ctx = m_fdContexts[fd];
@@ -330,12 +343,16 @@ int HttpServer::addEvent(int fd, Event event, Socket::ptr sock, std::function<vo
     }
 
     int op = fd_ctx->events ? EPOLL_CTL_MOD : EPOLL_CTL_ADD;
+    if(op == EPOLL_CTL_ADD){
+        SYLAR_LOG_DEBUG(g_logger) << "add epoll";
+    }
     epoll_event epevent;
     epevent.events = EPOLLET | fd_ctx->events | event;
     epevent.data.ptr = fd_ctx;
 
     int rt = epoll_ctl(m_epfd, op, fd, &epevent);
     if(rt){
+        SYLAR_LOG_DEBUG(g_logger) << "error fd = " << fd;
         SYLAR_LOG_ERROR(g_logger) << "epoll_ctl" << m_epfd << ", "
                 << op << "," << fd << "," << epevent.events << "):"
                 << rt << " (" << errno << ") (" << strerror(errno) << ")";
@@ -348,9 +365,10 @@ int HttpServer::addEvent(int fd, Event event, Socket::ptr sock, std::function<vo
     SYLAR_ASSERT(!event_ctx.scheduler && !event_ctx.fiber && !event_ctx.cb);
 
     event_ctx.scheduler = Scheduler::GetThis();
+    event_ctx.persistent = persistent;
 
     if(cb){
-        event_ctx.cb.swap(cb);
+        event_ctx.cb = cb;
     } else{
         event_ctx.fiber = Fiber::GetThis();
         SYLAR_ASSERT(event_ctx.fiber->getState() == Fiber::EXEC);
@@ -389,6 +407,7 @@ bool HttpServer::delEvent(int fd, Event event){
         return false; 
     }
     // 修改事件数据
+    fd_ctx->getContext(event).persistent = false;
     --m_pendingEventCount;
     fd_ctx->events = new_events;
     FdContext::EventContext & event_ctx = fd_ctx->getContext(event);
@@ -423,6 +442,7 @@ bool HttpServer::cancelEvent(int fd, Event event){  //
         return false; 
     }
 
+    fd_ctx->getContext(event).persistent = false;
     fd_ctx->triggerEvent(event);
     --m_pendingEventCount;
     return true;
@@ -455,11 +475,13 @@ bool HttpServer::cancelAll(int fd){
     }
 
     if(fd_ctx->events & READ){
+        fd_ctx->getContext(READ).persistent = false;
         fd_ctx->triggerEvent(READ);
         --m_pendingEventCount;
     }
 
     if(fd_ctx->events & WRITE){
+        fd_ctx->getContext(WRITE).persistent = false;
         fd_ctx->triggerEvent(WRITE);
         --m_pendingEventCount;
     }
