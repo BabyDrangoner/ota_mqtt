@@ -5,6 +5,8 @@
 #include <cstring>
 #include <iostream>
 #include <string>
+#include <thread>
+#include <chrono>
 
 #include "../include/json/json.hpp"
 #include "../sherry/sherry.h"
@@ -63,45 +65,60 @@ void send_http_json_command(int sockfd, const std::string& body) {
     close(sockfd);
 }
 
-void test_query() {
-    std::string body = R"({
-        "command": "query",
-        "device_type": 1,
-        "device_no": 1,
-        "action": "getVersion"
-    })";
+void test_query(int device_type, int device_count) {
+    for (int device_no = 1; device_no <= device_count; ++device_no) {
+        nlohmann::json j;
+        j["command"] = "query";
+        j["device_type"] = device_type;
+        j["device_no"] = device_no;
+        j["action"] = "getVersion";
 
-    int sockfd = connect_to_server("127.0.0.1", 8080);
-    if (sockfd >= 0) {
-        send_http_json_command(sockfd, body);
+        int sockfd = connect_to_server("127.0.0.1", 8080);
+        if (sockfd >= 0) {
+            send_http_json_command(sockfd, j.dump());
+        }
+
+        sleep(1);
     }
 }
 
-void test_notify() {
-    std::string body = R"({
-        "command": "notify",
-        "device_type": 1,
-        "device_no": 1,
-        "version": "6.0.0.1"
-    })";
+void test_notify(int device_type, int device_no, const std::string& version) {
+    nlohmann::json j;
+    j["command"] = "notify";
+    j["device_type"] = device_type;
+    j["device_no"] = device_no;
+    j["version"] = version;
 
     int sockfd = connect_to_server("127.0.0.1", 8080);
     if (sockfd >= 0) {
-        send_http_json_command(sockfd, body);
+        send_http_json_command(sockfd, j.dump());
     }
 }
 
 int main(int argc, char** argv) {
     if (argc < 2) {
-        std::cout << "Usage: ./test_client [query|notify]\n";
+        std::cout << "Usage: ./test_client [query device_type device_count] | [notify device_type device_no version]\n";
         return 0;
     }
 
     std::string cmd = argv[1];
     if (cmd == "query") {
-        test_query();
+        if (argc != 4) {
+            std::cerr << "Usage: ./test_client query device_type device_count\n";
+            return 1;
+        }
+        int device_type = std::stoi(argv[2]);
+        int device_count = std::stoi(argv[3]);
+        test_query(device_type, device_count);
     } else if (cmd == "notify") {
-        test_notify();
+        if (argc != 5) {
+            std::cerr << "Usage: ./test_client notify device_type device_no version\n";
+            return 1;
+        }
+        int device_type = std::stoi(argv[2]);
+        int device_no = std::stoi(argv[3]);
+        std::string version = argv[4];
+        test_notify(device_type, device_no, version);
     } else {
         std::cout << "Unknown command: " << cmd << "\n";
     }

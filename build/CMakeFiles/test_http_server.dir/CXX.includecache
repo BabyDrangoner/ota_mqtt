@@ -927,6 +927,8 @@ memory.h
 -
 atomic
 -
+queue
+-
 
 /root/sherry_project/sherry-master/sherry/iomanager.h
 scheduler.h

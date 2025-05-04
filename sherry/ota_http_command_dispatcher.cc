@@ -69,5 +69,25 @@ void OTAHttpCommandDispatcher::handle_command(const nlohmann::json& j, int conne
     }
 }
 
+// void OTAHttpCommandDispatcher::handle_command(const std::string& uri, int connection_id){
+//     if(uri.rfind("/download/ota/", 0) == 0){
+//         try{
+//             std::istringstream uri_ss(uri);
+//             std::string tmp;
+//             std::getline(uri_ss, tmp, '/'); // 跳过空
+//             std::getline(uri_ss, tmp, '/'); // "download"
+//             std::getline(uri_ss, tmp, '/'); // "ota"
+
+//             std::string device_type, device_no, name;
+//             std::getline(uri_ss, device_type, '/');
+//             std::getline(uri_ss, device_no, '/');
+//             std::getline(uri_ss, name, '/');
+
+//         }catch(...){
+//             return;
+//         }
+//     }
+// }
+
 
 }

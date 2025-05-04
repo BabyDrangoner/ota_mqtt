@@ -56,9 +56,6 @@ Socket::Socket(int family, int type, int protocol)
 }
 
 Socket::~Socket() {
-    SYLAR_LOG_DEBUG(g_logger) << "socket close";
-    SYLAR_LOG_DEBUG(g_logger) << m_sock;
-
     close();
 }
 
@@ -214,7 +211,6 @@ bool Socket::listen(int backlog) {
 }
 
 bool Socket::close() {
-    SYLAR_LOG_DEBUG(g_logger) << "socket close";
     if(!m_isConnected && m_sock == -1) {
         return true;
     }

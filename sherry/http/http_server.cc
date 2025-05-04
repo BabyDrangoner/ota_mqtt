@@ -136,19 +136,19 @@ void HttpServer::idle(){
         std::vector<std::function<void()> > cbs;
         listExpiredCb(cbs);
 
-        // for(FdContext* fd_c : m_fdContexts){
-        //     Socket::ptr sock = fd_c->sock;
-        //     if(!sock){
-        //         continue;
-        //     }
+        {
+            MutexType::Lock lock(m_fdCtx_queue_mutex);
+            while(true){
+                if(m_reset_fdCtx_queue.empty()){
+                    break;
+                }
+                FdContext* _fd_ctx = m_reset_fdCtx_queue.front();
+                _fd_ctx->reset();
+                m_reset_fdCtx_queue.pop();
+            }
+        }
+        
 
-        //     if(!sock->isConnected()){
-        //         fd_c->sock = nullptr;
-        //         continue;
-        //     }
-
-           
-        // }
         if(!cbs.empty()){
             // SYLAR_LOG_DEBUG(g_logger) << "on timer cbs.size=" << cbs.size();
             schedule(cbs.begin(), cbs.end());
@@ -239,8 +239,11 @@ void HttpServer::handleClient(Socket::ptr client) {
     if (len <= 0) {
         SYLAR_LOG_WARN(g_logger) << "handleClient: recv failed, len=" << len;
         int fd = client->getSocket();
-        m_fdContexts[fd]->reset();
+        // m_fdContexts[fd]->reset();
         client->close();
+        
+        MutexType::Lock lock(m_fdCtx_queue_mutex);
+        m_reset_fdCtx_queue.push(m_fdContexts[fd]);
         return;
     }
 
@@ -248,27 +251,42 @@ void HttpServer::handleClient(Socket::ptr client) {
     SYLAR_LOG_INFO(g_logger) << "Received:\n" << request;
 
     try {
-        // 先找 HTTP 报文头和 body 的分隔
-        size_t pos = request.find("\r\n\r\n");
-        if (pos == std::string::npos) {
-            SYLAR_LOG_ERROR(g_logger) << "handleClient: Invalid HTTP request format, missing header-body separator.";
-            client->close();
-            cancelAll(client->getSocket());
-            return;
+        // 判断是get还是post
+        std::string method;
+        std::string uri;
+
+        std::istringstream ss(request);
+        ss >> method >> uri;
+
+        if(method == "POST"){
+            // 先找 HTTP 报文头和 body 的分隔
+            size_t pos = request.find("\r\n\r\n");
+            if (pos == std::string::npos) {
+                SYLAR_LOG_ERROR(g_logger) << "handleClient: Invalid HTTP request format, missing header-body separator.";
+                client->close();
+                cancelAll(client->getSocket());
+                return;
+            }
+
+            // 提取 body
+            std::string body = request.substr(pos + 4); // 跳过 "\r\n\r\n"
+            SYLAR_LOG_INFO(g_logger) << "Extracted body:\n" << body;
+
+            // 解析 body成JSON对象
+            nlohmann::json json_request = nlohmann::json::parse(body);
+
+            // 调用 dispatcher 处理 JSON命令
+            m_dispatcher->handle_command(json_request, client->getSocket());
+        } else if(method == "GET"){
+            m_dispatcher->handle_command(uri, client->getSocket());
         }
 
-        // 提取 body
-        std::string body = request.substr(pos + 4); // 跳过 "\r\n\r\n"
-        SYLAR_LOG_INFO(g_logger) << "Extracted body:\n" << body;
 
-        // 解析 body成JSON对象
-        nlohmann::json json_request = nlohmann::json::parse(body);
-
-        // 调用 dispatcher 处理 JSON命令
-        m_dispatcher->handle_command(json_request, client->getSocket());
+        
 
     } catch (const std::exception& e) {
         SYLAR_LOG_ERROR(g_logger) << "handleClient: JSON parse error: " << e.what();
+        
         client->close();
         cancelAll(client->getSocket());
         return;

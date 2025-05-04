@@ -11,6 +11,7 @@
 #include <sys/epoll.h>
 #include <memory.h>
 #include <atomic>
+#include <queue>
 
 namespace sherry{
 
@@ -93,9 +94,14 @@ private:
     std::atomic<size_t> m_pendingEventCount = {0};
     std::vector<FdContext*> m_fdContexts;
 
+    MutexType m_fdCtx_queue_mutex;
+    std::queue<FdContext*> m_reset_fdCtx_queue;
+
 public:
     std::shared_ptr<HttpSendBuffer> m_send_buffer;
 };
+
+
 
 }
 

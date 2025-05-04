@@ -10,11 +10,15 @@ std::string host = "localhost";
 int server_port = 1883;
 
 uint16_t device_type = 1;
-
+int device_count = 10;  // ← 可按需修改数量
 
 void test_http_server(){
     sherry::OTAManager::ptr ota_mgr = std::make_shared<sherry::OTAManager>(protocol, host, server_port);
-    ota_mgr->add_device(device_type, 1);
+
+    for (int device_no = 1; device_no <= device_count; ++device_no) {
+        ota_mgr->add_device(device_type, device_no);
+    }
+
     sherry::HttpServer::ptr http_server(new sherry::HttpServer(3, true, "test_http_server", ota_mgr));
 
     http_server->start(port);
@@ -22,9 +26,7 @@ void test_http_server(){
     while(true);
 }
 
-
 int main(){
-
     test_http_server();
     return 0;
 }
