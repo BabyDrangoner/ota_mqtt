@@ -545,9 +545,7 @@ cstring
 -
 iostream
 -
-thread
--
-chrono
+string
 -
 ../include/json/json.hpp
 /root/sherry_project/sherry-master/include/json/json.hpp

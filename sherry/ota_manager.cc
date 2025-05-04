@@ -14,7 +14,7 @@ OTAManager::OTAManager(const std::string& protocol, const std::string& host, int
     ,m_host(host)
     ,m_port(port),
     m_http_send_buffer(buffer){
-    m_timer_mgr = std::make_shared<IOManager>(1, false, "OTA-Timer");
+    m_timer_mgr = std::make_shared<IOManager>(3, false, "OTA-Timer");
     m_device_types_counts = 0;
     m_device_counts = 0;
     m_callback_mgr = std::make_shared<OTAClientCallbackManager>();

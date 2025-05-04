@@ -42,6 +42,29 @@ public:
 
     static HttpServer* GetThis();
 
+    struct FdContext{
+        typedef Mutex MutexType;
+        struct EventContext{
+            Scheduler* scheduler = nullptr;    // 事件执行的scheduler
+            Fiber::ptr fiber;                  // 事件协程
+            std::function<void()> cb;          // 事件的回调函数
+            bool persistent;
+        };
+
+        EventContext & getContext(Event event);
+        void resetContext(EventContext & ctx);
+        void triggerEvent(Event event);
+        void reset();
+
+        int fd;               // 事件关联的句柄
+        // std::weak_ptr<Socket> sock;
+        Socket::ptr sock;
+        EventContext read;    // 读事件
+        EventContext write;   // 写事件
+        Event events = NONE; // 已经注册的事件
+        MutexType mutex;
+    };
+
 
 protected:
 
@@ -57,27 +80,6 @@ private:
     void handleClient(Socket::ptr client);  // 每个连接的处理
 
 private:
-    struct FdContext{
-        typedef Mutex MutexType;
-        struct EventContext{
-            Scheduler* scheduler = nullptr;    // 事件执行的scheduler
-            Fiber::ptr fiber;                  // 事件协程
-            std::function<void()> cb;          // 事件的回调函数
-            bool persistent;
-        };
-
-        EventContext & getContext(Event event);
-        void resetContext(EventContext & ctx);
-        void triggerEvent(Event event);
-
-        int fd;               // 事件关联的句柄
-        // std::weak_ptr<Socket> sock;
-        Socket::ptr sock;
-        EventContext read;    // 读事件
-        EventContext write;   // 写事件
-        Event events = NONE; // 已经注册的事件
-        MutexType mutex;
-    };
 
     RWMutexType m_mutex;
     std::atomic<bool> m_running;  // 控制server是否运行

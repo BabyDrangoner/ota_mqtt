@@ -74,16 +74,18 @@ bool HttpServer::start(uint16_t port){
     SYLAR_LOG_INFO(g_logger) << "HttpServer started on port " << port
                              << ".";
     m_running = true;
-    HttpServer::ptr self = shared_from_this();
-    addEvent(m_listenSocket->getSocket(), HttpServer::READ, m_listenSocket, [self](){
-        auto client = self->m_listenSocket->accept();
+    addEvent(m_listenSocket->getSocket(), HttpServer::READ, m_listenSocket, [this](){
+        auto client = m_listenSocket->accept();
         if(client){
             SYLAR_LOG_DEBUG(g_logger) << "client is not null";
             int cli_fd = client->getSocket();
-
-            self->addEvent(cli_fd, HttpServer::READ, client, ([self, client](){
-                self->handleClient(client);
-            }), true);
+            if(this){
+                this->addEvent(cli_fd, HttpServer::READ, client, ([this, client](){
+                    if(this){
+                        this->handleClient(client);
+                    }
+                }), true);
+            }
             
         } 
     }, true);
@@ -236,8 +238,9 @@ void HttpServer::handleClient(Socket::ptr client) {
     int len = client->recv(buffer, sizeof(buffer) - 1);
     if (len <= 0) {
         SYLAR_LOG_WARN(g_logger) << "handleClient: recv failed, len=" << len;
+        int fd = client->getSocket();
+        m_fdContexts[fd]->reset();
         client->close();
-        delEvent(client->getSocket(), READ);
         return;
     }
 
@@ -292,6 +295,14 @@ void HttpServer::FdContext::resetContext(EventContext & ctx){
 
 }
 
+void HttpServer::FdContext::reset(){
+    MutexType::Lock lock(mutex);
+    resetContext(read);
+    resetContext(write);
+    sock = nullptr;
+    events = NONE;
+}
+
 void HttpServer::FdContext::triggerEvent(HttpServer::Event event){
     SYLAR_ASSERT(events & event);
     EventContext & ctx = getContext(event);
@@ -299,12 +310,13 @@ void HttpServer::FdContext::triggerEvent(HttpServer::Event event){
         events = (Event)(events & ~event);
     if(!ctx.scheduler) ctx.scheduler = Scheduler::GetThis();
     if(ctx.cb){
-        ctx.scheduler->schedule(&ctx.cb);
+        ctx.scheduler->schedule(ctx.cb);
     } else {
         ctx.scheduler->schedule(&ctx.fiber);
     }
     if(!ctx.persistent)
         ctx.scheduler = nullptr;
+    
     return;
 }
 
@@ -362,7 +374,7 @@ int HttpServer::addEvent(int fd, Event event, Socket::ptr sock, std::function<vo
     ++m_pendingEventCount;
     fd_ctx->events = (Event)(fd_ctx->events | event);
     FdContext::EventContext & event_ctx = fd_ctx->getContext(event);
-    SYLAR_ASSERT(!event_ctx.scheduler && !event_ctx.fiber && !event_ctx.cb);
+    // SYLAR_ASSERT(!event_ctx.scheduler && !event_ctx.fiber && !event_ctx.cb);
 
     event_ctx.scheduler = Scheduler::GetThis();
     event_ctx.persistent = persistent;
