@@ -45,6 +45,7 @@ CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/mqtt_clie
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/mqtt_listener.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/noncopyable.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/ota_client_callback.h
+CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/ota_http_response_builder.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/ota_manager.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/ota_notifier.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/ota_query_responder.h

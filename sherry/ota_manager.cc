@@ -3,17 +3,18 @@
 #include "iomanager.h"
 #include "../include/json/json.hpp"
 #include "util.h"
-#include "./http/http_send_buffer.h"
+#include "http/http_server.h"
 
 namespace sherry{
 
 static Logger::ptr g_logger = SYLAR_LOG_NAME("system");
 
-OTAManager::OTAManager(const std::string& protocol, const std::string& host, int port, std::shared_ptr<HttpSendBuffer> buffer)
+OTAManager::OTAManager(const std::string& protocol, const std::string& host, int port, float http_version)
     :m_protocol(protocol)
     ,m_host(host)
-    ,m_port(port),
-    m_http_send_buffer(buffer){
+    ,m_port(port)
+    ,m_http_server(nullptr)
+    ,m_ota_http_res_builder(std::make_shared<OTAHttpResBuilder>(http_version)){
     m_timer_mgr = std::make_shared<IOManager>(3, false, "OTA-Timer");
     m_device_types_counts = 0;
     m_device_counts = 0;
@@ -92,23 +93,41 @@ bool OTAManager::remove_device(uint16_t device_type, uint32_t device_no){
     return true;
 }
 
-void OTAManager::ota_notify(uint16_t device_type, struct OTAMessage& msg){
+void OTAManager::ota_notify(uint16_t device_type, struct OTAMessage& msg, int connect_id){
     {
         RWMutexType::ReadLock lock(m_mutex);
         auto it = m_device_type_nums.find(device_type);
         if(it == m_device_type_nums.end()){
-            SYLAR_LOG_WARN(g_logger) << "device type = " << device_type
-                                     << " has not been registed.";
+            std::stringstream ss;
+            ss << "device type = " << device_type
+               << " has not been registed.";
+            std::string sstr = ss.str();
+            SYLAR_LOG_WARN(g_logger) << sstr;
+
+            nlohmann::json j;
+            j["msg"] = std::move(sstr);
+            response_to_server(connect_id, false, j);
             return;
         }
 
         if((*it).second.size() == 0){
-            SYLAR_LOG_WARN(g_logger) << "device type = " << device_type
-                                     << " device nums = 0.";
+            std::stringstream ss;
+            ss << "device type = " << device_type
+               << " device nums = 0.";
+            std::string sstr = ss.str();
+            SYLAR_LOG_WARN(g_logger) << sstr;
+
+            nlohmann::json j;
+            j["msg"] = std::move(sstr);
+            response_to_server(connect_id, false, j);
             return;
         }
 
     }
+
+    nlohmann::json j;
+    j["msg"] = "notify task submitted.";
+    response_to_server(connect_id, true, j);
 
     {
         RWMutexType::ReadLock lock(m_notifier_mutex);
@@ -201,7 +220,8 @@ void OTAManager::ota_query(uint16_t device_type, uint32_t device_no, const std::
                                           << " is not same with query device_no: " << device_no;
                 return;
             }
-            m_http_send_buffer->addData(connect_id, payload);
+            this->response_to_server(connect_id, true, json_response);
+            
 
         } catch(const std::exception& e){
             SYLAR_LOG_WARN(g_logger) << "Query device:" << device_type
@@ -231,16 +251,27 @@ void OTAManager::submit(uint16_t device_type, uint32_t device_no, const std::str
                                  << ", client_id = " << client_id;
         OTAMessage msg;
         if(!get_notify_message(device_type, detail, msg)){
-            SYLAR_LOG_WARN(g_logger) << "device_type = " << device_type
-                                     << ", device_no = " << device_no
-                                     << ", command = " << command
-                                     << ", client_id = " << client_id
-                                     << ", has no version = " << detail;
+            std::stringstream ss;
+            ss << "device_type = " << device_type
+                                   << ", device_no = " << device_no
+                                   << ", command = " << command
+                                   << ", client_id = " << client_id
+                                   << ", has no version = " << detail;
+            std::string sstr = ss.str();
+            SYLAR_LOG_WARN(g_logger) << sstr;
+            nlohmann::json j;
+            j["msg"] = std::move(sstr);
+            response_to_server(client_id, false, j);
+
             return;
         }
-        ota_notify(device_type, msg);
+        ota_notify(device_type, msg, client_id);
     } else if(command == "query"){
         ota_query(device_type, device_no, detail, client_id);
+    } else {
+        nlohmann::json j;
+        j["msg"] = "command is error.";
+        response_to_server(client_id, false, j);
     }
 }
 
@@ -258,6 +289,11 @@ bool OTAManager::get_notify_message(uint16_t device_type, const std::string& ver
 
     return true;
 
+}
+
+void OTAManager::response_to_server(int fd, bool success, nlohmann::json& j){
+    std::string ret = m_ota_http_res_builder->build_http_response("notify", success, j);
+    m_http_server->response(fd, ret);       
 }
 
 

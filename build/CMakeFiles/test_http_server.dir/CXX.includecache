@@ -1014,6 +1014,12 @@ ota_manager.h
 ../include/json/json.hpp
 /root/sherry_project/sherry-master/include/json/json.hpp
 
+/root/sherry_project/sherry-master/sherry/ota_http_response_builder.h
+sherry.h
+/root/sherry_project/sherry-master/sherry/sherry.h
+../include/json/json.hpp
+/root/sherry_project/sherry-master/include/json/json.hpp
+
 /root/sherry_project/sherry-master/sherry/ota_manager.h
 sherry.h
 /root/sherry_project/sherry-master/sherry/sherry.h
@@ -1029,6 +1035,8 @@ timer.h
 /root/sherry_project/sherry-master/sherry/timer.h
 ota_client_callback.h
 /root/sherry_project/sherry-master/sherry/ota_client_callback.h
+ota_http_response_builder.h
+/root/sherry_project/sherry-master/sherry/ota_http_response_builder.h
 unordered_map
 -
 unordered_set

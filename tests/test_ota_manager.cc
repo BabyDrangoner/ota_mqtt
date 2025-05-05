@@ -13,7 +13,7 @@ int port = 1883;
 uint16_t device_type = 1;
 
 void test_ota_manager_notifier(){
-    sherry::OTAManager::ptr ota_mgr = std::make_shared<sherry::OTAManager>(protocol, host, port);
+    sherry::OTAManager::ptr ota_mgr = std::make_shared<sherry::OTAManager>(protocol, host, port, 1.1);
     sherry::OTAMessage msg;
     msg.name = "agsspds";
     msg.version = "5.1.2.0";
@@ -26,7 +26,7 @@ void test_ota_manager_notifier(){
     msg.upgrade_mode = 1;
 
     ota_mgr->add_device(device_type, 1);
-    ota_mgr->ota_notify(device_type, msg);
+    ota_mgr->ota_notify(device_type, msg, 1);
 
     int i = 0;
     while(true){
@@ -41,7 +41,7 @@ void test_ota_manager_notifier(){
 
 void test_ota_manager_query(){
     sherry::HttpSendBuffer::ptr http_send_buffer = std::make_shared<sherry::HttpSendBuffer>();    
-    sherry::OTAManager::ptr ota_mgr = std::make_shared<sherry::OTAManager>(protocol, host, port, http_send_buffer);
+    sherry::OTAManager::ptr ota_mgr = std::make_shared<sherry::OTAManager>(protocol, host, port, 1.1);
     ota_mgr->add_device(device_type, 1);
     ota_mgr->ota_query(device_type, 1, "version", 0);
 

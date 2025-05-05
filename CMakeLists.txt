@@ -54,6 +54,7 @@ set(LIB_SRC
     sherry/myfiber.cc
     sherry/http/http_server.cc
     sherry/http/http_send_buffer.cc
+    sherry/ota_http_response_builder.cc
     sherry/ota_manager.cc
     sherry/ota_http_command_dispatcher.cc
     

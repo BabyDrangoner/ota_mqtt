@@ -15,6 +15,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/sherry.dir/sherry/myfiber.cc.o"
   "CMakeFiles/sherry.dir/sherry/ota_client_callback.cc.o"
   "CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o"
+  "CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.o"
   "CMakeFiles/sherry.dir/sherry/ota_manager.cc.o"
   "CMakeFiles/sherry.dir/sherry/ota_message.cc.o"
   "CMakeFiles/sherry.dir/sherry/ota_notifier.cc.o"

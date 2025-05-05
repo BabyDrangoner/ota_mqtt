@@ -48,6 +48,7 @@ CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/mqtt_list
 CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/noncopyable.h
 CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/ota_client_callback.h
 CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/ota_http_command_dispatcher.h
+CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/ota_http_response_builder.h
 CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/ota_manager.h
 CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/ota_notifier.h
 CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o: ../sherry/ota_query_responder.h

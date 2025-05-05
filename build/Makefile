@@ -768,6 +768,33 @@ sherry/ota_http_command_dispatcher.cc.s:
 	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.s
 .PHONY : sherry/ota_http_command_dispatcher.cc.s
 
+sherry/ota_http_response_builder.o: sherry/ota_http_response_builder.cc.o
+
+.PHONY : sherry/ota_http_response_builder.o
+
+# target to build an object file
+sherry/ota_http_response_builder.cc.o:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.o
+.PHONY : sherry/ota_http_response_builder.cc.o
+
+sherry/ota_http_response_builder.i: sherry/ota_http_response_builder.cc.i
+
+.PHONY : sherry/ota_http_response_builder.i
+
+# target to preprocess a source file
+sherry/ota_http_response_builder.cc.i:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.i
+.PHONY : sherry/ota_http_response_builder.cc.i
+
+sherry/ota_http_response_builder.s: sherry/ota_http_response_builder.cc.s
+
+.PHONY : sherry/ota_http_response_builder.s
+
+# target to generate assembly for a file
+sherry/ota_http_response_builder.cc.s:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.s
+.PHONY : sherry/ota_http_response_builder.cc.s
+
 sherry/ota_manager.o: sherry/ota_manager.cc.o
 
 .PHONY : sherry/ota_manager.o
@@ -1621,6 +1648,9 @@ help:
 	@echo "... sherry/ota_http_command_dispatcher.o"
 	@echo "... sherry/ota_http_command_dispatcher.i"
 	@echo "... sherry/ota_http_command_dispatcher.s"
+	@echo "... sherry/ota_http_response_builder.o"
+	@echo "... sherry/ota_http_response_builder.i"
+	@echo "... sherry/ota_http_response_builder.s"
 	@echo "... sherry/ota_manager.o"
 	@echo "... sherry/ota_manager.i"
 	@echo "... sherry/ota_manager.s"

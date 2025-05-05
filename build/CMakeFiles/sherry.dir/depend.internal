@@ -112,6 +112,7 @@ CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.o
  /root/sherry_project/sherry-master/sherry/noncopyable.h
  /root/sherry_project/sherry-master/sherry/ota_client_callback.h
  /root/sherry_project/sherry-master/sherry/ota_http_command_dispatcher.h
+ /root/sherry_project/sherry-master/sherry/ota_http_response_builder.h
  /root/sherry_project/sherry-master/sherry/ota_manager.h
  /root/sherry_project/sherry-master/sherry/ota_notifier.h
  /root/sherry_project/sherry-master/sherry/ota_query_responder.h
@@ -171,6 +172,7 @@ CMakeFiles/sherry.dir/sherry/http/http_server.cc.o
  /root/sherry_project/sherry-master/sherry/noncopyable.h
  /root/sherry_project/sherry-master/sherry/ota_client_callback.h
  /root/sherry_project/sherry-master/sherry/ota_http_command_dispatcher.h
+ /root/sherry_project/sherry-master/sherry/ota_http_response_builder.h
  /root/sherry_project/sherry-master/sherry/ota_manager.h
  /root/sherry_project/sherry-master/sherry/ota_notifier.h
  /root/sherry_project/sherry-master/sherry/ota_query_responder.h
@@ -323,6 +325,7 @@ CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o
  /root/sherry_project/sherry-master/sherry/ota_client_callback.h
  /root/sherry_project/sherry-master/sherry/ota_http_command_dispatcher.cc
  /root/sherry_project/sherry-master/sherry/ota_http_command_dispatcher.h
+ /root/sherry_project/sherry-master/sherry/ota_http_response_builder.h
  /root/sherry_project/sherry-master/sherry/ota_manager.h
  /root/sherry_project/sherry-master/sherry/ota_notifier.h
  /root/sherry_project/sherry-master/sherry/ota_query_responder.h
@@ -332,6 +335,20 @@ CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o
  /root/sherry_project/sherry-master/sherry/singleton.h
  /root/sherry_project/sherry-master/sherry/thread.h
  /root/sherry_project/sherry-master/sherry/timer.h
+ /root/sherry_project/sherry-master/sherry/util.h
+CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.o
+ /root/sherry_project/sherry-master/include/json/json.hpp
+ /root/sherry_project/sherry-master/sherry/config.h
+ /root/sherry_project/sherry-master/sherry/fiber.h
+ /root/sherry_project/sherry-master/sherry/log.h
+ /root/sherry_project/sherry-master/sherry/macro.h
+ /root/sherry_project/sherry-master/sherry/noncopyable.h
+ /root/sherry_project/sherry-master/sherry/ota_http_response_builder.cc
+ /root/sherry_project/sherry-master/sherry/ota_http_response_builder.h
+ /root/sherry_project/sherry-master/sherry/scheduler.h
+ /root/sherry_project/sherry-master/sherry/sherry.h
+ /root/sherry_project/sherry-master/sherry/singleton.h
+ /root/sherry_project/sherry-master/sherry/thread.h
  /root/sherry_project/sherry-master/sherry/util.h
 CMakeFiles/sherry.dir/sherry/ota_manager.cc.o
  ../include/MQTTAsync.h
@@ -372,6 +389,7 @@ CMakeFiles/sherry.dir/sherry/ota_manager.cc.o
  /root/sherry_project/sherry-master/sherry/config.h
  /root/sherry_project/sherry-master/sherry/fiber.h
  /root/sherry_project/sherry-master/sherry/http/http_send_buffer.h
+ /root/sherry_project/sherry-master/sherry/http/http_server.h
  /root/sherry_project/sherry-master/sherry/iomanager.h
  /root/sherry_project/sherry-master/sherry/log.h
  /root/sherry_project/sherry-master/sherry/macro.h
@@ -379,6 +397,8 @@ CMakeFiles/sherry.dir/sherry/ota_manager.cc.o
  /root/sherry_project/sherry-master/sherry/mqtt_listener.h
  /root/sherry_project/sherry-master/sherry/noncopyable.h
  /root/sherry_project/sherry-master/sherry/ota_client_callback.h
+ /root/sherry_project/sherry-master/sherry/ota_http_command_dispatcher.h
+ /root/sherry_project/sherry-master/sherry/ota_http_response_builder.h
  /root/sherry_project/sherry-master/sherry/ota_manager.cc
  /root/sherry_project/sherry-master/sherry/ota_manager.h
  /root/sherry_project/sherry-master/sherry/ota_notifier.h

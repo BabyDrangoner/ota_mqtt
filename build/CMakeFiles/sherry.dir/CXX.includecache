@@ -894,6 +894,14 @@ memory
 thread.h
 /root/sherry_project/sherry-master/sherry/thread.h
 
+/root/sherry_project/sherry-master/sherry/http/http_send_buffer.cc
+http_send_buffer.h
+/root/sherry_project/sherry-master/sherry/http/http_send_buffer.h
+../log.h
+/root/sherry_project/sherry-master/sherry/log.h
+http_server.h
+/root/sherry_project/sherry-master/sherry/http/http_server.h
+
 /root/sherry_project/sherry-master/sherry/http/http_send_buffer.h
 ../sherry.h
 /root/sherry_project/sherry-master/sherry/sherry.h
@@ -939,6 +947,12 @@ atomic
 -
 queue
 -
+
+/root/sherry_project/sherry-master/sherry/iomanager.h
+scheduler.h
+/root/sherry_project/sherry-master/sherry/scheduler.h
+timer.h
+/root/sherry_project/sherry-master/sherry/timer.h
 
 /root/sherry_project/sherry-master/sherry/log.h
 string
@@ -1010,6 +1024,12 @@ functional
 sherry.h
 /root/sherry_project/sherry-master/sherry/sherry.h
 
+/root/sherry_project/sherry-master/sherry/ota_http_command_dispatcher.cc
+ota_http_command_dispatcher.h
+/root/sherry_project/sherry-master/sherry/ota_http_command_dispatcher.h
+log.h
+/root/sherry_project/sherry-master/sherry/log.h
+
 /root/sherry_project/sherry-master/sherry/ota_http_command_dispatcher.h
 sherry.h
 /root/sherry_project/sherry-master/sherry/sherry.h
@@ -1017,6 +1037,26 @@ ota_manager.h
 /root/sherry_project/sherry-master/sherry/ota_manager.h
 ../include/json/json.hpp
 /root/sherry_project/sherry-master/include/json/json.hpp
+
+/root/sherry_project/sherry-master/sherry/ota_http_response_builder.h
+sherry.h
+/root/sherry_project/sherry-master/sherry/sherry.h
+../include/json/json.hpp
+/root/sherry_project/sherry-master/include/json/json.hpp
+
+/root/sherry_project/sherry-master/sherry/ota_manager.cc
+sherry.h
+/root/sherry_project/sherry-master/sherry/sherry.h
+ota_manager.h
+/root/sherry_project/sherry-master/sherry/ota_manager.h
+iomanager.h
+/root/sherry_project/sherry-master/sherry/iomanager.h
+../include/json/json.hpp
+/root/sherry_project/sherry-master/include/json/json.hpp
+util.h
+/root/sherry_project/sherry-master/sherry/util.h
+http/http_server.h
+/root/sherry_project/sherry-master/sherry/http/http_server.h
 
 /root/sherry_project/sherry-master/sherry/ota_manager.h
 sherry.h
@@ -1033,6 +1073,8 @@ timer.h
 /root/sherry_project/sherry-master/sherry/timer.h
 ota_client_callback.h
 /root/sherry_project/sherry-master/sherry/ota_client_callback.h
+ota_http_response_builder.h
+/root/sherry_project/sherry-master/sherry/ota_http_response_builder.h
 unordered_map
 -
 unordered_set

@@ -11,8 +11,7 @@ static Logger::ptr g_logger = SYLAR_LOG_NAME("system");
 HttpServer::HttpServer(size_t threads, bool use_caller, const std::string & name, OTAManager::ptr ota_mgr)
     :Scheduler(threads, use_caller, name)
     ,m_running(false){
-    m_send_buffer = std::make_shared<HttpSendBuffer>(this);
-    ota_mgr->set_send_buffer(m_send_buffer);
+
     m_dispatcher = std::make_shared<OTAHttpCommandDispatcher>(ota_mgr);
 
     m_epfd = epoll_create(5000);
@@ -519,6 +518,19 @@ bool HttpServer::cancelAll(int fd){
     SYLAR_ASSERT(fd_ctx->events == 0);
     return true;
 }
+
+void HttpServer::response(int fd, const std::string& data){
+    Socket::ptr sock = m_fdContexts[fd]->sock;
+    if(!sock){
+        SYLAR_LOG_WARN(g_logger) << "fd = " << fd
+                                 << ", socket = null.";
+        return;
+    }
+    addEvent(fd, WRITE, sock, [data, sock](){
+        sock->send(data.data(), data.size(), 0);
+    }, false);
+}
+
 
 HttpServer* HttpServer::GetThis(){
     return dynamic_cast<HttpServer*>(Scheduler::GetThis());

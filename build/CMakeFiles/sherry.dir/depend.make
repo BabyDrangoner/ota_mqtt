@@ -111,6 +111,7 @@ CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.o: ../sherry/mqtt_listener
 CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.o: ../sherry/noncopyable.h
 CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.o: ../sherry/ota_client_callback.h
 CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.o: ../sherry/ota_http_command_dispatcher.h
+CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.o: ../sherry/ota_http_response_builder.h
 CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.o: ../sherry/ota_manager.h
 CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.o: ../sherry/ota_notifier.h
 CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.o: ../sherry/ota_query_responder.h
@@ -170,6 +171,7 @@ CMakeFiles/sherry.dir/sherry/http/http_server.cc.o: ../sherry/mqtt_listener.h
 CMakeFiles/sherry.dir/sherry/http/http_server.cc.o: ../sherry/noncopyable.h
 CMakeFiles/sherry.dir/sherry/http/http_server.cc.o: ../sherry/ota_client_callback.h
 CMakeFiles/sherry.dir/sherry/http/http_server.cc.o: ../sherry/ota_http_command_dispatcher.h
+CMakeFiles/sherry.dir/sherry/http/http_server.cc.o: ../sherry/ota_http_response_builder.h
 CMakeFiles/sherry.dir/sherry/http/http_server.cc.o: ../sherry/ota_manager.h
 CMakeFiles/sherry.dir/sherry/http/http_server.cc.o: ../sherry/ota_notifier.h
 CMakeFiles/sherry.dir/sherry/http/http_server.cc.o: ../sherry/ota_query_responder.h
@@ -322,6 +324,7 @@ CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o: ../sherry/noncopy
 CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o: ../sherry/ota_client_callback.h
 CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o: ../sherry/ota_http_command_dispatcher.cc
 CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o: ../sherry/ota_http_command_dispatcher.h
+CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o: ../sherry/ota_http_response_builder.h
 CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o: ../sherry/ota_manager.h
 CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o: ../sherry/ota_notifier.h
 CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o: ../sherry/ota_query_responder.h
@@ -332,6 +335,20 @@ CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o: ../sherry/singlet
 CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o: ../sherry/thread.h
 CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o: ../sherry/timer.h
 CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o: ../sherry/util.h
+
+CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.o: ../include/json/json.hpp
+CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.o: ../sherry/config.h
+CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.o: ../sherry/fiber.h
+CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.o: ../sherry/log.h
+CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.o: ../sherry/macro.h
+CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.o: ../sherry/noncopyable.h
+CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.o: ../sherry/ota_http_response_builder.cc
+CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.o: ../sherry/ota_http_response_builder.h
+CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.o: ../sherry/scheduler.h
+CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.o: ../sherry/sherry.h
+CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.o: ../sherry/singleton.h
+CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.o: ../sherry/thread.h
+CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.o: ../sherry/util.h
 
 CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../include/MQTTAsync.h
 CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../include/MQTTClientPersistence.h
@@ -371,6 +388,7 @@ CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../sherry/address.h
 CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../sherry/config.h
 CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../sherry/fiber.h
 CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../sherry/http/http_send_buffer.h
+CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../sherry/http/http_server.h
 CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../sherry/iomanager.h
 CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../sherry/log.h
 CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../sherry/macro.h
@@ -378,6 +396,8 @@ CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../sherry/mqtt_client.h
 CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../sherry/mqtt_listener.h
 CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../sherry/noncopyable.h
 CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../sherry/ota_client_callback.h
+CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../sherry/ota_http_command_dispatcher.h
+CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../sherry/ota_http_response_builder.h
 CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../sherry/ota_manager.cc
 CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../sherry/ota_manager.h
 CMakeFiles/sherry.dir/sherry/ota_manager.cc.o: ../sherry/ota_notifier.h

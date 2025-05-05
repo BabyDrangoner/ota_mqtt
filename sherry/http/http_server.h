@@ -30,12 +30,14 @@ public:
 
     HttpServer(size_t threads, bool use_caller, const std::string & name, OTAManager::ptr ota_mgr=nullptr);
     ~HttpServer();
-
+    
     int addEvent(int fd, Event event, Socket::ptr sock=nullptr, std::function<void()> cb = nullptr, bool persistent=false);
     bool delEvent(int fd, Event event);
     bool cancelEvent(int fd, Event event);
 
     bool cancelAll(int fd);
+
+    void response(int fd, const std::string& data);
 
     // 启动监听服务
     bool start(uint16_t port);
@@ -96,9 +98,6 @@ private:
 
     MutexType m_fdCtx_queue_mutex;
     std::queue<FdContext*> m_reset_fdCtx_queue;
-
-public:
-    std::shared_ptr<HttpSendBuffer> m_send_buffer;
 };
 
 

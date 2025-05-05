@@ -49,6 +49,7 @@ CMakeFiles/test_http_server.dir/tests/test_http_server.cc.o
  /root/sherry_project/sherry-master/sherry/noncopyable.h
  /root/sherry_project/sherry-master/sherry/ota_client_callback.h
  /root/sherry_project/sherry-master/sherry/ota_http_command_dispatcher.h
+ /root/sherry_project/sherry-master/sherry/ota_http_response_builder.h
  /root/sherry_project/sherry-master/sherry/ota_manager.h
  /root/sherry_project/sherry-master/sherry/ota_notifier.h
  /root/sherry_project/sherry-master/sherry/ota_query_responder.h

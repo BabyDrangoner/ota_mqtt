@@ -18,6 +18,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/root/sherry_project/sherry-master/sherry/myfiber.cc" "/root/sherry_project/sherry-master/build/CMakeFiles/sherry.dir/sherry/myfiber.cc.o"
   "/root/sherry_project/sherry-master/sherry/ota_client_callback.cc" "/root/sherry_project/sherry-master/build/CMakeFiles/sherry.dir/sherry/ota_client_callback.cc.o"
   "/root/sherry_project/sherry-master/sherry/ota_http_command_dispatcher.cc" "/root/sherry_project/sherry-master/build/CMakeFiles/sherry.dir/sherry/ota_http_command_dispatcher.cc.o"
+  "/root/sherry_project/sherry-master/sherry/ota_http_response_builder.cc" "/root/sherry_project/sherry-master/build/CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.o"
   "/root/sherry_project/sherry-master/sherry/ota_manager.cc" "/root/sherry_project/sherry-master/build/CMakeFiles/sherry.dir/sherry/ota_manager.cc.o"
   "/root/sherry_project/sherry-master/sherry/ota_message.cc" "/root/sherry_project/sherry-master/build/CMakeFiles/sherry.dir/sherry/ota_message.cc.o"
   "/root/sherry_project/sherry-master/sherry/ota_notifier.cc" "/root/sherry_project/sherry-master/build/CMakeFiles/sherry.dir/sherry/ota_notifier.cc.o"
