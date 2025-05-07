@@ -93,7 +93,7 @@ bool OTAManager::remove_device(uint16_t device_type, uint32_t device_no){
 }
 
 void OTAManager::ota_notify(uint16_t device_type, struct OTAMessage& msg, int connect_id){
-    
+    const std::string type = "notify";
     {
         RWMutexType::ReadLock lock(m_mutex);
         auto it = m_device_type_nums.find(device_type);
@@ -106,7 +106,7 @@ void OTAManager::ota_notify(uint16_t device_type, struct OTAMessage& msg, int co
 
             nlohmann::json j;
             j["msg"] = std::move(sstr);
-            response_to_server(connect_id, false, j);
+            response_to_server(connect_id, false, type, j);
             return;
         }
 
@@ -119,7 +119,7 @@ void OTAManager::ota_notify(uint16_t device_type, struct OTAMessage& msg, int co
 
             nlohmann::json j;
             j["msg"] = std::move(sstr);
-            response_to_server(connect_id, false, j);
+            response_to_server(connect_id, false, type, j);
             return;
         }
 
@@ -127,7 +127,7 @@ void OTAManager::ota_notify(uint16_t device_type, struct OTAMessage& msg, int co
 
     nlohmann::json j;
     j["msg"] = "notify task submitted.";
-    response_to_server(connect_id, true, j);
+    response_to_server(connect_id, true, type, j);
 
     std::stringstream ss;
     ss << "/ota/" << device_type
@@ -162,6 +162,8 @@ void OTAManager::ota_notify(uint16_t device_type, struct OTAMessage& msg, int co
 }
 
 void OTAManager::ota_stop_notify(uint16_t device_type, const std::string& name, const std::string& version, int connect_id){
+    const std::string type = "stop_notify";
+
     std::stringstream ss;
     ss << "/ota/" << device_type
        << "/" << name 
@@ -180,7 +182,7 @@ void OTAManager::ota_stop_notify(uint16_t device_type, const std::string& name, 
         SYLAR_LOG_WARN(g_logger) << sstr;
         nlohmann::json j;
         j["msg"] = std::move(sstr);
-        response_to_server(connect_id, false, j);
+        response_to_server(connect_id, false, type, j);
         return;
     }
 
@@ -194,11 +196,12 @@ void OTAManager::ota_stop_notify(uint16_t device_type, const std::string& name, 
     SYLAR_LOG_INFO(g_logger) << sstr;
     nlohmann::json j;
     j["msg"] = std::move(sstr);
-    response_to_server(connect_id, true, j);
+    response_to_server(connect_id, true, type, j);
 
 }
 
 void OTAManager::ota_query(uint16_t device_type, uint32_t device_no, const std::string& action, int connect_id){
+    const std::string type = "query";
     std::stringstream pub_stream, sub_stream;
     pub_stream = FormatOtaPrex(device_type, device_no);
     sub_stream = FormatOtaPrex(device_type, device_no);
@@ -211,7 +214,7 @@ void OTAManager::ota_query(uint16_t device_type, uint32_t device_no, const std::
 
     OTAQueryResponder::ptr oqr = std::make_shared<OTAQueryResponder>(device_type, device_no, m_client_mgr);
     m_callback_mgr->regist_callback(sub_topic
-                                    ,[this, oqr, pub_topic, device_type, device_no, action, connect_id]
+                                    ,[this, oqr, pub_topic, device_type, device_no, action, connect_id, type]
                                     (const std::string& topic, const std::string& payload){
 
         oqr->subscribe_on_success(pub_topic, topic);
@@ -249,7 +252,7 @@ void OTAManager::ota_query(uint16_t device_type, uint32_t device_no, const std::
                                           << " is not same with query device_no: " << device_no;
                 return;
             }
-            this->response_to_server(connect_id, true, json_response);
+            this->response_to_server(connect_id, true, type, json_response);
             
 
         } catch(const std::exception& e){
@@ -267,6 +270,7 @@ void OTAManager::ota_query(uint16_t device_type, uint32_t device_no, const std::
 }
 
 void OTAManager::ota_query_download(uint16_t device_type, uint32_t device_no, const std::string& name, int connect_id){
+    const std::string type = "query_download";
     if(!check_device(device_type, device_no)){
         std::stringstream ss;
         ss << "device type = " << device_type
@@ -276,7 +280,7 @@ void OTAManager::ota_query_download(uint16_t device_type, uint32_t device_no, co
 
         nlohmann::json j;
         j["msg"] = std::move(sstr);
-        response_to_server(connect_id, false, j);
+        response_to_server(connect_id, false, type, j);
 
         return;
     }
@@ -287,14 +291,14 @@ void OTAManager::ota_query_download(uint16_t device_type, uint32_t device_no, co
             << "/query_download";
 
     std::string topic = ss.str();
-    m_callback_mgr->regist_callback(topic, [this, device_type, device_no, name, connect_id]
+    m_callback_mgr->regist_callback(topic, [this, device_type, device_no, name, connect_id, type]
                                     (const std::string& topic, const std::string& payload){
 
         try{
             SYLAR_LOG_DEBUG(g_logger) << payload;
 
             nlohmann::json json_response = nlohmann::json::parse(payload);
-            if(!json_response.contains("query_download") 
+            if(!json_response.contains("name") 
                       || !json_response.contains("device_type")
                       || !json_response.contains("device_no")){
                 SYLAR_LOG_WARN(g_logger) << "Query device:" << device_type
@@ -303,7 +307,7 @@ void OTAManager::ota_query_download(uint16_t device_type, uint32_t device_no, co
                 return;
             }
             
-            if(!json_response["query_download"].contains("name") || json_response["query_download"]["name"] != name){
+            if(json_response["name"] != name){
                 SYLAR_LOG_WARN(g_logger) << "Query device:" << device_type
                                           << "/" << device_no
                                           << " response name: " << json_response["name"]
@@ -326,7 +330,7 @@ void OTAManager::ota_query_download(uint16_t device_type, uint32_t device_no, co
                                           << " is not same with query device_no: " << device_no;
                 return;
             }
-            this->response_to_server(connect_id, true, json_response);
+            this->response_to_server(connect_id, true, type, json_response);
             
 
         } catch(const std::exception& e){
@@ -396,7 +400,7 @@ void OTAManager::submit(uint16_t device_type, uint32_t device_no, const std::str
             SYLAR_LOG_WARN(g_logger) << sstr;
             nlohmann::json j;
             j["msg"] = std::move(sstr);
-            response_to_server(client_id, false, j);
+            response_to_server(client_id, false, command, j);
 
             return;
         }
@@ -422,7 +426,7 @@ void OTAManager::submit(uint16_t device_type, uint32_t device_no, const std::str
     } else {
         nlohmann::json j;
         j["msg"] = "command is error.";
-        response_to_server(client_id, false, j);
+        response_to_server(client_id, false, command, j);
     }
 }
 
@@ -442,8 +446,8 @@ bool OTAManager::get_notify_message(uint16_t device_type, const std::string& nam
 
 }
 
-void OTAManager::response_to_server(int fd, bool success, nlohmann::json& j){
-    std::string ret = m_ota_http_res_builder->build_http_response("notify", success, j);
+void OTAManager::response_to_server(int fd, bool success, const std::string& type, nlohmann::json& j){
+    std::string ret = m_ota_http_res_builder->build_http_response(type, success, j);
     m_http_server->response(fd, ret);       
 }
 

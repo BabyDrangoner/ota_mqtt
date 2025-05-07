@@ -110,6 +110,19 @@ void test_stop_notify(int device_type, const std::string& name, const std::strin
     }
 }
 
+void test_query_download(int device_type, int device_no, std::string& name){
+    nlohmann::json j;
+    j["command"] = "query_download";
+    j["device_type"] = device_type;
+    j["device_no"] = device_no;
+    j["name"] = name;
+
+    int sockfd = connect_to_server("127.0.0.1", 8080);
+    if(sockfd >= 0){
+        send_http_json_command(sockfd, "query_download", j.dump());
+    }
+}
+
 int main(int argc, char** argv) {
     if (argc < 2) {
         std::cout << "Usage: ./test_client [query device_type device_count] | [notify device_type device_no version]\n";
@@ -136,13 +149,22 @@ int main(int argc, char** argv) {
         test_notify(device_type, name, version);
     } else if (cmd == "stop_notify") {
         if (argc != 5) {
-            std::cerr << "Usage: ./test_client stop_notify device_type device_no version\n";
+            std::cerr << "Usage: ./test_client stop_notify device_type name version\n";
             return 1;
         }
         int device_type = std::stoi(argv[2]);
         std::string name = argv[3];
         std::string version = argv[4];
         test_stop_notify(device_type, name, version);
+    } else if (cmd == "query_download"){
+        if (argc != 5) {
+            std::cerr << "Usage: ./test_client query device_type device_no name\n";
+            return 1;
+        }
+        int device_type = std::stoi(argv[2]);
+        int device_no = std::stoi(argv[3]);
+        std::string name = argv[4];
+        test_query_download(device_type, device_no, name);
     } else {
         std::cout << "Unknown command: " << cmd << "\n";
     }

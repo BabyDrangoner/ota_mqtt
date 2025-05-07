@@ -28,15 +28,45 @@ std::string OTANotifyRes::build_http_response(bool success, nlohmann::json& json
     std::stringstream ss;
     ss << "HTTP/" << m_http_version;
     if(success){
-        ss << " 200 OK\n";
+        ss << " 200 OK\r\n";
     } else {
-        ss << " 400 BAD Request\n";
+        ss << " 400 Bad Request\r\n";
     }
 
     ss << "Content-Type: application/json"
-       << "\nContent-Length: " << body.size()
-       << "\nConnection: " << (connect ? "keep-alive\n" : "close\n")
-       << '\n' << body;
+       << "\r\nContent-Length: " << body.size()
+       << "\r\nConnection: " << (connect ? "keep-alive\r\n" : "close\r\n")
+       << "\r\n" << body;
+    
+    return ss.str();
+}
+
+OTAStopNotifyRes::OTAStopNotifyRes(float http_version)
+    :OTAResponse(http_version){
+
+}
+
+std::string OTAStopNotifyRes::build_http_response(bool success, nlohmann::json& json_response){
+    if(success){
+        json_response["status"] = "ok";
+    } else {
+        json_response["status"] = "error";
+    }
+
+    std::string body = json_response.dump();
+
+    std::stringstream ss;
+    ss << "HTTP/" << m_http_version;
+    if(success){
+        ss << " 200 OK\r\n";
+    } else {
+        ss << " 400 Bad Request\r\n";
+    }
+
+    ss << "Content-Type: application/json"
+       << "\r\nContent-Length: " << body.size()
+       << "\r\nConnection: " << "close\r\n"
+       << "\r\n" << body;
     
     return ss.str();
 }
@@ -58,15 +88,15 @@ std::string OTAQueryRes::build_http_response(bool success, nlohmann::json& json_
     std::stringstream ss;
     ss << "HTTP/" << m_http_version;
     if(success){
-        ss << " 200 OK\n";
+        ss << " 200 OK\r\n";
     } else {
-        ss << " 400 BAD Request\n";
+        ss << " 400 Bad Request\r\n";
     }
 
     ss << "Content-Type: application/json"
-       << "\nContent-Length: " << body.size()
-       << "\nConnection: " << "close\n"
-       << '\n' << body;
+       << "\r\nContent-Length: " << body.size()
+       << "\r\nConnection: " << "close\r\n"
+       << "\r\n" << body;
     
     return ss.str();
 }
@@ -91,9 +121,9 @@ std::string OTAQueryDownloadRes::build_http_response(bool success, nlohmann::jso
     std::stringstream ss;
     ss << "HTTP/" << m_http_version;
     if(success){
-        ss << " 200 OK\n";
+        ss << " 200 OK\r\n";
     } else {
-        ss << " 400 BAD Request\n";
+        ss << " 400 Bad Request\r\n";
     }
 
     if(json_response["download_status"] == "down"){
@@ -101,9 +131,9 @@ std::string OTAQueryDownloadRes::build_http_response(bool success, nlohmann::jso
     }
 
     ss << "Content-Type: application/json"
-       << "\nContent-Length: " << body.size()
-       << "\nConnection: " << (connect ? "keep-alive\n" : "close\n")
-       << '\n' << body;
+       << "\r\nContent-Length: " << body.size()
+       << "\r\nConnection: " << (connect ? "keep-alive\r\n" : "close\r\n")
+       << "\r\n" << body;
     
     return ss.str();
 }
@@ -126,15 +156,15 @@ std::string OTAFileDownloadRes::build_http_response(bool success, nlohmann::json
     std::stringstream ss;
     ss << "HTTP/" << m_http_version;
     if(success){
-        ss << " 200 OK\n";
+        ss << " 200 OK\r\n";
     } else {
-        ss << " 400 BAD Request\n";
+        ss << " 400 Bad Request\r\n";
     }
 
     ss << "Content-Type: application/octet-stream"
-       << "\nContent-Length: " << body.size()
-       << "\nConnection: " << "close\n"
-       << '\n' << body;
+       << "\r\nContent-Length: " << body.size()
+       << "\r\nConnection: " << "close\r\n"
+       << "\r\n" << body;
     
     return ss.str();
 }
@@ -144,6 +174,7 @@ OTAHttpResBuilder::OTAHttpResBuilder(float http_version){
     m_response.clear();
     m_response["notify"] = std::make_shared<OTANotifyRes>(http_version);
     m_response["query"] = std::make_shared<OTAQueryRes>(http_version);
+    m_response["stop_notify"] = std::make_shared<OTAStopNotifyRes>(http_version);
     m_response["query_download"] = std::make_shared<OTAQueryDownloadRes>(http_version);
     m_response["file_download"] = std::make_shared<OTAFileDownloadRes>(http_version);
 }

@@ -25,6 +25,15 @@ public:
     virtual std::string build_http_response(bool success, nlohmann::json& json_response);
 };
 
+class OTAStopNotifyRes : public OTAResponse{
+public:
+    typedef std::shared_ptr<OTANotifyRes> ptr;
+    OTAStopNotifyRes(float http_version);
+    ~OTAStopNotifyRes(){}
+
+    virtual std::string build_http_response(bool success, nlohmann::json& json_response);
+};
+
 class OTAQueryRes : public OTAResponse{
 public:
     typedef std::shared_ptr<OTAQueryRes> ptr;

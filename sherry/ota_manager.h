@@ -54,7 +54,7 @@ public:
 
 private:
     bool get_notify_message(uint16_t device_type, const std::string& name, const std::string& version, struct OTAMessage& msg);
-    void response_to_server(int fd, bool success, nlohmann::json& j);
+    void response_to_server(int fd, bool success, const std::string& type, nlohmann::json& j);
 
 
 private:

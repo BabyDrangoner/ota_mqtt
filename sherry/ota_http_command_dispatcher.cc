@@ -144,18 +144,12 @@ bool OTAQueryDownloadReq::submit(const nlohmann::json& j, int connection_id){
         return false;
     }
 
-    std::string version;
-    if(!get_element(version, "version", j)){
-        return false;
-    }
-
     std::string name;
     if(!get_element(name, "name", j)){
         return false;
     }
 
     std::unordered_map<std::string, std::string> detail;
-    detail["version"] = std::move(version);
     detail["name"] = std::move(name);
     m_ota_mgr->submit(device_type, device_no, "query_download", connection_id, detail); 
     return true;
