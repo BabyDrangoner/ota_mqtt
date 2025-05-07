@@ -1,4 +1,4 @@
-mosquitto_pub -h localhost -p 1883 -t "/ota/1/1/responder/" -m '{
+mosquitto_pub -h localhost -p 1883 -t "/ota/1/1/responder" -m '{
 "device_type": 1,
 "device_no": 1,
 "name": "main_board",

@@ -10,14 +10,12 @@ OTASubscribeDownload::OTASubscribeDownload(const std::string& topic
                                           ,int device_type
                                           ,int device_no
                                           ,MqttClientManager::ptr cli_mgr
-                                          ,OTAClientCallbackManager::ptr cb_mgr
-                                          ,OTAMessage::ptr msg)
+                                          ,OTAClientCallbackManager::ptr cb_mgr)
     :m_topic(topic)
     ,m_device_type(device_type)
     ,m_device_no(device_no)
     ,m_client_manager(cli_mgr)
-    ,m_callback_manager(cb_mgr)
-    ,m_msg(msg){
+    ,m_callback_manager(cb_mgr){
     m_client = cli_mgr->get_client(m_device_type);
 }
 

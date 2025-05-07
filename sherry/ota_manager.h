@@ -9,6 +9,7 @@
 #include "timer.h"
 #include "ota_client_callback.h"
 #include "ota_http_response_builder.h"
+#include "ota_subscribe_download.h"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -36,18 +37,23 @@ public:
     bool remove_device(uint16_t device_type, uint32_t device_no);
 
     void ota_notify(uint16_t device_type, struct OTAMessage& msg, int connect_id);
-    void ota_stop_notify(uint16_t device_type);
+    void ota_stop_notify(uint16_t device_type, const std::string& name, const std::string& verison, int connect_id);
 
     void ota_query(uint16_t device_type, uint32_t device_no, const std::string& action, int connect_id);
+
+    void ota_query_download(uint16_t device_type, uint32_t device_no, const std::string& detail, int connect_id);
 
     void submit(uint16_t device_type
                ,uint32_t device_no
                ,const std::string& command
                ,int client_id
-               ,const std::string& version = "");
+               ,std::unordered_map<std::string, std::string>& detail);
+
+    bool check_device(uint16_t device_type, uint32_t device_no);
+    bool check_device(uint16_t device_type);
 
 private:
-    bool get_notify_message(uint16_t device_type, const std::string& version, struct OTAMessage& msg);
+    bool get_notify_message(uint16_t device_type, const std::string& name, const std::string& version, struct OTAMessage& msg);
     void response_to_server(int fd, bool success, nlohmann::json& j);
 
 
@@ -66,7 +72,9 @@ private:
     MqttClientManager::ptr m_client_mgr;
     
     std::unordered_map<uint16_t, std::unordered_set<uint32_t>> m_device_type_nums;
-    std::unordered_map<uint16_t, OTANotifier::ptr> m_ota_notifier_map;
+    std::unordered_map<std::string, OTANotifier::ptr> m_ota_notifier_map;
+    std::unordered_map<uint16_t, std::unordered_map<uint32_t, OTASubscribeDownload::ptr>> m_ota_subscribe_download_map;
+
     Scheduler::ptr m_scheduler;
     OTAHttpResBuilder::ptr m_ota_http_res_builder;
 

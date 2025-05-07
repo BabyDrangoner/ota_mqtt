@@ -50,6 +50,7 @@ CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o
  /root/sherry_project/sherry-master/sherry/ota_manager.h
  /root/sherry_project/sherry-master/sherry/ota_notifier.h
  /root/sherry_project/sherry-master/sherry/ota_query_responder.h
+ /root/sherry_project/sherry-master/sherry/ota_subscribe_download.h
  /root/sherry_project/sherry-master/sherry/ota_version_message.h
  /root/sherry_project/sherry-master/sherry/scheduler.h
  /root/sherry_project/sherry-master/sherry/sherry.h

@@ -3,7 +3,6 @@
 
 #include "sherry.h"
 #include "mqtt_client.h"
-#include "ota_message.h"
 
 namespace sherry{
 
@@ -16,8 +15,7 @@ public:
                         ,int device_type
                         ,int device_no
                         ,MqttClientManager::ptr cli_mgr
-                        ,OTAClientCallbackManager::ptr cb_mgr
-                        ,OTAMessage::ptr msg);
+                        ,OTAClientCallbackManager::ptr cb_mgr);
 
     void subscribe_download(const std::string& topic, int qos=1);
     
@@ -29,8 +27,6 @@ private:
     MqttClientManager::ptr m_client_manager;
     OTAClientCallbackManager::ptr m_callback_manager;
     MqttClient::ptr m_client;
-
-    OTAMessage::ptr m_msg;
 
 };
 

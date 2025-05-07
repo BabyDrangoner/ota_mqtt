@@ -49,6 +49,7 @@ CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/ota_http_
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/ota_manager.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/ota_notifier.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/ota_query_responder.h
+CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/ota_subscribe_download.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/ota_version_message.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/scheduler.h
 CMakeFiles/test_ota_manager.dir/tests/test_ota_manager.cc.o: ../sherry/sherry.h

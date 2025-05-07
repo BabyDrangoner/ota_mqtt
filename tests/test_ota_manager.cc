@@ -31,7 +31,7 @@ void test_ota_manager_notifier(){
     int i = 0;
     while(true){
         if(i == 5){
-            ota_mgr->ota_stop_notify(device_type);
+            ota_mgr->ota_stop_notify(device_type, "asspid", "1.0.0.1", 1);
             break;
         }
         ++i;

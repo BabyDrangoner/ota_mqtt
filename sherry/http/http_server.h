@@ -6,7 +6,6 @@
 #include "../scheduler.h"
 #include "../timer.h"
 #include "../ota_http_command_dispatcher.h"
-#include "http_send_buffer.h"
 
 #include <sys/epoll.h>
 #include <memory.h>
@@ -28,7 +27,8 @@ public:
 
     };
 
-    HttpServer(size_t threads, bool use_caller, const std::string & name, OTAManager::ptr ota_mgr=nullptr);
+    HttpServer(size_t threads, bool use_caller, const std::string & name,
+               const std::string& http_version, const std::string& content_type, OTAManager::ptr ota_mgr=nullptr);
     ~HttpServer();
     
     int addEvent(int fd, Event event, Socket::ptr sock=nullptr, std::function<void()> cb = nullptr, bool persistent=false);

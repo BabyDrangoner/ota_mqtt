@@ -8,11 +8,12 @@ namespace sherry{
 
 static Logger::ptr g_logger = SYLAR_LOG_NAME("system");
 
-HttpServer::HttpServer(size_t threads, bool use_caller, const std::string & name, OTAManager::ptr ota_mgr)
+HttpServer::HttpServer(size_t threads, bool use_caller, const std::string & name
+                      , const std::string& http_version, const std::string& content_type, OTAManager::ptr ota_mgr)
     :Scheduler(threads, use_caller, name)
     ,m_running(false){
 
-    m_dispatcher = std::make_shared<OTAHttpCommandDispatcher>(ota_mgr);
+    m_dispatcher = std::make_shared<OTAHttpCommandDispatcher>(http_version, content_type, ota_mgr);
 
     m_epfd = epoll_create(5000);
     SYLAR_ASSERT(m_epfd > 0);
@@ -249,49 +250,13 @@ void HttpServer::handleClient(Socket::ptr client) {
     std::string request(buffer);
     SYLAR_LOG_INFO(g_logger) << "Received:\n" << request;
 
-    try {
-        // 判断是get还是post
-        std::string method;
-        std::string uri;
-
-        std::istringstream ss(request);
-        ss >> method >> uri;
-
-        if(method == "POST"){
-            // 先找 HTTP 报文头和 body 的分隔
-            size_t pos = request.find("\r\n\r\n");
-            if (pos == std::string::npos) {
-                SYLAR_LOG_ERROR(g_logger) << "handleClient: Invalid HTTP request format, missing header-body separator.";
-                client->close();
-                cancelAll(client->getSocket());
-                return;
-            }
-
-            // 提取 body
-            std::string body = request.substr(pos + 4); // 跳过 "\r\n\r\n"
-            SYLAR_LOG_INFO(g_logger) << "Extracted body:\n" << body;
-
-            // 解析 body成JSON对象
-            nlohmann::json json_request = nlohmann::json::parse(body);
-
-            // 调用 dispatcher 处理 JSON命令
-            m_dispatcher->handle_command(json_request, client->getSocket());
-        } else if(method == "GET"){
-            m_dispatcher->handle_command(uri, client->getSocket());
-        }
-
-
+    
         
-
-    } catch (const std::exception& e) {
-        SYLAR_LOG_ERROR(g_logger) << "handleClient: JSON parse error: " << e.what();
-        
-        client->close();
-        cancelAll(client->getSocket());
-        return;
-    }
+    if(!m_dispatcher->handle_request(request, client->getSocket())){
+        SYLAR_LOG_WARN(g_logger) << "Bad request, fd = " << client->getSocket();
+    } 
 }
-
+    
 
 HttpServer::FdContext::EventContext & HttpServer::FdContext::getContext(HttpServer::Event event){
     switch (event)

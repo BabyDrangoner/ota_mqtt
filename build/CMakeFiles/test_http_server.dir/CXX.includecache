@@ -919,8 +919,6 @@ memory
 /root/sherry_project/sherry-master/sherry/timer.h
 ../ota_http_command_dispatcher.h
 /root/sherry_project/sherry-master/sherry/ota_http_command_dispatcher.h
-http_send_buffer.h
-/root/sherry_project/sherry-master/sherry/http/http_send_buffer.h
 sys/epoll.h
 -
 memory.h
@@ -1037,6 +1035,8 @@ ota_client_callback.h
 /root/sherry_project/sherry-master/sherry/ota_client_callback.h
 ota_http_response_builder.h
 /root/sherry_project/sherry-master/sherry/ota_http_response_builder.h
+ota_subscribe_download.h
+/root/sherry_project/sherry-master/sherry/ota_subscribe_download.h
 unordered_map
 -
 unordered_set
@@ -1061,6 +1061,12 @@ string
 -
 memory
 -
+
+/root/sherry_project/sherry-master/sherry/ota_subscribe_download.h
+sherry.h
+/root/sherry_project/sherry-master/sherry/sherry.h
+mqtt_client.h
+/root/sherry_project/sherry-master/sherry/mqtt_client.h
 
 /root/sherry_project/sherry-master/sherry/ota_version_message.h
 iostream

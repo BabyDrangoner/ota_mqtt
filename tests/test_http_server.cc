@@ -19,7 +19,7 @@ void test_http_server(){
         ota_mgr->add_device(device_type, device_no);
     }
 
-    sherry::HttpServer::ptr http_server(new sherry::HttpServer(3, true, "test_http_server", ota_mgr));
+    sherry::HttpServer::ptr http_server(new sherry::HttpServer(3, true, "test_http_server", "1.1", "application/json", ota_mgr));
     ota_mgr->set_http_server(http_server);
 
     http_server->start(port);
