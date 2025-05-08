@@ -8,12 +8,12 @@ int port = 8080;
 std::string protocol = "tcp";
 std::string host = "localhost";
 int server_port = 1883;
-
+size_t file_size = 4096;
 uint16_t device_type = 1;
 int device_count = 10;  // ← 可按需修改数量
 
 void test_http_server(){
-    sherry::OTAManager::ptr ota_mgr = std::make_shared<sherry::OTAManager>(protocol, host, server_port, 1.1);
+    sherry::OTAManager::ptr ota_mgr = std::make_shared<sherry::OTAManager>(file_size, protocol, host, server_port, 1.1, "./file/");
 
     for (int device_no = 1; device_no <= device_count; ++device_no) {
         ota_mgr->add_device(device_type, device_no);

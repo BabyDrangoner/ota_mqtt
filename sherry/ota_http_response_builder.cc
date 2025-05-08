@@ -145,9 +145,7 @@ OTAFileDownloadRes::OTAFileDownloadRes(float http_version)
 
 
 std::string OTAFileDownloadRes::build_http_response(bool success, nlohmann::json& json_response){
-    if(success){
-        json_response["status"] = "ok";
-    } else {
+    if(!success){
         json_response["status"] = "error";
     }
 
@@ -162,9 +160,9 @@ std::string OTAFileDownloadRes::build_http_response(bool success, nlohmann::json
     }
 
     ss << "Content-Type: application/octet-stream"
-       << "\r\nContent-Length: " << body.size()
+       << "\r\nContent-Length: " << json_response["file_size"]
        << "\r\nConnection: " << "close\r\n"
-       << "\r\n" << body;
+       << "\r\n";
     
     return ss.str();
 }

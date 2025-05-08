@@ -167,11 +167,6 @@ bool OTAFileDownloadReq::submit(const nlohmann::json& j, int connection_id){
         return false;
     }
 
-    uint32_t device_no = -1;
-    if(!get_element(device_no, "device_no", j)){
-        return false;
-    }
-
     std::string version;
     if(!get_element(version, "version", j)){
         return false;
@@ -185,7 +180,7 @@ bool OTAFileDownloadReq::submit(const nlohmann::json& j, int connection_id){
     std::unordered_map<std::string, std::string> detail;
     detail["version"] = std::move(version);
     detail["name"] = std::move(name);
-    m_ota_mgr->submit(device_type, device_no, "file_download", connection_id, detail); 
+    m_ota_mgr->submit(device_type, -1, "file_download", connection_id, detail); 
     return true;
 }
 
@@ -239,23 +234,32 @@ bool OTAHttpCommandDispatcher::handle_request(std::string& request, int connect_
         std::string body = request.substr(pos + 4); // 跳过 \r\n\r\n
 
         nlohmann::json j = nlohmann::json::parse(body);
-
+        
+        auto it = m_command_dispatchers.find(res);
+        if(it == m_command_dispatchers.end()){
+            return false;
+        }
         return m_command_dispatchers[res]->submit(j, connect_id);
 
     } else if(cmd == "GET"){
         std::string res;
         std::string name;
+        std::string version;
         uint16_t device_type;
-        uint32_t device_no;
-        if(!check_uri(uri, device_type, device_no, name, res)){
+        
+        if(!check_uri(uri, device_type, name, version, res)){
             return false;
         }
 
         nlohmann::json j;
         j["device_type"] = device_type;
-        j["device_no"] = device_no;
         j["name"] = name;
+        j["version"] = version;
 
+        auto it = m_command_dispatchers.find(res);
+        if(it == m_command_dispatchers.end()){
+            return false;
+        }
         return m_command_dispatchers[res]->submit(j, connect_id);
     }
     
@@ -263,7 +267,7 @@ bool OTAHttpCommandDispatcher::handle_request(std::string& request, int connect_
     
 }
 
-bool OTAHttpCommandDispatcher::check_uri(const std::string& uri, uint16_t& device_type, uint32_t& device_no, std::string& name, std::string& res){
+bool OTAHttpCommandDispatcher::check_uri(const std::string& uri, uint16_t& device_type, std::string& name, std::string& version, std::string& res){
     if(uri.find("/download/ota/", 0) != 0){
         return false;
     }
@@ -278,12 +282,11 @@ bool OTAHttpCommandDispatcher::check_uri(const std::string& uri, uint16_t& devic
         std::getline(uri_ss, tmp, '/'); // device_type
         device_type = static_cast<uint16_t>(std::stoul(tmp));
 
-        std::getline(uri_ss, tmp, '/');
-        device_no = static_cast<uint32_t>(std::stoul(tmp));
+        std::getline(uri_ss, name, '/');
 
-        std::getline(uri_ss, name, '/'); // name
+        std::getline(uri_ss, version, '/'); // name
 
-        res = std::move(uri_ss.str());  // get方法
+        uri_ss >> res;  // get方法
 
         return true;
     } catch(...){

@@ -70,7 +70,7 @@ public:
 
     bool handle_request(std::string& request, int connect_id);
     bool check_uri(const std::string& uri, std::string& res);
-    bool check_uri(const std::string& uri, uint16_t& device_type, uint32_t& device_no, std::string& name, std::string& res);
+    bool check_uri(const std::string& uri, uint16_t& device_type, std::string& name, std::string& version, std::string& res);
 
     bool check_protocol(const std::string& protocol);
 

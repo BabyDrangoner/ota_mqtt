@@ -9,11 +9,12 @@ static sherry::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
 std::string protocol = "tcp";
 std::string host = "localhost";
 int port = 1883;
+size_t file_size = 4096;
 
 uint16_t device_type = 1;
 
 void test_ota_manager_notifier(){
-    sherry::OTAManager::ptr ota_mgr = std::make_shared<sherry::OTAManager>(protocol, host, port, 1.1);
+    sherry::OTAManager::ptr ota_mgr = std::make_shared<sherry::OTAManager>(file_size, protocol, host, port, 1.1, "../ota/file");
     sherry::OTAMessage msg;
     msg.name = "agsspds";
     msg.version = "5.1.2.0";
@@ -41,7 +42,7 @@ void test_ota_manager_notifier(){
 
 void test_ota_manager_query(){
     sherry::HttpSendBuffer::ptr http_send_buffer = std::make_shared<sherry::HttpSendBuffer>();    
-    sherry::OTAManager::ptr ota_mgr = std::make_shared<sherry::OTAManager>(protocol, host, port, 1.1);
+    sherry::OTAManager::ptr ota_mgr = std::make_shared<sherry::OTAManager>(file_size, protocol, host, port, 1.1, "../file/");
     ota_mgr->add_device(device_type, 1);
     ota_mgr->ota_query(device_type, 1, "version", 0);
 
