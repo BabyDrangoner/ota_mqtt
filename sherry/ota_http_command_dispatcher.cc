@@ -184,6 +184,17 @@ bool OTAFileDownloadReq::submit(const nlohmann::json& j, int connection_id){
     return true;
 }
 
+OptionsReq::OptionsReq(OTAManager::ptr ota_manager)
+    :OTARequest(ota_manager){
+
+}
+
+bool OptionsReq::submit(const nlohmann::json& j, int connection_id){
+    std::unordered_map<std::string, std::string> detail;
+    m_ota_mgr->submit(-1, -1, "OPTIONS", connection_id, detail); 
+    return true;
+}
+
 OTAHttpCommandDispatcher::OTAHttpCommandDispatcher(const std::string& http_version, const std::string& content_type, OTAManager::ptr ota_manager)
     :m_http_version(http_version)
     ,m_content_type(content_type){
@@ -192,6 +203,7 @@ OTAHttpCommandDispatcher::OTAHttpCommandDispatcher(const std::string& http_versi
     m_command_dispatchers["stop_notify"] = std::make_shared<OTAStopNotifyReq>(ota_manager);
     m_command_dispatchers["query_download"] = std::make_shared<OTAQueryDownloadReq>(ota_manager);
     m_command_dispatchers["file_download"] = std::make_shared<OTAFileDownloadReq>(ota_manager);
+    m_command_dispatchers["OPTIONS"] = std::make_shared<OptionsReq>(ota_manager);
 
 }
 
@@ -216,15 +228,15 @@ bool OTAHttpCommandDispatcher::handle_request(std::string& request, int connect_
             return false;
         }
 
-        std::getline(ss, tmp, ' ');
-        if(tmp != "Content-Type:"){
-            return false;
-        }
+        // std::getline(ss, tmp, ' ');
+        // if(tmp != "Content-Type:"){
+        //     return false;
+        // }
 
-        std::getline(ss, tmp, '\r');
-        if(tmp != m_content_type){
-            return false;
-        }
+        // std::getline(ss, tmp, '\r');
+        // if(tmp != m_content_type){
+        //     return false;
+        // }
 
         size_t pos = request.find("\r\n\r\n");
         if (pos == std::string::npos) {
@@ -261,11 +273,101 @@ bool OTAHttpCommandDispatcher::handle_request(std::string& request, int connect_
             return false;
         }
         return m_command_dispatchers[res]->submit(j, connect_id);
+    } else if(cmd == "OPTIONS"){
+        nlohmann::json j;
+        return m_command_dispatchers[cmd]->submit(j, connect_id);
     }
     
     return false;
     
 }
+
+bool OTAHttpCommandDispatcher::handle_request(const std::string& cmd, int connect_id, const std::string uri, const std::string& body) {
+    if(cmd == "POST"){
+        std::string res;
+        if(!check_uri(uri, res)){
+            return false;
+        }
+
+        nlohmann::json j = nlohmann::json::parse(body);
+        
+        auto it = m_command_dispatchers.find(res);
+        if(it == m_command_dispatchers.end()){
+            return false;
+        }
+        return m_command_dispatchers[res]->submit(j, connect_id);
+
+    } else if(cmd == "GET"){
+        std::string res;
+        std::string name;
+        std::string version;
+        uint16_t device_type;
+        
+        if(!check_uri(uri, device_type, name, version, res)){
+            return false;
+        }
+
+        nlohmann::json j;
+        j["device_type"] = device_type;
+        j["name"] = name;
+        j["version"] = version;
+
+        auto it = m_command_dispatchers.find(res);
+        if(it == m_command_dispatchers.end()){
+            return false;
+        }
+        return m_command_dispatchers[res]->submit(j, connect_id);
+    } else if(cmd == "OPTIONS"){
+        nlohmann::json j;
+        return m_command_dispatchers[cmd]->submit(j, connect_id);
+    }
+    
+    return false;
+}
+
+bool OTAHttpCommandDispatcher::handle_request(const nlohmann::json& detail, int connect_id){
+    const std::string& cmd = detail["cmd"];
+    if(cmd == "POST"){
+        std::string res;
+        if(!check_uri(detail["uri"], res)){
+            return false;
+        }
+        std::string body = std::move(detail["body"]);
+        nlohmann::json j = nlohmann::json::parse(body);
+        
+        auto it = m_command_dispatchers.find(res);
+        if(it == m_command_dispatchers.end()){
+            return false;
+        }
+        return m_command_dispatchers[res]->submit(j, connect_id);
+
+    } else if(cmd == "GET"){
+
+        std::string res;
+        std::string name;
+        std::string version;
+        uint16_t device_type;
+        if(!check_uri(detail["uri"], device_type, name, version, res)){
+            return false;
+        }
+
+        nlohmann::json j;
+        j["device_type"] = device_type;
+        j["name"] = name;
+        j["version"] = version;
+
+        auto it = m_command_dispatchers.find(res);
+        if(it == m_command_dispatchers.end()){
+            return false;
+        }
+        return m_command_dispatchers[res]->submit(j, connect_id);
+    } else if(cmd == "OPTIONS"){
+        nlohmann::json j;
+        return m_command_dispatchers[cmd]->submit(j, connect_id);
+    }
+    return false;
+}
+
 
 bool OTAHttpCommandDispatcher::check_uri(const std::string& uri, uint16_t& device_type, std::string& name, std::string& version, std::string& res){
     if(uri.find("/download/ota/", 0) != 0){

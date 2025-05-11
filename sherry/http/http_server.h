@@ -13,9 +13,10 @@
 #include <queue>
 
 namespace sherry{
+class HttpSession;
 
 class HttpServer : public Scheduler, public TimerManager, public std::enable_shared_from_this<HttpServer>{
-friend class HttpSendBuffer;
+friend class HttpSession;
 public:
     typedef std::shared_ptr<HttpServer> ptr;
     typedef Mutex MutexType;
@@ -38,6 +39,7 @@ public:
     bool cancelAll(int fd);
 
     void response(int fd, const std::string& data);
+    void response(int fd, char* buffer, size_t buffer_size);
 
     // 启动监听服务
     bool start(uint16_t port);
@@ -96,8 +98,12 @@ private:
     std::atomic<size_t> m_pendingEventCount = {0};
     std::vector<FdContext*> m_fdContexts;
 
+    MutexType m_session_mutex;
+    std::unordered_map<int, std::shared_ptr<HttpSession>> m_sessions;
+
     MutexType m_fdCtx_queue_mutex;
     std::queue<FdContext*> m_reset_fdCtx_queue;
+
 };
 
 

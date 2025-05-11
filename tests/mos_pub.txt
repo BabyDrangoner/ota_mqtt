@@ -22,5 +22,5 @@ mosquitto_pub -h localhost -p 1883 -t "/ota/1/1/gps/query_download" -m '{
 "url": "http://yourserver.com/firmware.bin",
 "size": 1048576,
 "process": 1.00,
-"download_status": down
+"download_status": "down"
 }'

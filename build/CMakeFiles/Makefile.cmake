@@ -47,7 +47,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test_http_server_client.dir/DependInfo.cmake"
-  "CMakeFiles/test_http_send_buffer.dir/DependInfo.cmake"
   "CMakeFiles/test_ota_manager.dir/DependInfo.cmake"
   "CMakeFiles/test_myfiber.dir/DependInfo.cmake"
   "CMakeFiles/test_ota_query.dir/DependInfo.cmake"

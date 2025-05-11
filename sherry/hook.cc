@@ -6,6 +6,7 @@
 #include "fd_manager.h"
 #include "log.h"
 #include "config.h"
+#include "./http/http_server.h"
 
 namespace sherry{
 
@@ -115,7 +116,7 @@ retry:
     }
     // 如果n == -1 && errno == EAGAIN，说明是超时，需要调用IOManager的addEvent函数
     if(n == -1 && errno == EAGAIN){
-        sherry::IOManager * iom = sherry::IOManager::GetThis();
+        sherry::HttpServer * iom = sherry::HttpServer::GetThis();
         sherry::Timer::ptr timer;
         std::weak_ptr<timer_info> winfo(tinfo);
         // 如果to不等于-1，说明设置了超时时间，需要添加定时器
@@ -126,13 +127,13 @@ retry:
                     return;
                 }
                 t->cancelled = ETIMEDOUT;
-                iom->cancelEvent(fd, (sherry::IOManager::Event)(event));
+                iom->cancelEvent(fd, (sherry::HttpServer::Event)(event));
             }, winfo);
         }
         // int c = 0;
         // uint64_t now = 0;
 
-        int rt = iom->addEvent(fd, (sherry::IOManager::Event)(event));
+        int rt = iom->addEvent(fd, (sherry::HttpServer::Event)(event));
         if(rt){
             
             SYLAR_LOG_ERROR(g_logger) << hook_fun_name << " addEvent("
@@ -171,9 +172,9 @@ unsigned int sleep(unsigned int seconds){
     }
 
     sherry::Fiber::ptr fiber = sherry::Fiber::GetThis();
-    sherry::IOManager * iom = sherry::IOManager::GetThis();
+    sherry::HttpServer * iom = sherry::HttpServer::GetThis();
     iom->addTimer(seconds * 1000, std::bind((void(sherry::Scheduler::*)
-                    (sherry::Fiber::ptr, int thread))&sherry::IOManager::schedule, iom, fiber, -1));
+                    (sherry::Fiber::ptr, int thread))&sherry::HttpServer::schedule, iom, fiber, -1));
     sherry::Fiber::YieldToHold();
 
     return 0;
@@ -185,7 +186,7 @@ int usleep(useconds_t usec){
     }
 
     sherry::Fiber::ptr fiber = sherry::Fiber::GetThis();
-    sherry::IOManager * iom = sherry::IOManager::GetThis();
+    sherry::HttpServer * iom = sherry::HttpServer::GetThis();
     // iom->addTimer(usec / 1000, std::bind(&sherry::IOManager::schedule, iom, fiber));
     iom->addTimer(usec / 1000, [iom, fiber]{
         iom->schedule(fiber);
@@ -201,7 +202,7 @@ int nanosleep(const struct timespec *req, struct timespec *rem){
 
     int timeout_ms = req->tv_sec * 1000 + req->tv_nsec / 1000 / 1000;
     sherry::Fiber::ptr fiber = sherry::Fiber::GetThis();
-    sherry::IOManager * iom = sherry::IOManager::GetThis();
+    sherry::HttpServer * iom = sherry::HttpServer::GetThis();
     iom->addTimer(timeout_ms / 1000, [iom, fiber](){
         iom->schedule(fiber);
     });
@@ -245,7 +246,7 @@ int connect_with_timeout(int fd, const struct sockaddr * addr, socklen_t addrlen
         return n;
     }
 
-    sherry::IOManager* iom = sherry::IOManager::GetThis();
+    sherry::HttpServer* iom = sherry::HttpServer::GetThis();
     sherry::Timer::ptr timer;
     std::shared_ptr<timer_info> tinfo(new timer_info);
     std::weak_ptr<timer_info> winfo(tinfo);
@@ -257,11 +258,11 @@ int connect_with_timeout(int fd, const struct sockaddr * addr, socklen_t addrlen
                 return;
             }
             t->cancelled = ETIMEDOUT;
-            iom->cancelEvent(fd, sherry::IOManager::WRITE);
+            iom->cancelEvent(fd, sherry::HttpServer::WRITE);
         }, winfo);
     }
 
-    int rt = iom->addEvent(fd, sherry::IOManager::WRITE);
+    int rt = iom->addEvent(fd, sherry::HttpServer::WRITE);
     if(rt == 0){
         sherry::Fiber::YieldToHold();
         if(timer){
@@ -296,7 +297,7 @@ int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen){
 }
 
 int accept(int s, struct sockaddr *addr, socklen_t *addrlen){
-    int fd = do_io(s, accept_f, "accept", sherry::IOManager::READ, SO_RCVTIMEO, addr, addrlen);
+    int fd = do_io(s, accept_f, "accept", sherry::HttpServer::READ, SO_RCVTIMEO, addr, addrlen);
     if(fd >= 0){
         sherry::FdMgr::GetInstance()->get(fd, true);
     }
@@ -304,43 +305,43 @@ int accept(int s, struct sockaddr *addr, socklen_t *addrlen){
 }
 
 ssize_t read(int fd, void *buf, size_t count){
-    return do_io(fd, read_f, "read", sherry::IOManager::READ, SO_RCVTIMEO, buf, count);
+    return do_io(fd, read_f, "read", sherry::HttpServer::READ, SO_RCVTIMEO, buf, count);
 }
 
 ssize_t readv(int fd, const struct iovec *iov, int iovcnt){
-    return do_io(fd, readv_f, "readv", sherry::IOManager::READ, SO_RCVTIMEO, iov, iovcnt);
+    return do_io(fd, readv_f, "readv", sherry::HttpServer::READ, SO_RCVTIMEO, iov, iovcnt);
 }
 
 ssize_t recv(int sockfd, void *buf, size_t len, int flags){
-    return do_io(sockfd, recv_f, "recv", sherry::IOManager::READ, SO_RCVTIMEO, buf, len, flags);
+    return do_io(sockfd, recv_f, "recv", sherry::HttpServer::READ, SO_RCVTIMEO, buf, len, flags);
 }
 
 ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, struct sockaddr *src_addr, socklen_t *addrlen){
-    return do_io(sockfd, recvfrom_f, "recvfrom", sherry::IOManager::READ, SO_RCVTIMEO, buf, len, flags, src_addr, addrlen);
+    return do_io(sockfd, recvfrom_f, "recvfrom", sherry::HttpServer::READ, SO_RCVTIMEO, buf, len, flags, src_addr, addrlen);
 }
 
 ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags){
-    return do_io(sockfd, recvmsg_f, "recvmsg", sherry::IOManager::READ, SO_RCVTIMEO, msg, flags);
+    return do_io(sockfd, recvmsg_f, "recvmsg", sherry::HttpServer::READ, SO_RCVTIMEO, msg, flags);
 }
 
 ssize_t write(int fd, const void *buf, size_t count){
-    return do_io(fd, write_f, "write", sherry::IOManager::WRITE, SO_SNDTIMEO, buf, count);
+    return do_io(fd, write_f, "write", sherry::HttpServer::WRITE, SO_SNDTIMEO, buf, count);
 }
 
 ssize_t writev(int fd, const struct iovec *iov, int iovcnt){
-    return do_io(fd, writev_f, "writev", sherry::IOManager::WRITE, SO_SNDTIMEO, iov, iovcnt);
+    return do_io(fd, writev_f, "writev", sherry::HttpServer::WRITE, SO_SNDTIMEO, iov, iovcnt);
 }
 
 ssize_t send(int s, const void *msg, size_t len, int flags){
-    return do_io(s, send_f, "send", sherry::IOManager::WRITE, SO_SNDTIMEO, msg, len, flags);
+    return do_io(s, send_f, "send", sherry::HttpServer::WRITE, SO_SNDTIMEO, msg, len, flags);
 }
 
 ssize_t sendto(int s, const void *msg, size_t len, int flags, const struct sockaddr *to, socklen_t tolen){
-    return do_io(s, sendto_f, "sendto", sherry::IOManager::WRITE, SO_SNDTIMEO, msg, len, flags, to, tolen);
+    return do_io(s, sendto_f, "sendto", sherry::HttpServer::WRITE, SO_SNDTIMEO, msg, len, flags, to, tolen);
 }
 
 ssize_t sendmsg(int s, const struct msghdr *msg, int flags){
-    return do_io(s, sendmsg_f, "sendmsg", sherry::IOManager::WRITE, SO_SNDTIMEO, msg, flags);   
+    return do_io(s, sendmsg_f, "sendmsg", sherry::HttpServer::WRITE, SO_SNDTIMEO, msg, flags);   
 }
 
 int close(int fd){
@@ -349,7 +350,7 @@ int close(int fd){
     }
     sherry::FdCtx::ptr ctx = sherry::FdMgr::GetInstance()->get(fd);
     if(ctx){
-        auto iom = sherry::IOManager::GetThis();
+        auto iom = sherry::HttpServer::GetThis();
         if(iom){
             iom->cancelAll(fd);
         }

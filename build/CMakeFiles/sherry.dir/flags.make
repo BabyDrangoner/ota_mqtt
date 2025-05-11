@@ -50,7 +50,9 @@ CXX_INCLUDES = -I/root/sherry_project/sherry-master/. -I/root/sherry_project/she
 
 # Custom defines: CMakeFiles/sherry.dir/sherry/http/http_server.cc.o_DEFINES = __FILE__="sherry/http/http_server.cc"
 
-# Custom defines: CMakeFiles/sherry.dir/sherry/http/http_send_buffer.cc.o_DEFINES = __FILE__="sherry/http/http_send_buffer.cc"
+# Custom defines: CMakeFiles/sherry.dir/sherry/http/http_session.cc.o_DEFINES = __FILE__="sherry/http/http_session.cc"
+
+# Custom defines: CMakeFiles/sherry.dir/sherry/http/http_parser.cc.o_DEFINES = __FILE__="sherry/http/http_parser.cc"
 
 # Custom defines: CMakeFiles/sherry.dir/sherry/ota_http_response_builder.cc.o_DEFINES = __FILE__="sherry/ota_http_response_builder.cc"
 

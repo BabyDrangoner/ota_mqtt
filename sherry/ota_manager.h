@@ -56,8 +56,7 @@ public:
 private:
     bool get_notify_message(uint16_t device_type, const std::string& name, const std::string& version, struct OTAMessage& msg);
     void response_to_server(int fd, bool success, const std::string& type, nlohmann::json& j, bool need_header);
-    void response_to_server(int fd, bool success, const std::string& type, char* buffer);
-
+    void response_to_server(int fd, bool success, const std::string& type, char* buffer, size_t buffer_size);
 
 private:
     RWMutexType m_mutex;

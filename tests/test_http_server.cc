@@ -8,7 +8,7 @@ int port = 8080;
 std::string protocol = "tcp";
 std::string host = "localhost";
 int server_port = 1883;
-size_t file_size = 4096;
+size_t file_size = 16384;
 uint16_t device_type = 1;
 int device_count = 10;  // ← 可按需修改数量
 

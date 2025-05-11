@@ -62,7 +62,14 @@ public:
     virtual std::string build_http_response(bool success, nlohmann::json& json_response);
 };
 
+class HttpOptionsRes : public OTAResponse{
+public:
+    typedef std::shared_ptr<OTAFileDownloadRes> ptr;
+    HttpOptionsRes(float http_version);
+    ~HttpOptionsRes(){}
 
+    virtual std::string build_http_response(bool success, nlohmann::json& json_response);
+};
 
 class OTAHttpResBuilder{
 public:

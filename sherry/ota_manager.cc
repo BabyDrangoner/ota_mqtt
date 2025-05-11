@@ -266,7 +266,6 @@ void OTAManager::ota_query(uint16_t device_type, uint32_t device_no, const std::
             return;
         }
         
-
     });
     oqr->publish_query(action, 1, true);
     oqr->subscribe_responder(pub_topic, sub_topic, 1);
@@ -404,7 +403,7 @@ bool OTAManager::send_file(uint16_t device_type, const std::string& name, const 
     std::string file_path = m_file_prev_path + "ota_" 
                             + std::to_string(device_type) 
                             + "_" + version 
-                            + "_" + name + ".zip";
+                            + "_" + name + ".jpg";
     int file_fd = open(file_path.c_str(), O_RDONLY);
     if(file_fd < 0){
         return false;
@@ -419,24 +418,24 @@ bool OTAManager::send_file(uint16_t device_type, const std::string& name, const 
     const std::string type = "file_download";
     nlohmann::json j;
     j["file_size"] = st.st_size;
+    SYLAR_LOG_DEBUG(g_logger) << "filesize = " << st.st_size;
     response_to_server(connect_id, true, type, j, true);
 
     char buffer[m_buffer_size];
     ssize_t read_bytes = 0;
     while((read_bytes = read(file_fd, buffer, m_buffer_size))){
-        response_to_server(connect_id, true, type, buffer);    
+        response_to_server(connect_id, true, type, buffer, read_bytes);    
     }
+    close(file_fd);
 
     return true;
 
 }
 
 void OTAManager::submit(uint16_t device_type, uint32_t device_no, const std::string& command, int client_id, std::unordered_map<std::string, std::string>& detail){
-    if (command == "XXX"){
-        SYLAR_LOG_INFO(g_logger) << "device_type = " << device_type
-                                 << ", device_no = " << device_no
-                                 << ", command = " << command
-                                 << ", client_id = " << client_id;
+    if (command == "OPTIONS"){
+        nlohmann::json j;
+        response_to_server(client_id, true, command, j, true);
     }else if(command == "notify"){
             // this->ota_notify(device_type, )
         SYLAR_LOG_INFO(g_logger) << "device_type = " << device_type
@@ -512,9 +511,8 @@ void OTAManager::response_to_server(int fd, bool success, const std::string& typ
     m_http_server->response(fd, ret);       
 }
 
-void OTAManager::response_to_server(int fd, bool success, const std::string& type, char* buffer){
-    std::string ret(buffer);
-    m_http_server->response(fd, ret);
+void OTAManager::response_to_server(int fd, bool success, const std::string& type, char* buffer, size_t buffer_size){
+    m_http_server->response(fd, buffer, buffer_size);
 }
 
 bool OTAManager::check_device(uint16_t device_type, uint32_t device_no){

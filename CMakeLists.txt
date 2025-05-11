@@ -53,7 +53,9 @@ set(LIB_SRC
     sherry/ota_subscribe_download.cc
     sherry/myfiber.cc
     sherry/http/http_server.cc
-    sherry/http/http_send_buffer.cc
+    sherry/http/http_session.cc
+    sherry/http/http_parser.cc
+    # sherry/http/http_send_buffer.cc
     sherry/ota_http_response_builder.cc
     sherry/ota_manager.cc
     sherry/ota_http_command_dispatcher.cc
@@ -185,10 +187,10 @@ add_dependencies(test_http_server sherry)
 force_redefine_file_macro_for_sources(test_http_server)  #__FILE__
 target_link_libraries(test_http_server ${LIBS})
 
-add_executable(test_http_send_buffer tests/test_http_send_buffer.cc)
-add_dependencies(test_http_send_buffer sherry)
-force_redefine_file_macro_for_sources(test_http_send_buffer)  #__FILE__
-target_link_libraries(test_http_send_buffer ${LIBS})
+# add_executable(test_http_send_buffer tests/test_http_send_buffer.cc)
+# add_dependencies(test_http_send_buffer sherry)
+# force_redefine_file_macro_for_sources(test_http_send_buffer)  #__FILE__
+# target_link_libraries(test_http_send_buffer ${LIBS})
 
 add_executable(test_http_server_client tests/test_http_server_client.cc)
 add_dependencies(test_http_server_client sherry)

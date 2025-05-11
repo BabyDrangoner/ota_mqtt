@@ -8,6 +8,7 @@
 namespace sherry{
 
 class OTAManager;
+class HttpServer;
 
 class OTARequest{
 public:
@@ -61,6 +62,14 @@ public:
     virtual bool submit(const nlohmann::json& j, int connection_id);
 };
 
+class OptionsReq : public OTARequest{
+public:
+    OptionsReq(OTAManager::ptr ota_manager);
+    ~OptionsReq(){}
+
+    virtual bool submit(const nlohmann::json& j, int connection_id);
+};
+
 
 class OTAHttpCommandDispatcher{
 public:
@@ -69,6 +78,8 @@ public:
     OTAHttpCommandDispatcher(const std::string& http_version, const std::string& content_type, OTAManager::ptr ota_manager);
 
     bool handle_request(std::string& request, int connect_id);
+    bool handle_request(const std::string& cmd, int connect_id, const std::string uri = "", const std::string& body = "") ;
+    bool handle_request(const nlohmann::json& j, int connect_id);
     bool check_uri(const std::string& uri, std::string& res);
     bool check_uri(const std::string& uri, uint16_t& device_type, std::string& name, std::string& version, std::string& res);
 

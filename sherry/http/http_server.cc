@@ -1,6 +1,7 @@
 #include "http_server.h"
+#include "http_session.h"
 #include "../address.h"
-
+#include "../hook.h"
 #include <fcntl.h>
 #include <sys/epoll.h>
 
@@ -34,6 +35,7 @@ HttpServer::HttpServer(size_t threads, bool use_caller, const std::string & name
     contextResize(32);
     
     Scheduler::start();
+    set_hook_enable(false);
 }
 
 HttpServer::~HttpServer(){
@@ -79,12 +81,13 @@ bool HttpServer::start(uint16_t port){
         if(client){
             SYLAR_LOG_DEBUG(g_logger) << "client is not null";
             int cli_fd = client->getSocket();
+            
             if(this){
                 this->addEvent(cli_fd, HttpServer::READ, client, ([this, client](){
                     if(this){
                         this->handleClient(client);
                     }
-                }), true);
+                }), false);
             }
             
         } 
@@ -138,14 +141,32 @@ void HttpServer::idle(){
 
         {
             MutexType::Lock lock(m_fdCtx_queue_mutex);
+
             while(true){
                 if(m_reset_fdCtx_queue.empty()){
                     break;
                 }
+                
+
                 FdContext* _fd_ctx = m_reset_fdCtx_queue.front();
+                SYLAR_LOG_INFO(g_logger) << "idle reset fdCtx = " << _fd_ctx->fd;
                 _fd_ctx->reset();
                 m_reset_fdCtx_queue.pop();
             }
+        }
+
+        {
+            MutexType::Lock lock(m_session_mutex);
+            SYLAR_LOG_INFO(g_logger) << "sessions num = " << m_sessions.size();
+            auto it = m_sessions.begin();
+            while(it != m_sessions.end()){
+                if((*it).second->isClose()){
+                    it = m_sessions.erase(it);
+                } else {
+                    ++it;
+                }
+            }
+
         }
         
 
@@ -228,35 +249,58 @@ void HttpServer::stop(){
     SYLAR_LOG_INFO(g_logger) << "HttpServer stopped.";
 }
 
+// void HttpServer::handleClient(Socket::ptr client) {
+//     if (!client) {
+//         SYLAR_LOG_ERROR(g_logger) << "handleClient: client is null";
+//         return;
+//     }
+
+//     char buffer[4096] = {0};
+//     int len = client->recv(buffer, sizeof(buffer) - 1);
+//     if (len <= 0) {
+//         SYLAR_LOG_WARN(g_logger) << "handleClient: recv failed, len=" << len;
+//         int fd = client->getSocket();
+//         SYLAR_LOG_DEBUG(g_logger) << "close fd = " << fd;
+//         // m_fdContexts[fd]->reset();
+//         client->close();
+
+//         if(fd < 0){
+//             return;
+//         }
+        
+//         MutexType::Lock lock(m_fdCtx_queue_mutex);
+//         m_reset_fdCtx_queue.push(m_fdContexts[fd]);
+//         return;
+//     }
+
+//     std::string request(buffer);
+//     SYLAR_LOG_INFO(g_logger) << "Received:\n" << request;
+        
+//     if(!m_dispatcher->handle_request(request, client->getSocket())){
+//         SYLAR_LOG_WARN(g_logger) << "Bad request, fd = " << client->getSocket();
+//     } 
+// }
+
 void HttpServer::handleClient(Socket::ptr client) {
     if (!client) {
         SYLAR_LOG_ERROR(g_logger) << "handleClient: client is null";
         return;
     }
+    HttpSession::ptr session = std::make_shared<HttpSession>(client);
+    int fd = client->getSocket();
 
-    char buffer[4096] = {0};
-    int len = client->recv(buffer, sizeof(buffer) - 1);
-    if (len <= 0) {
-        SYLAR_LOG_WARN(g_logger) << "handleClient: recv failed, len=" << len;
-        int fd = client->getSocket();
-        // m_fdContexts[fd]->reset();
-        client->close();
-        
-        MutexType::Lock lock(m_fdCtx_queue_mutex);
-        m_reset_fdCtx_queue.push(m_fdContexts[fd]);
-        return;
+    {
+        MutexType::Lock lock(m_session_mutex);
+        auto it = m_sessions.find(fd);
+        if(it != m_sessions.end()){
+            m_sessions.erase(it);
+        }
+        m_sessions[fd] = session;
     }
-
-    std::string request(buffer);
-    SYLAR_LOG_INFO(g_logger) << "Received:\n" << request;
-
-    
-        
-    if(!m_dispatcher->handle_request(request, client->getSocket())){
-        SYLAR_LOG_WARN(g_logger) << "Bad request, fd = " << client->getSocket();
-    } 
+    auto self = shared_from_this();
+    session->regist_event(READ, self);
 }
-    
+
 
 HttpServer::FdContext::EventContext & HttpServer::FdContext::getContext(HttpServer::Event event){
     switch (event)
@@ -286,10 +330,14 @@ void HttpServer::FdContext::reset(){
 }
 
 void HttpServer::FdContext::triggerEvent(HttpServer::Event event){
+    if(!(events & event)){
+        return;
+    }
     SYLAR_ASSERT(events & event);
     EventContext & ctx = getContext(event);
-    if(!ctx.persistent)
+    if(!ctx.persistent){
         events = (Event)(events & ~event);
+    }
     if(!ctx.scheduler) ctx.scheduler = Scheduler::GetThis();
     if(ctx.cb){
         ctx.scheduler->schedule(ctx.cb);
@@ -333,7 +381,8 @@ int HttpServer::addEvent(int fd, Event event, Socket::ptr sock, std::function<vo
         SYLAR_LOG_ERROR(g_logger) << "addEvent assert fd=" << fd
                                   << " event=" << event
                                   << " fd_ctx.event=" << fd_ctx->events;
-        SYLAR_ASSERT(!(fd_ctx->events & event));
+        return -1;
+        // SYLAR_ASSERT(!(fd_ctx->events & event));
     }
 
     int op = fd_ctx->events ? EPOLL_CTL_MOD : EPOLL_CTL_ADD;
@@ -491,11 +540,26 @@ void HttpServer::response(int fd, const std::string& data){
                                  << ", socket = null.";
         return;
     }
+    while(m_fdContexts[fd]->events & WRITE);
     addEvent(fd, WRITE, sock, [data, sock](){
+        // set_hook_enable(true);
         sock->send(data.data(), data.size(), 0);
     }, false);
 }
 
+void HttpServer::response(int fd, char* buffer, size_t buffer_size){
+    Socket::ptr sock = m_fdContexts[fd]->sock;
+    if(!sock){
+        SYLAR_LOG_WARN(g_logger) << "fd = " << fd
+                                 << ", socket = null.";
+        return;
+    }
+    while(m_fdContexts[fd]->events & WRITE);
+    addEvent(fd, WRITE, sock, [buffer, sock, buffer_size](){
+        set_hook_enable(true);
+        sock->send(buffer, buffer_size, 0);
+    }, false);
+}
 
 HttpServer* HttpServer::GetThis(){
     return dynamic_cast<HttpServer*>(Scheduler::GetThis());
@@ -506,6 +570,7 @@ void HttpServer::tickle(){   //
         return;
     }
     int rt = write(m_tickleFds[1], "T", 1);
+    SYLAR_LOG_DEBUG(g_logger) << "tickle()";
     SYLAR_ASSERT(rt == 1); 
 }
 
@@ -520,7 +585,6 @@ bool HttpServer::stopping(){  //
     uint64_t timeout = 0;
     return stopping(timeout);
 }
-
 
 void HttpServer::onTimerInsertedAtFront(){
     tickle();
