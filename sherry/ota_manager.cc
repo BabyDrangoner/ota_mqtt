@@ -423,7 +423,8 @@ bool OTAManager::send_file(uint16_t device_type, const std::string& name, const 
 
     char buffer[m_buffer_size];
     ssize_t read_bytes = 0;
-    while((read_bytes = read(file_fd, buffer, m_buffer_size))){
+    while((read_bytes = ::read(file_fd, buffer, m_buffer_size))){
+        SYLAR_LOG_DEBUG(g_logger) << "read from file size = " << read_bytes;
         response_to_server(connect_id, true, type, buffer, read_bytes);    
     }
     close(file_fd);

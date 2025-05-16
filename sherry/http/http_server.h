@@ -78,7 +78,6 @@ protected:
     bool stopping(uint64_t & timeout);
     void idle() override;
     void onTimerInsertedAtFront() override;
-
     void contextResize(size_t size);
 
 private:

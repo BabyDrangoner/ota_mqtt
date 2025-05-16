@@ -339,6 +339,19 @@ test_fiber/fast:
 .PHONY : test_fiber/fast
 
 #=============================================================================
+# Target rules for targets named test_http_buffer
+
+# Build rule for target.
+test_http_buffer: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_http_buffer
+.PHONY : test_http_buffer
+
+# fast build rule for target.
+test_http_buffer/fast:
+	$(MAKE) -f CMakeFiles/test_http_buffer.dir/build.make CMakeFiles/test_http_buffer.dir/build
+.PHONY : test_http_buffer/fast
+
+#=============================================================================
 # Target rules for targets named test_scheduler
 
 # Build rule for target.
@@ -538,6 +551,33 @@ sherry/hook.s: sherry/hook.cc.s
 sherry/hook.cc.s:
 	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/hook.cc.s
 .PHONY : sherry/hook.cc.s
+
+sherry/http/http_buffer.o: sherry/http/http_buffer.cc.o
+
+.PHONY : sherry/http/http_buffer.o
+
+# target to build an object file
+sherry/http/http_buffer.cc.o:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/http/http_buffer.cc.o
+.PHONY : sherry/http/http_buffer.cc.o
+
+sherry/http/http_buffer.i: sherry/http/http_buffer.cc.i
+
+.PHONY : sherry/http/http_buffer.i
+
+# target to preprocess a source file
+sherry/http/http_buffer.cc.i:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/http/http_buffer.cc.i
+.PHONY : sherry/http/http_buffer.cc.i
+
+sherry/http/http_buffer.s: sherry/http/http_buffer.cc.s
+
+.PHONY : sherry/http/http_buffer.s
+
+# target to generate assembly for a file
+sherry/http/http_buffer.cc.s:
+	$(MAKE) -f CMakeFiles/sherry.dir/build.make CMakeFiles/sherry.dir/sherry/http/http_buffer.cc.s
+.PHONY : sherry/http/http_buffer.cc.s
 
 sherry/http/http_parser.o: sherry/http/http_parser.cc.o
 
@@ -1241,6 +1281,33 @@ tests/test_hook.cc.s:
 	$(MAKE) -f CMakeFiles/test_hook.dir/build.make CMakeFiles/test_hook.dir/tests/test_hook.cc.s
 .PHONY : tests/test_hook.cc.s
 
+tests/test_http_buffer.o: tests/test_http_buffer.cc.o
+
+.PHONY : tests/test_http_buffer.o
+
+# target to build an object file
+tests/test_http_buffer.cc.o:
+	$(MAKE) -f CMakeFiles/test_http_buffer.dir/build.make CMakeFiles/test_http_buffer.dir/tests/test_http_buffer.cc.o
+.PHONY : tests/test_http_buffer.cc.o
+
+tests/test_http_buffer.i: tests/test_http_buffer.cc.i
+
+.PHONY : tests/test_http_buffer.i
+
+# target to preprocess a source file
+tests/test_http_buffer.cc.i:
+	$(MAKE) -f CMakeFiles/test_http_buffer.dir/build.make CMakeFiles/test_http_buffer.dir/tests/test_http_buffer.cc.i
+.PHONY : tests/test_http_buffer.cc.i
+
+tests/test_http_buffer.s: tests/test_http_buffer.cc.s
+
+.PHONY : tests/test_http_buffer.s
+
+# target to generate assembly for a file
+tests/test_http_buffer.cc.s:
+	$(MAKE) -f CMakeFiles/test_http_buffer.dir/build.make CMakeFiles/test_http_buffer.dir/tests/test_http_buffer.cc.s
+.PHONY : tests/test_http_buffer.cc.s
+
 tests/test_http_server.o: tests/test_http_server.cc.o
 
 .PHONY : tests/test_http_server.o
@@ -1580,6 +1647,7 @@ help:
 	@echo "... test_config"
 	@echo "... test_fiber"
 	@echo "... test_hook"
+	@echo "... test_http_buffer"
 	@echo "... test_http_server"
 	@echo "... test_http_server_client"
 	@echo "... test_iomanager"
@@ -1610,6 +1678,9 @@ help:
 	@echo "... sherry/hook.o"
 	@echo "... sherry/hook.i"
 	@echo "... sherry/hook.s"
+	@echo "... sherry/http/http_buffer.o"
+	@echo "... sherry/http/http_buffer.i"
+	@echo "... sherry/http/http_buffer.s"
 	@echo "... sherry/http/http_parser.o"
 	@echo "... sherry/http/http_parser.i"
 	@echo "... sherry/http/http_parser.s"
@@ -1688,6 +1759,9 @@ help:
 	@echo "... tests/test_hook.o"
 	@echo "... tests/test_hook.i"
 	@echo "... tests/test_hook.s"
+	@echo "... tests/test_http_buffer.o"
+	@echo "... tests/test_http_buffer.i"
+	@echo "... tests/test_http_buffer.s"
 	@echo "... tests/test_http_server.o"
 	@echo "... tests/test_http_server.i"
 	@echo "... tests/test_http_server.s"

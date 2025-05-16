@@ -112,6 +112,19 @@ CMakeFiles/sherry.dir/sherry/hook.cc.o: ../sherry/thread.h
 CMakeFiles/sherry.dir/sherry/hook.cc.o: ../sherry/timer.h
 CMakeFiles/sherry.dir/sherry/hook.cc.o: ../sherry/util.h
 
+CMakeFiles/sherry.dir/sherry/http/http_buffer.cc.o: ../sherry/config.h
+CMakeFiles/sherry.dir/sherry/http/http_buffer.cc.o: ../sherry/fiber.h
+CMakeFiles/sherry.dir/sherry/http/http_buffer.cc.o: ../sherry/http/http_buffer.cc
+CMakeFiles/sherry.dir/sherry/http/http_buffer.cc.o: ../sherry/http/http_buffer.h
+CMakeFiles/sherry.dir/sherry/http/http_buffer.cc.o: ../sherry/log.h
+CMakeFiles/sherry.dir/sherry/http/http_buffer.cc.o: ../sherry/macro.h
+CMakeFiles/sherry.dir/sherry/http/http_buffer.cc.o: ../sherry/noncopyable.h
+CMakeFiles/sherry.dir/sherry/http/http_buffer.cc.o: ../sherry/scheduler.h
+CMakeFiles/sherry.dir/sherry/http/http_buffer.cc.o: ../sherry/sherry.h
+CMakeFiles/sherry.dir/sherry/http/http_buffer.cc.o: ../sherry/singleton.h
+CMakeFiles/sherry.dir/sherry/http/http_buffer.cc.o: ../sherry/thread.h
+CMakeFiles/sherry.dir/sherry/http/http_buffer.cc.o: ../sherry/util.h
+
 CMakeFiles/sherry.dir/sherry/http/http_parser.cc.o: ../include/MQTTAsync.h
 CMakeFiles/sherry.dir/sherry/http/http_parser.cc.o: ../include/MQTTClientPersistence.h
 CMakeFiles/sherry.dir/sherry/http/http_parser.cc.o: ../include/MQTTExportDeclarations.h
@@ -149,6 +162,7 @@ CMakeFiles/sherry.dir/sherry/http/http_parser.cc.o: ../include/json/json.hpp
 CMakeFiles/sherry.dir/sherry/http/http_parser.cc.o: ../sherry/address.h
 CMakeFiles/sherry.dir/sherry/http/http_parser.cc.o: ../sherry/config.h
 CMakeFiles/sherry.dir/sherry/http/http_parser.cc.o: ../sherry/fiber.h
+CMakeFiles/sherry.dir/sherry/http/http_parser.cc.o: ../sherry/http/http_buffer.h
 CMakeFiles/sherry.dir/sherry/http/http_parser.cc.o: ../sherry/http/http_parser.cc
 CMakeFiles/sherry.dir/sherry/http/http_parser.cc.o: ../sherry/http/http_parser.h
 CMakeFiles/sherry.dir/sherry/http/http_parser.cc.o: ../sherry/http/http_server.h
@@ -211,6 +225,7 @@ CMakeFiles/sherry.dir/sherry/http/http_server.cc.o: ../sherry/address.h
 CMakeFiles/sherry.dir/sherry/http/http_server.cc.o: ../sherry/config.h
 CMakeFiles/sherry.dir/sherry/http/http_server.cc.o: ../sherry/fiber.h
 CMakeFiles/sherry.dir/sherry/http/http_server.cc.o: ../sherry/hook.h
+CMakeFiles/sherry.dir/sherry/http/http_server.cc.o: ../sherry/http/http_buffer.h
 CMakeFiles/sherry.dir/sherry/http/http_server.cc.o: ../sherry/http/http_parser.h
 CMakeFiles/sherry.dir/sherry/http/http_server.cc.o: ../sherry/http/http_server.cc
 CMakeFiles/sherry.dir/sherry/http/http_server.cc.o: ../sherry/http/http_server.h
@@ -273,6 +288,7 @@ CMakeFiles/sherry.dir/sherry/http/http_session.cc.o: ../include/json/json.hpp
 CMakeFiles/sherry.dir/sherry/http/http_session.cc.o: ../sherry/address.h
 CMakeFiles/sherry.dir/sherry/http/http_session.cc.o: ../sherry/config.h
 CMakeFiles/sherry.dir/sherry/http/http_session.cc.o: ../sherry/fiber.h
+CMakeFiles/sherry.dir/sherry/http/http_session.cc.o: ../sherry/http/http_buffer.h
 CMakeFiles/sherry.dir/sherry/http/http_session.cc.o: ../sherry/http/http_parser.h
 CMakeFiles/sherry.dir/sherry/http/http_session.cc.o: ../sherry/http/http_server.h
 CMakeFiles/sherry.dir/sherry/http/http_session.cc.o: ../sherry/http/http_session.cc

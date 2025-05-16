@@ -8,7 +8,7 @@ int port = 8080;
 std::string protocol = "tcp";
 std::string host = "localhost";
 int server_port = 1883;
-size_t file_size = 16384;
+size_t file_size = 512;
 uint16_t device_type = 1;
 int device_count = 10;  // ← 可按需修改数量
 
@@ -19,7 +19,7 @@ void test_http_server(){
         ota_mgr->add_device(device_type, device_no);
     }
 
-    sherry::HttpServer::ptr http_server(new sherry::HttpServer(3, true, "test_http_server", "1.1", "application/json", ota_mgr));
+    sherry::HttpServer::ptr http_server(new sherry::HttpServer(5, true, "test_http_server", "1.1", "application/json", ota_mgr));
     ota_mgr->set_http_server(http_server);
 
     http_server->start(port);

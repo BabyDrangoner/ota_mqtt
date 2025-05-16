@@ -15,12 +15,10 @@ OTANotifyRes::OTANotifyRes(float http_version)
 }
 
 std::string OTANotifyRes::build_http_response(bool success, nlohmann::json& json_response){
-    bool connect = true;
     if(success){
         json_response["status"] = "ok";
     } else {
         json_response["status"] = "error";
-        connect = false;
     }
 
     std::string body = json_response.dump();
@@ -35,7 +33,7 @@ std::string OTANotifyRes::build_http_response(bool success, nlohmann::json& json
 
     ss << "Content-Type: application/json"
        << "\r\nContent-Length: " << body.size()
-       << "\r\nConnection: " << (connect ? "keep-alive\r\n" : "close\r\n")
+       << "\r\nConnection: " << "close\r\n"
        << "\r\n" << body;
     
     return ss.str();
@@ -95,9 +93,9 @@ std::string OTAQueryRes::build_http_response(bool success, nlohmann::json& json_
 
     ss << "Content-Type: application/json"
        << "\r\nContent-Length: " << body.size()
-       << "\r\nAccess-Control-Allow-Origin: *"
-       << "\r\nAccess-Control-Allow-Methods: POST, GET, OPTIONS"
-       << "\r\nAccess-Control-Allow-Headers: Content-Type"
+    //    << "\r\nAccess-Control-Allow-Origin: *"
+    //    << "\r\nAccess-Control-Allow-Methods: POST, GET, OPTIONS"
+    //    << "\r\nAccess-Control-Allow-Headers: Content-Type"
        << "\r\nConnection: " << "close\r\n"
        << "\r\n" << body;
     

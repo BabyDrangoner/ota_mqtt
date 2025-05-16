@@ -286,7 +286,8 @@ void HttpServer::handleClient(Socket::ptr client) {
         SYLAR_LOG_ERROR(g_logger) << "handleClient: client is null";
         return;
     }
-    HttpSession::ptr session = std::make_shared<HttpSession>(client);
+    auto self = shared_from_this();
+    HttpSession::ptr session = std::make_shared<HttpSession>(client, self);
     int fd = client->getSocket();
 
     {
@@ -297,7 +298,6 @@ void HttpServer::handleClient(Socket::ptr client) {
         }
         m_sessions[fd] = session;
     }
-    auto self = shared_from_this();
     session->regist_event(READ, self);
 }
 
@@ -541,10 +541,14 @@ void HttpServer::response(int fd, const std::string& data){
         return;
     }
     while(m_fdContexts[fd]->events & WRITE);
-    addEvent(fd, WRITE, sock, [data, sock](){
-        // set_hook_enable(true);
-        sock->send(data.data(), data.size(), 0);
-    }, false);
+    HttpSession::ptr fd_session = m_sessions[fd];
+    
+    // addEvent(fd, WRITE, sock, [data, sock](){
+    //     // set_hook_enable(true);
+    //     sock->send(data.data(), data.size(), 0);
+    // }, false);
+    fd_session->write_buffer(data);
+
 }
 
 void HttpServer::response(int fd, char* buffer, size_t buffer_size){
@@ -555,10 +559,12 @@ void HttpServer::response(int fd, char* buffer, size_t buffer_size){
         return;
     }
     while(m_fdContexts[fd]->events & WRITE);
-    addEvent(fd, WRITE, sock, [buffer, sock, buffer_size](){
-        set_hook_enable(true);
-        sock->send(buffer, buffer_size, 0);
-    }, false);
+    // addEvent(fd, WRITE, sock, [buffer, sock, buffer_size](){
+    //     sock->send(buffer, buffer_size, 0);
+    // }, false);
+    HttpSession::ptr fd_session = m_sessions[fd];
+    fd_session->write_buffer(buffer, buffer_size);
+
 }
 
 HttpServer* HttpServer::GetThis(){

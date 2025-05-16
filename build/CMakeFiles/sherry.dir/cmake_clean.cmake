@@ -7,6 +7,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/sherry.dir/sherry/fd_manager.cc.o"
   "CMakeFiles/sherry.dir/sherry/fiber.cc.o"
   "CMakeFiles/sherry.dir/sherry/hook.cc.o"
+  "CMakeFiles/sherry.dir/sherry/http/http_buffer.cc.o"
   "CMakeFiles/sherry.dir/sherry/http/http_parser.cc.o"
   "CMakeFiles/sherry.dir/sherry/http/http_server.cc.o"
   "CMakeFiles/sherry.dir/sherry/http/http_session.cc.o"

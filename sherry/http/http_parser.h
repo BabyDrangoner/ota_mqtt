@@ -3,6 +3,7 @@
 
 #include "../sherry.h"
 #include "http_server.h"
+#include "http_buffer.h"
 
 namespace sherry{
 
@@ -38,13 +39,13 @@ public:
     HttpParser(size_t buffer_size);
     ~HttpParser(){}
 
-    HTTP_CODE process_read(char* read_buffer);
+    HTTP_CODE process_read(HttpBuffer::ptr read_buffer);
 
     HTTP_CODE parse_request_line(char* text);
     HTTP_CODE parse_headers(char* text);
     HTTP_CODE parse_content(char* text);
 
-    HttpParser::LINE_STATUS parse_line(char* read_buffer);
+    HttpParser::LINE_STATUS parse_line(HttpBuffer::ptr read_buffer);
 
     int get_read_idx() const { return m_read_idx;}
     size_t get_buffer_size() const { return m_buffer_size;}
@@ -62,15 +63,15 @@ private:
 
     size_t m_buffer_size = 0;
 
-    char* m_request_body;
+    std::string m_request_body;
     CHECK_STATE m_check_state;
     
     HTTP_METHOD m_method;
-    char* m_uri;
+    std::string m_uri;
 
     int m_content_length = 0;
     bool m_keep_alive;
-    char* m_host;
+    std::string m_host;
 };
 }
 

@@ -16,6 +16,7 @@
 /root/sherry_project/sherry-master/build/CMakeFiles/test_config.dir
 /root/sherry_project/sherry-master/build/CMakeFiles/test_hook.dir
 /root/sherry_project/sherry-master/build/CMakeFiles/test_fiber.dir
+/root/sherry_project/sherry-master/build/CMakeFiles/test_http_buffer.dir
 /root/sherry_project/sherry-master/build/CMakeFiles/test_scheduler.dir
 /root/sherry_project/sherry-master/build/CMakeFiles/test_iomanager.dir
 /root/sherry_project/sherry-master/build/CMakeFiles/test_address.dir

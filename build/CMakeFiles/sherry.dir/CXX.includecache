@@ -894,41 +894,21 @@ memory
 thread.h
 /root/sherry_project/sherry-master/sherry/thread.h
 
-/root/sherry_project/sherry-master/sherry/hook.h
-fcntl.h
--
-sys/ioctl.h
--
-sys/types.h
--
-sys/socket.h
--
-stdint.h
--
-time.h
--
-unistd.h
--
+/root/sherry_project/sherry-master/sherry/http/http_buffer.h
+../sherry.h
+/root/sherry_project/sherry-master/sherry/sherry.h
+
+/root/sherry_project/sherry-master/sherry/http/http_parser.cc
+http_parser.h
+/root/sherry_project/sherry-master/sherry/http/http_parser.h
 
 /root/sherry_project/sherry-master/sherry/http/http_parser.h
 ../sherry.h
 /root/sherry_project/sherry-master/sherry/sherry.h
 http_server.h
 /root/sherry_project/sherry-master/sherry/http/http_server.h
-
-/root/sherry_project/sherry-master/sherry/http/http_server.cc
-http_server.h
-/root/sherry_project/sherry-master/sherry/http/http_server.h
-http_session.h
-/root/sherry_project/sherry-master/sherry/http/http_session.h
-../address.h
-/root/sherry_project/sherry-master/sherry/address.h
-../hook.h
-/root/sherry_project/sherry-master/sherry/hook.h
-fcntl.h
--
-sys/epoll.h
--
+http_buffer.h
+/root/sherry_project/sherry-master/sherry/http/http_buffer.h
 
 /root/sherry_project/sherry-master/sherry/http/http_server.h
 ../sherry.h
@@ -948,16 +928,6 @@ memory.h
 atomic
 -
 queue
--
-
-/root/sherry_project/sherry-master/sherry/http/http_session.h
-../socket.h
-/root/sherry_project/sherry-master/sherry/socket.h
-./http_server.h
-/root/sherry_project/sherry-master/sherry/http/http_server.h
-http_parser.h
-/root/sherry_project/sherry-master/sherry/http/http_parser.h
-functional
 -
 
 /root/sherry_project/sherry-master/sherry/log.h

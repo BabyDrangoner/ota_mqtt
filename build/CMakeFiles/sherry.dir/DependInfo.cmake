@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/root/sherry_project/sherry-master/sherry/fd_manager.cc" "/root/sherry_project/sherry-master/build/CMakeFiles/sherry.dir/sherry/fd_manager.cc.o"
   "/root/sherry_project/sherry-master/sherry/fiber.cc" "/root/sherry_project/sherry-master/build/CMakeFiles/sherry.dir/sherry/fiber.cc.o"
   "/root/sherry_project/sherry-master/sherry/hook.cc" "/root/sherry_project/sherry-master/build/CMakeFiles/sherry.dir/sherry/hook.cc.o"
+  "/root/sherry_project/sherry-master/sherry/http/http_buffer.cc" "/root/sherry_project/sherry-master/build/CMakeFiles/sherry.dir/sherry/http/http_buffer.cc.o"
   "/root/sherry_project/sherry-master/sherry/http/http_parser.cc" "/root/sherry_project/sherry-master/build/CMakeFiles/sherry.dir/sherry/http/http_parser.cc.o"
   "/root/sherry_project/sherry-master/sherry/http/http_server.cc" "/root/sherry_project/sherry-master/build/CMakeFiles/sherry.dir/sherry/http/http_server.cc.o"
   "/root/sherry_project/sherry-master/sherry/http/http_session.cc" "/root/sherry_project/sherry-master/build/CMakeFiles/sherry.dir/sherry/http/http_session.cc.o"

@@ -7,26 +7,33 @@ static Logger::ptr g_logger = SYLAR_LOG_NAME("system");
 HttpParser::HttpParser(size_t buffer_size)
     :m_buffer_size(buffer_size)
     ,m_check_state(CHECK_STATE::CHECK_STATE_REQUESTLINE){
-    m_request_body = nullptr;
-    m_uri = nullptr;
+    m_request_body = "";
+    m_uri = "";
     m_keep_alive = false;
-    m_host = nullptr;
+    m_host = "";
 
     m_method = NONE;
 
 }
 
-HttpParser::HTTP_CODE HttpParser::process_read(char* read_buffer){
+HttpParser::HTTP_CODE HttpParser::process_read(HttpBuffer::ptr read_buffer){
     LINE_STATUS line_status = LINE_OK;
     HTTP_CODE ret = NO_REQUEST;
     
     while((m_check_state == CHECK_STATE_CONTENT && line_status == LINE_OK) || 
            (line_status = parse_line(read_buffer)) == LINE_OK){
-        char* text = read_buffer + m_start_line;
+        std::shared_ptr<char[]> data = nullptr;
+        if(m_check_state == CHECK_STATE_CONTENT){
+            data = read_buffer->read_by_zero();
+        } else {
+            data = read_buffer->read_by_end(m_checked_idx);
+        }
+        char* text = data.get();
+        
         std::string line(text);
         SYLAR_LOG_INFO(g_logger) << "cur line = " << line;
+        
         m_start_line = m_checked_idx;
-    
         switch (m_check_state){
         // 解析请求行
         case CHECK_STATE_REQUESTLINE:
@@ -68,12 +75,12 @@ HttpParser::HTTP_CODE HttpParser::process_read(char* read_buffer){
 
 HttpParser::HTTP_CODE HttpParser::parse_request_line(char* text){
     char* cur = text;
-    m_uri = strpbrk(cur, " \t");
-    if(!m_uri){
+    char* uri = strpbrk(cur, " \t");
+    if(!uri){
         return BAD_REQUEST;
     }
 
-    m_uri += strspn(m_uri, " \t");
+    uri += strspn(uri, " \t");
 
     if(!strncmp(cur, "POST", 4)){
         m_method = POST;
@@ -89,21 +96,20 @@ HttpParser::HTTP_CODE HttpParser::parse_request_line(char* text){
     }
 
     // 解析http_version
-    char* http_version = strpbrk(m_uri, " \t");
+    char* http_version = strpbrk(uri, " \t");
     if(!http_version){
         return BAD_REQUEST;
     }
 
-    http_version += strspn(http_version, " \t");
+    m_uri = std::string(uri, http_version - uri);
 
+    http_version += strspn(http_version, " \t");
     if(strncmp(http_version, "HTTP/1.1", 8)){
         return BAD_REQUEST;
     }
 
     m_check_state = CHECK_STATE_HEADER;
     return NO_REQUEST;
-
-
 }
 
 HttpParser::HTTP_CODE HttpParser::parse_headers(char* text){
@@ -140,7 +146,7 @@ HttpParser::HTTP_CODE HttpParser::parse_headers(char* text){
         cur += 5;
         cur += strspn(cur, " \t");
 
-        m_host = cur;
+        m_host = std::string(cur);
         return NO_REQUEST;
     }
     // 解析Content-type
@@ -162,28 +168,32 @@ HttpParser::HTTP_CODE HttpParser::parse_headers(char* text){
 HttpParser::HTTP_CODE HttpParser::parse_content(char* text){
     if(m_read_idx >= (m_content_length + m_checked_idx)){
         text[m_content_length] = '\0';
-        m_request_body = text;
+        m_request_body = std::string(text);
         return GET_REQUEST;
     }
 
     return NO_REQUEST;
 }
 
-HttpParser::LINE_STATUS HttpParser::parse_line(char* read_buffer){
+HttpParser::LINE_STATUS HttpParser::parse_line(HttpBuffer::ptr read_buffer){
     char temp;
-    for(;m_checked_idx < m_read_idx; ++m_checked_idx){
-        temp = read_buffer[m_checked_idx];
+    int end_idx = read_buffer->get_end_idx();
+    for(;m_checked_idx != end_idx; m_checked_idx = read_buffer->next_idx(m_checked_idx)){
+        temp = read_buffer->get_val(m_checked_idx);
 
         // 1. 读到一个完整行的倒数第二个字符
         if(temp == '\r'){
-            if((m_checked_idx + 1) == m_read_idx){
+            int next_idx = read_buffer->next_idx(m_checked_idx);
+            if(next_idx == end_idx){
                 return LINE_OPEN;
             }
 
             // 读到了完整行
-            if(read_buffer[m_checked_idx + 1] == '\n'){
-                read_buffer[m_checked_idx++] = '\0';
-                read_buffer[m_checked_idx++] = '\0';
+            if(read_buffer->get_val(next_idx) == '\n'){
+                read_buffer->set_val('\0', m_checked_idx);
+                m_checked_idx = next_idx;
+                read_buffer->set_val('\0', m_checked_idx);
+                m_checked_idx = read_buffer->next_idx(m_checked_idx);
                 return LINE_OK;
             }
 
@@ -192,9 +202,12 @@ HttpParser::LINE_STATUS HttpParser::parse_line(char* read_buffer){
 
         // 读到一个完整行的最后一个字符
         else if(temp == '\n'){
-            if(m_checked_idx > 1 && read_buffer[m_checked_idx - 1] == '\r'){
-                read_buffer[m_checked_idx++] = '\0';
-                read_buffer[m_checked_idx++] = '\0';
+            int start_idx = read_buffer->get_start_idx(), pre_idx = read_buffer->pre_idx(m_checked_idx);
+
+            if(m_checked_idx != start_idx && read_buffer->get_val(pre_idx) == '\r'){
+                read_buffer->set_val('\0', pre_idx);
+                read_buffer->set_val('\0', m_checked_idx);
+                m_checked_idx = read_buffer->next_idx(m_checked_idx);
                 return LINE_OK;
             }
 
@@ -216,14 +229,11 @@ std::string HttpParser::get_method(){
 }
 
 std::string HttpParser::get_uri(){
-    return std::string(m_uri);
+    return m_uri;
 }
 
 std::string HttpParser::get_body(){
-    if(m_request_body){
-        return std::string(m_request_body);
-    }
-    return "";
+    return m_request_body;
 }
 
 }

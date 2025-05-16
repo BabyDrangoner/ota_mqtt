@@ -112,6 +112,19 @@ CMakeFiles/sherry.dir/sherry/hook.cc.o
  /root/sherry_project/sherry-master/sherry/thread.h
  /root/sherry_project/sherry-master/sherry/timer.h
  /root/sherry_project/sherry-master/sherry/util.h
+CMakeFiles/sherry.dir/sherry/http/http_buffer.cc.o
+ /root/sherry_project/sherry-master/sherry/config.h
+ /root/sherry_project/sherry-master/sherry/fiber.h
+ /root/sherry_project/sherry-master/sherry/http/http_buffer.cc
+ /root/sherry_project/sherry-master/sherry/http/http_buffer.h
+ /root/sherry_project/sherry-master/sherry/log.h
+ /root/sherry_project/sherry-master/sherry/macro.h
+ /root/sherry_project/sherry-master/sherry/noncopyable.h
+ /root/sherry_project/sherry-master/sherry/scheduler.h
+ /root/sherry_project/sherry-master/sherry/sherry.h
+ /root/sherry_project/sherry-master/sherry/singleton.h
+ /root/sherry_project/sherry-master/sherry/thread.h
+ /root/sherry_project/sherry-master/sherry/util.h
 CMakeFiles/sherry.dir/sherry/http/http_parser.cc.o
  ../include/MQTTAsync.h
  ../include/MQTTClientPersistence.h
@@ -150,6 +163,7 @@ CMakeFiles/sherry.dir/sherry/http/http_parser.cc.o
  /root/sherry_project/sherry-master/sherry/address.h
  /root/sherry_project/sherry-master/sherry/config.h
  /root/sherry_project/sherry-master/sherry/fiber.h
+ /root/sherry_project/sherry-master/sherry/http/http_buffer.h
  /root/sherry_project/sherry-master/sherry/http/http_parser.cc
  /root/sherry_project/sherry-master/sherry/http/http_parser.h
  /root/sherry_project/sherry-master/sherry/http/http_server.h
@@ -212,6 +226,7 @@ CMakeFiles/sherry.dir/sherry/http/http_server.cc.o
  /root/sherry_project/sherry-master/sherry/config.h
  /root/sherry_project/sherry-master/sherry/fiber.h
  /root/sherry_project/sherry-master/sherry/hook.h
+ /root/sherry_project/sherry-master/sherry/http/http_buffer.h
  /root/sherry_project/sherry-master/sherry/http/http_parser.h
  /root/sherry_project/sherry-master/sherry/http/http_server.cc
  /root/sherry_project/sherry-master/sherry/http/http_server.h
@@ -274,6 +289,7 @@ CMakeFiles/sherry.dir/sherry/http/http_session.cc.o
  /root/sherry_project/sherry-master/sherry/address.h
  /root/sherry_project/sherry-master/sherry/config.h
  /root/sherry_project/sherry-master/sherry/fiber.h
+ /root/sherry_project/sherry-master/sherry/http/http_buffer.h
  /root/sherry_project/sherry-master/sherry/http/http_parser.h
  /root/sherry_project/sherry-master/sherry/http/http_server.h
  /root/sherry_project/sherry-master/sherry/http/http_session.cc

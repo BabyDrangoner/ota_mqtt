@@ -330,6 +330,7 @@ bool OTAHttpCommandDispatcher::handle_request(const nlohmann::json& detail, int 
     if(cmd == "POST"){
         std::string res;
         if(!check_uri(detail["uri"], res)){
+            SYLAR_LOG_DEBUG(g_logger) << "uri is wrong";
             return false;
         }
         std::string body = std::move(detail["body"]);
@@ -337,6 +338,7 @@ bool OTAHttpCommandDispatcher::handle_request(const nlohmann::json& detail, int 
         
         auto it = m_command_dispatchers.find(res);
         if(it == m_command_dispatchers.end()){
+            SYLAR_LOG_DEBUG(g_logger) << "no command dispatcher";
             return false;
         }
         return m_command_dispatchers[res]->submit(j, connect_id);
@@ -358,6 +360,7 @@ bool OTAHttpCommandDispatcher::handle_request(const nlohmann::json& detail, int 
 
         auto it = m_command_dispatchers.find(res);
         if(it == m_command_dispatchers.end()){
+            SYLAR_LOG_DEBUG(g_logger) << "no command dispatcher";
             return false;
         }
         return m_command_dispatchers[res]->submit(j, connect_id);
